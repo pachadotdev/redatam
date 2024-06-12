@@ -13,7 +13,7 @@
 using namespace cpp11;
 using namespace Redatam;
 
-[[cpp11::register]] strings read_redatam(std::string file_path) {
+[[cpp11::register]] strings read_redatam_(std::string file_path) {
   RedatamReader reader(file_path);
   reader.read_data();  // Use the correct method to read the data
 

@@ -7,5 +7,5 @@
 #' @return A character vector with the contents of the file.
 #' @export
 read_redatam <- function(file_path) {
-  .Call(`_readredatam_read_redatam`, file_path)
+  read_redatam_(file_path)
 }

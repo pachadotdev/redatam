@@ -6,16 +6,16 @@
 #include <R_ext/Visibility.h>
 
 // read.cpp
-strings read_redatam(std::string file_path);
-extern "C" SEXP _readredatam_read_redatam(SEXP file_path) {
+strings read_redatam_(std::string file_path);
+extern "C" SEXP _readredatam_read_redatam_(SEXP file_path) {
   BEGIN_CPP11
-    return cpp11::as_sexp(read_redatam(cpp11::as_cpp<cpp11::decay_t<std::string>>(file_path)));
+    return cpp11::as_sexp(read_redatam_(cpp11::as_cpp<cpp11::decay_t<std::string>>(file_path)));
   END_CPP11
 }
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
-    {"_readredatam_read_redatam", (DL_FUNC) &_readredatam_read_redatam, 1},
+    {"_readredatam_read_redatam_", (DL_FUNC) &_readredatam_read_redatam_, 1},
     {NULL, NULL, 0}
 };
 }
