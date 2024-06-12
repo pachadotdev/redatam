@@ -1,5 +1,5 @@
 *.o
-.vscode/settings.json
-.vscode/launch.json
-.vscode/c_cpp_properties.json
-redatamconverter
+.vscode/
+.vscode/
+.vscode/
+inst/extdata/
