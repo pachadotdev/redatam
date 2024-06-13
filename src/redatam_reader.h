@@ -1,7 +1,11 @@
+
 #pragma once
+
 #include <string>
+#include <filesystem>
 
 namespace Redatam {
+
 class RedatamReader {
  public:
   explicit RedatamReader(const std::string& file_path);
@@ -12,4 +16,5 @@ class RedatamReader {
   std::string file_path_;
   std::string result_;  // Store the result of the read operation
 };
+
 }  // namespace Redatam

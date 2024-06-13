@@ -2,4 +2,5 @@
 .vscode/
 .vscode/
 .vscode/
-inst/extdata/
+dev/censo*
+

@@ -1,7 +1,9 @@
+
 #include "redatam_reader.h"
 
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 
 namespace Redatam {
 
@@ -16,6 +18,13 @@ void RedatamReader::read_data() {
   std::stringstream buffer;
   buffer << file.rdbuf();
   result_ = buffer.str();  // Simplified logic to read file data
+
+  // Utilize utility functions from util.h if needed
+  std::string cleaned_result = result_;
+  std::transform(cleaned_result.begin(), cleaned_result.end(),
+                 cleaned_result.begin(),
+                 [](unsigned char c) { return std::tolower(c); });
+  result_ = cleaned_result;  // Update result with cleaned data
 }
 
 std::string RedatamReader::get_result() const { return result_; }

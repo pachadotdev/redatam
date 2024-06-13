@@ -1,3 +1,6 @@
+#ifndef VARIABLE_DESCRIPTOR_H
+#define VARIABLE_DESCRIPTOR_H
+
 #include <boost/filesystem.hpp>
 #include <optional>
 #include <string>
@@ -31,8 +34,9 @@ class VariableDescriptor {
   static VariableDescriptor fread(std::istream& stream);
   bool resolve_rbf_data(
       std::vector<boost::filesystem::path>::const_iterator begin,
-      std::vector<boost::filesystem::path>::const_iterator
-          end);
+      std::vector<boost::filesystem::path>::const_iterator end);
 };
 
 }  // namespace Redatam
+
+#endif  // VARIABLE_DESCRIPTOR_H

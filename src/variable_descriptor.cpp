@@ -7,7 +7,6 @@
 #include <string>
 
 #include "primitives.h"
-#include "utils.h"
 
 namespace Redatam {
 
@@ -33,7 +32,8 @@ VariableDescriptor::Declaration::fromDeclarationString(
     else if (match[1] == "PCK")
       t = Declaration::Type::PCK;
     std::string p = match[2];
-    std::replace(begin(p), end(p), '\\', boost::filesystem::path::preferred_separator);
+    std::replace(begin(p), end(p), '\\',
+                 boost::filesystem::path::preferred_separator);
     size_t s = std::stoi(match[3]);
     std::string rbf_path = match[4];  // Extract rbf_path
     return Declaration{t, p, s, rbf_path};
