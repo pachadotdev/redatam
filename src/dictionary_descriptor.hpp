@@ -10,7 +10,7 @@
 namespace Redatam {
 
 class DictionaryDescriptor {
-public:
+ public:
   uint32_t unknown1;
   std::string name;
   std::array<char, 8> creation_date;
@@ -18,18 +18,22 @@ public:
   std::string root_dir;
   std::string unknown2;
 
+  static std::array<char, 8> fread_date(std::istream &stream) {
+    std::array<char, 8> date;
+    for (auto &c : date) c = stream.get();
+    return date;
+  }
+
   static DictionaryDescriptor fread(std::istream &stream) {
     DictionaryDescriptor d;
-    d.unknown1 = fread_uint32_t(stream); // always 02 05 00 00?
+    d.unknown1 = fread_uint32_t(stream);  // always 02 05 00 00?
     stream.seekg(
         1029,
-        std::ios_base::cur); // most of this is probably uninitialized data
+        std::ios_base::cur);  // most of this is probably uninitialized data
     d.name = fread_string(stream);
 
-    for (auto &c : d.creation_date)
-      c = stream.get();
-    for (auto &c : d.modification_date)
-      c = stream.get();
+    d.creation_date = fread_date(stream);
+    d.modification_date = fread_date(stream);
 
     d.root_dir = fread_string(stream);
 
@@ -49,4 +53,4 @@ public:
   }
 };
 
-} // namespace Redatam
+}  // namespace Redatam
