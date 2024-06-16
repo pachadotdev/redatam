@@ -1,14 +1,15 @@
 #pragma once
 
-#include "dictionary_descriptor.h"
-#include "entity_descriptor.h"
-#include "primitives.h"
-#include "redatam_exception.h"
-#include "variable_descriptor.h"
 #include <algorithm>
 #include <fstream>
 #include <string>
 #include <vector>
+
+#include "dictionary_descriptor.hpp"
+#include "entity_descriptor.hpp"
+#include "primitives.hpp"
+#include "redatam_exception.hpp"
+#include "variable_descriptor.hpp"
 
 namespace Redatam {
 

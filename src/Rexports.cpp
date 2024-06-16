@@ -1,8 +1,8 @@
-#include "dictionary_descriptor.h"
-#include "entity_descriptor.h"
-#include "read_dic.h"
-#include "read_ptr.h"
-#include "variable_descriptor.h"
+#include "dictionary_descriptor.hpp"
+#include "entity_descriptor.hpp"
+#include "read_dic.hpp"
+#include "read_ptr.hpp"
+#include "variable_descriptor.hpp"
 #include <boost/filesystem.hpp>
 #include <cpp11.hpp>
 

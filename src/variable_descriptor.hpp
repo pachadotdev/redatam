@@ -9,8 +9,8 @@
 #include <string>
 #include <vector>
 
-#include "primitives.h"
-#include "utils.h"
+#include "primitives.hpp"
+#include "utils.hpp"
 
 namespace Redatam {
 
