@@ -1,7 +1,7 @@
 #include "dictionary_descriptor.h"
 
 #include <fstream>
-#include <iostream>
+// #include <iostream>
 #include <string>
 
 #include "primitives.h"
@@ -25,9 +25,9 @@ DictionaryDescriptor DictionaryDescriptor::fread(std::istream &stream) {
   d.root_dir = fread_string(stream);
 
   // DEBUG
-  std::cout << "DictionaryDescriptor root_dir: " << d.root_dir
-            << std::endl;
-            
+  // std::cout << "DictionaryDescriptor root_dir: " << d.root_dir
+  //           << std::endl;
+
   d.unknown2 = fread_string(stream);
   return d;
 }

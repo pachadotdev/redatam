@@ -7,6 +7,5 @@ Maintainer: Your Name <your.email@example.com>
 Description: An R package to read REDATAM files using C++ (cpp11).
 License: Apache License (>= 2)
 LinkingTo: cpp11
-Imports: cpp11
 RoxygenNote: 7.3.1
 Encoding: UTF-8
