@@ -5,11 +5,11 @@
 #include "cpp11/declarations.hpp"
 #include <R_ext/Visibility.h>
 
-// read_redatam.cpp
-cpp11::list read_redatam_(cpp11::strings file_path);
-extern "C" SEXP _readredatam_read_redatam_(SEXP file_path) {
+// Rexports.cpp
+list read_redatam_(std::string dic_path_in);
+extern "C" SEXP _readredatam_read_redatam_(SEXP dic_path_in) {
   BEGIN_CPP11
-    return cpp11::as_sexp(read_redatam_(cpp11::as_cpp<cpp11::decay_t<cpp11::strings>>(file_path)));
+    return cpp11::as_sexp(read_redatam_(cpp11::as_cpp<cpp11::decay_t<std::string>>(dic_path_in)));
   END_CPP11
 }
 

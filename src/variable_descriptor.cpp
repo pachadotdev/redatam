@@ -1,109 +1,137 @@
 #include "variable_descriptor.h"
 
-#include <boost/filesystem.hpp>
 #include <fstream>
 #include <optional>
 #include <regex>
 #include <string>
 
 #include "primitives.h"
+#include "utils.h"
 
 namespace Redatam {
 
 std::optional<VariableDescriptor::Declaration>
 VariableDescriptor::Declaration::fromDeclarationString(
-    const std::string& declstr) {
-  static const std::regex r(
-      "DATASET (BIN|CHR|DBL|INT|LNG|PCK) '([^']+)' SIZE ([0-9]+) RBF_PATH "
-      "'([^']+)'",
-      std::regex::extended);
-  if (std::smatch match; std::regex_match(declstr, match, r)) {
-    Declaration::Type t = Declaration::Type::CHR;
-    if (match[1] == "BIN")
-      t = Declaration::Type::BIN;
-    else if (match[1] == "CHR")
-      t = Declaration::Type::CHR;
-    else if (match[1] == "DBL")
-      t = Declaration::Type::DBL;
-    else if (match[1] == "INT")
-      t = Declaration::Type::INT;
-    else if (match[1] == "LNG")
-      t = Declaration::Type::LNG;
-    else if (match[1] == "PCK")
-      t = Declaration::Type::PCK;
-    std::string p = match[2];
-    std::replace(begin(p), end(p), '\\',
-                 boost::filesystem::path::preferred_separator);
-    size_t s = std::stoi(match[3]);
-    std::string rbf_path = match[4];  // Extract rbf_path
-    return Declaration{t, p, s, rbf_path};
-  } else {
-    return std::nullopt;
+    const std::string &declstr) {
+  std::regex re("^(\\S+)\\s+(\\d+)$");
+  std::smatch match;
+  if (std::regex_search(declstr, match, re)) {
+    Declaration d;
+    d.rbf_path = match[1].str();
+    d.size = std::stoul(match[2].str());
+    return d;
   }
+  return std::nullopt;
 }
 
-VariableDescriptor VariableDescriptor::fread(std::istream& stream) {
+VariableDescriptor VariableDescriptor::fread(std::istream &stream) {
   VariableDescriptor d;
   d.name = fread_string(stream);
-  d.declaration = VariableDescriptor::Declaration::fromDeclarationString(
-      fread_string(stream));
+  d.declaration = Declaration::fromDeclarationString(fread_string(stream));
+
+  // DEBUG
+  // if (d.declaration) {
+  //   std::cout << "VariableDescriptor rbf_path: " << d.declaration->rbf_path
+  //             << std::endl;
+  // }
+  
   d.filter = fread_string(stream);
   d.range = fread_string(stream);
   d.datatype = fread_string(stream);
 
-  std::string labels_str = fread_string(stream);
-  static const std::regex labels_regex("([0-9]+) ([^\\t]+)\\t",
-                                       std::regex::extended);
-  std::smatch match;
-  while (std::regex_search(labels_str, match, labels_regex)) {
-    d.labels.emplace_back(std::stoi(match[1]), match[2]);
-    labels_str = match.suffix().str();
+  uint32_t num_labels = fread_uint32_t(stream);
+  for (uint32_t i = 0; i < num_labels; ++i) {
+    int value = fread_int32_t(stream);
+    std::string label = fread_string(stream);
+    d.labels.emplace_back(value, label);
   }
 
   d.description = fread_string(stream);
-
-  std::string descriptor_str = fread_string(stream);
-  static const std::regex missing_regex("MISSING ([0-9]+)");
-  static const std::regex notapplicable_regex("NOTAPPLICABLE ([0-9]+)");
-  if (std::regex_search(descriptor_str, match, missing_regex)) {
-    d.missing_value = std::stoi(match[1]);
-  }
-  if (std::regex_search(descriptor_str, match, notapplicable_regex)) {
-    d.not_applicable_value = std::stoi(match[1]);
-  }
-
+  d.descriptor.alias = fread_string(stream);
+  d.descriptor.decimals = fread_uint32_t(stream);
+  d.descriptor.group = fread_string(stream);
+  d.descriptor.missing = fread_optional_int32_t(stream);
+  d.descriptor.not_applicable = fread_optional_int32_t(stream);
+  d.unknown1 = fread_uint16_t(stream);
+  d.documentation = fread_string(stream);
+  d.id = fread_uint16_t(stream);
+  for (auto &c : d.unknown)
+    c = stream.get();
   return d;
 }
 
-bool VariableDescriptor::resolve_rbf_data(
-    std::vector<boost::filesystem::path>::const_iterator begin,
-    std::vector<boost::filesystem::path>::const_iterator end) {
-  if (!declaration) return false;
-  for (auto it = begin; it != end; ++it) {
-    boost::filesystem::path potential_path = *it / declaration->rbf_path;
-    if (boost::filesystem::exists(potential_path)) {
-      declaration->path = potential_path.string();
-      return true;
-    }
+std::ostream &operator<<(std::ostream &stream,
+                         const VariableDescriptor::Declaration &d) {
+  stream << d.rbf_path << " ";
+  switch (d.type) {
+  case VariableDescriptor::Declaration::Type::BIN:
+    stream << "BIN";
+    break;
+  case VariableDescriptor::Declaration::Type::CHR:
+    stream << "CHR";
+    break;
+  case VariableDescriptor::Declaration::Type::DBL:
+    stream << "DBL";
+    break;
+  case VariableDescriptor::Declaration::Type::INT:
+    stream << "INT";
+    break;
+  case VariableDescriptor::Declaration::Type::LNG:
+    stream << "LNG";
+    break;
+  case VariableDescriptor::Declaration::Type::PCK:
+    stream << "PCK";
+    break;
+  default:
+    stream << "???";
   }
-  return false;
+  return stream << " (" << d.size << ")";
 }
 
-std::ostream& operator<<(std::ostream& stream, const VariableDescriptor& d) {
-  stream << "Name: " << d.name
-         << "\nDeclaration: " << (d.declaration ? "Yes" : "No")
-         << "\nFilter: " << d.filter << "\nRange: " << d.range
-         << "\nDatatype: " << d.datatype << "\nLabels: ";
-  for (const auto& label : d.labels) {
-    stream << label.first << " " << label.second << "\t";
-  }
-  stream << "\nDescription: " << d.description << "\nMissing value: "
-         << (d.missing_value ? std::to_string(d.missing_value.value()) : "None")
-         << "\nNot applicable value: "
-         << (d.not_applicable_value
-                 ? std::to_string(d.not_applicable_value.value())
-                 : "None");
+std::ostream &operator<<(std::ostream &stream,
+                         const VariableDescriptor::Descriptor &d) {
+  if (!d.alias.empty())
+    stream << "ALIAS " << d.alias << " ";
+  stream << "DECIMALS " << d.decimals << " ";
+  if (!d.group.empty())
+    stream << "GROUP " << d.group << " ";
+  if (d.missing)
+    stream << " MISSING " << (*d.missing) << " ";
+  if (d.not_applicable)
+    stream << " NOTAPPLICABLE " << (*d.not_applicable);
   return stream;
 }
 
-}  // namespace Redatam
+std::ostream &operator<<(std::ostream &stream, const VariableDescriptor &d) {
+  stream << "Name: " << d.name << "\nDeclaration: ";
+  if (d.declaration)
+    stream << *d.declaration;
+  else
+    stream << "NULL";
+  stream << "\nFilter: " << d.filter << "\nRange: " << d.range
+         << "\nDatatype: " << d.datatype << "\nLabels: ";
+  for (const auto &l : d.labels)
+    stream << l.second << ", ";
+  return stream << "\nDescriptor: " << d.descriptor
+                << "\nDescription: " << d.description
+                << "\nUNK1: " << d.unknown1
+                << "\nDocumentation: " << d.documentation << "\nID: " << d.id
+                << "\nUNK: " << d.unknown;
+}
+
+int32_t fread_int32_t(std::istream &stream) {
+  int32_t value;
+  stream.read(reinterpret_cast<char *>(&value), sizeof(value));
+  return value;
+}
+
+std::optional<int32_t> fread_optional_int32_t(std::istream &stream) {
+  int32_t value;
+  stream.read(reinterpret_cast<char *>(&value), sizeof(value));
+  if (stream)
+    return value;
+  else
+    return std::nullopt;
+}
+
+} // namespace Redatam

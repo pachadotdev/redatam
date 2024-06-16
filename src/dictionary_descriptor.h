@@ -1,26 +1,21 @@
-#ifndef DICTIONARY_DESCRIPTOR_H
-#define DICTIONARY_DESCRIPTOR_H
+#pragma once
 
+#include <array>
 #include <string>
-#include <vector>
-
-#include "entity_descriptor.h"
 
 namespace Redatam {
 
 class DictionaryDescriptor {
- public:
+public:
   uint32_t unknown1;
   std::string name;
-  std::array<char, 10> creation_date;
-  std::array<char, 10> modification_date;
+  std::array<char, 8> creation_date;
+  std::array<char, 8> modification_date;
   std::string root_dir;
   std::string unknown2;
-  std::vector<EntityDescriptor> entities;
 
-  static DictionaryDescriptor fread(std::istream& stream);
+  static DictionaryDescriptor fread(std::istream &stream);
 };
+std::ostream &operator<<(std::ostream &stream, const DictionaryDescriptor &d);
 
-}  // namespace Redatam
-
-#endif  // DICTIONARY_DESCRIPTOR_H
+} // namespace Redatam
