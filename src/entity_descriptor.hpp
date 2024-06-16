@@ -12,7 +12,7 @@
 namespace Redatam {
 
 class EntityDescriptor {
-public:
+ public:
   std::string name1;
   std::string name2;
   std::string parent;
@@ -48,25 +48,29 @@ public:
   // looks for ptr file in the provided range of directories
   template <typename First, typename Last>
   bool resolve_ptr_data(First first, Last last) {
-    if (ptr_path.empty())
-      return false;
+    if (ptr_path.empty()) return false;
 
     real_ptr_path = ptr_path;
     while (!exists(real_ptr_path) && first != last) {
       real_ptr_path = locate_icase(*first / ptr_path.filename());
       ++first;
     }
-    if (!exists(real_ptr_path))
-      return false;
+    if (!exists(real_ptr_path)) return false;
 
     std::fstream ptr_file(real_ptr_path.c_str(),
                           std::ios_base::in | std::ios_base::binary);
-    if (!ptr_file)
-      return false;
+    if (!ptr_file) return false;
 
     ptr_file.seekg(-sizeof(uint32_t), std::ios_base::end);
     num_instances = fread_uint32_t(ptr_file);
     return true;
+  }
+
+  template <size_t N>
+  static std::array<unsigned char, N> fread_unknown(std::istream &stream) {
+    std::array<unsigned char, N> unknown;
+    for (size_t i = 0; i < N; ++i) unknown[i] = stream.get();
+    return unknown;
   }
 
   static EntityDescriptor fread(std::istream &stream, bool is_root) {
@@ -74,8 +78,7 @@ public:
     for (; d.name1.empty(); d.name1 = fread_string(stream)) {
     }
 
-    if (!is_root)
-      d.name2 = fread_string(stream);
+    if (!is_root) d.name2 = fread_string(stream);
 
     d.parent = fread_string(stream);
     d.description = fread_string(stream);
@@ -86,13 +89,11 @@ public:
     d.name_varname = fread_string(stream);
     d.documentation = fread_string(stream);
     d.num_entities = fread_uint16_t(stream);
-    for (auto &c : d.unknown2)
-      c = stream.get();
+    d.unknown2 = fread_unknown<3>(stream);
     d.num_vars = fread_uint16_t(stream);
     d.unknown3 = fread_uint16_t(stream);
     d.is_selectable = fread_uint16_t(stream);
-    for (auto &c : d.unknown6)
-      c = stream.get();
+    d.unknown6 = fread_unknown<16>(stream);
     d.weight_varname = fread_string(stream);
     d.label = fread_string(stream);
     d.is_sensible = fread_uint16_t(stream);
@@ -118,4 +119,4 @@ public:
   }
 };
 
-} // namespace Redatam
+}  // namespace Redatam
