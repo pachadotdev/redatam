@@ -1,16 +1,10 @@
 #pragma once
 
-#include <string>
+#include <stdexcept>
 
 namespace Redatam {
-class Exception : public std::exception {
-public:
-  Exception(const std::string &msg) : msg(msg) {}
-  Exception(std::string &&msg) : msg(std::move(msg)) {}
-
-  const char *what() const noexcept override { return msg.c_str(); }
-
-private:
-  std::string msg;
+class Exception : public std::runtime_error {
+ public:
+  using std::runtime_error::runtime_error;
 };
-} // namespace Redatam
+}  // namespace Redatam
