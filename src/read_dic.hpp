@@ -41,8 +41,8 @@ void read_dic(const boost::filesystem::path &dic_path, F &&dictionary_cb,
     for (size_t var_id = 0; var_id < entity.num_vars; ++var_id) {
       VariableDescriptor variable = VariableDescriptor::fread(dic_file);
       if (!variable.resolve_rbf_data(begin(search_paths), end(search_paths)))
-        throw Exception(std::string("Could not read ptr data file: ") +
-                        entity.ptr_path.string());
+        throw Exception(std::string("Could not read rbf data file: ") +
+                        variable.real_rbf_path.string());
 
       variable_cb(variable, entity, var_id);
     }
