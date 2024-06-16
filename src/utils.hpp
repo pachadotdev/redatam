@@ -15,8 +15,8 @@ inline std::string tolower(const std::string &s) {
   return r;
 }
 
-inline boost::filesystem::path locate_icase(
-    const boost::filesystem::path &path) {
+inline boost::filesystem::path
+locate_icase(const boost::filesystem::path &path) {
   std::string base_lower = tolower(path.filename().string());
   auto it =
       std::find_if(boost::filesystem::directory_iterator(path.parent_path()),
@@ -35,4 +35,4 @@ std::ostream &operator<<(std::ostream &stream, const std::array<T, N> &arr) {
   return stream << std::dec << std::setfill('0');
 }
 
-}  // namespace Redatam
+} // namespace Redatam

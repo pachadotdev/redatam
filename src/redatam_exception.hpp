@@ -4,7 +4,7 @@
 
 namespace Redatam {
 class Exception : public std::runtime_error {
- public:
+public:
   using std::runtime_error::runtime_error;
 };
-}  // namespace Redatam
+} // namespace Redatam

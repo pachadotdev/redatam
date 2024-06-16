@@ -17,12 +17,12 @@
 namespace Redatam {
 
 class VariableDescriptor {
- public:
+public:
   class Declaration {
-   public:
+  public:
     enum class Type { BIN, CHR, DBL, INT, LNG, PCK };
-    static std::optional<Declaration> fromDeclarationString(
-        const std::string &declstr) {
+    static std::optional<Declaration>
+    fromDeclarationString(const std::string &declstr) {
       std::regex re("^(\\S+)\\s+(\\d+)$");
       std::smatch match;
       if (std::regex_search(declstr, match, re)) {
@@ -39,7 +39,7 @@ class VariableDescriptor {
   };
 
   class Descriptor {
-   public:
+  public:
     std::string alias, group;
     size_t decimals = 0;
     std::optional<int> missing, not_applicable;
@@ -60,7 +60,9 @@ class VariableDescriptor {
 
   template <typename First, typename Last>
   bool resolve_rbf_data(First first, Last last) {
-    if (!declaration or declaration->rbf_path.empty()) return false;
+    if (!declaration or declaration->rbf_path.empty()) {
+      return false;
+    }
 
     real_rbf_path = declaration->rbf_path;
     while (!exists(real_rbf_path) && first != last) {
@@ -111,7 +113,9 @@ class VariableDescriptor {
     d.unknown1 = fread_uint16_t(stream);
     d.documentation = fread_string(stream);
     d.id = fread_uint16_t(stream);
-    for (auto &c : d.unknown) c = stream.get();
+    for (auto &c : d.unknown) {
+      c = stream.get();
+    }
     return d;
   }
 
@@ -145,7 +149,9 @@ class VariableDescriptor {
       ss << "NULL";
     ss << "\nFilter: " << d.filter << "\nRange: " << d.range
        << "\nDatatype: " << d.datatype << "\nLabels: ";
-    for (const auto &l : d.labels) ss << l.second << ", ";
+    for (const auto &l : d.labels) {
+      ss << l.second << ", ";
+    }
     ss << "\nDescriptor: " << d.descriptor << "\nDescription: " << d.description
        << "\nUNK1: " << d.unknown1 << "\nDocumentation: " << d.documentation
        << "\nID: " << d.id << "\nUNK: " << d.unknown;
@@ -153,4 +159,4 @@ class VariableDescriptor {
   }
 };
 
-}  // namespace Redatam
+} // namespace Redatam

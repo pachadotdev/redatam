@@ -12,7 +12,7 @@
 namespace Redatam {
 
 class EntityDescriptor {
- public:
+public:
   std::string name1;
   std::string name2;
   std::string parent;
@@ -48,18 +48,23 @@ class EntityDescriptor {
   // looks for ptr file in the provided range of directories
   template <typename First, typename Last>
   bool resolve_ptr_data(First first, Last last) {
-    if (ptr_path.empty()) return false;
+    if (ptr_path.empty()) {
+      return false;
+    }
 
     real_ptr_path = ptr_path;
     while (!exists(real_ptr_path) && first != last) {
       real_ptr_path = locate_icase(*first / ptr_path.filename());
       ++first;
     }
-    if (!exists(real_ptr_path)) return false;
+    if (!exists(real_ptr_path)) {
+      return false;
+    }
 
     std::fstream ptr_file(real_ptr_path.c_str(),
                           std::ios_base::in | std::ios_base::binary);
-    if (!ptr_file) return false;
+    if (!ptr_file)
+      return false;
 
     ptr_file.seekg(-sizeof(uint32_t), std::ios_base::end);
     num_instances = fread_uint32_t(ptr_file);
@@ -69,7 +74,9 @@ class EntityDescriptor {
   template <size_t N>
   static std::array<unsigned char, N> fread_unknown(std::istream &stream) {
     std::array<unsigned char, N> unknown;
-    for (size_t i = 0; i < N; ++i) unknown[i] = stream.get();
+    for (size_t i = 0; i < N; ++i) {
+      unknown[i] = stream.get();
+    }
     return unknown;
   }
 
@@ -78,7 +85,9 @@ class EntityDescriptor {
     for (; d.name1.empty(); d.name1 = fread_string(stream)) {
     }
 
-    if (!is_root) d.name2 = fread_string(stream);
+    if (!is_root) {
+      d.name2 = fread_string(stream);
+    }
 
     d.parent = fread_string(stream);
     d.description = fread_string(stream);
@@ -119,4 +128,4 @@ class EntityDescriptor {
   }
 };
 
-}  // namespace Redatam
+} // namespace Redatam

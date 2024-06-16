@@ -36,8 +36,12 @@ inline void utf8_from_windows1252(std::string &dst, std::byte c) {
 inline std::string fread_string(std::istream &stream) {
   size_t sz = fread_uint16_t(stream);
   std::string result;
-  if (sz == 0) return result;
-  if (sz == 0xFFFF) sz = fread_uint32_t(stream);
+  if (sz == 0) {
+    return result;
+  }
+  if (sz == 0xFFFF) {
+    sz = fread_uint32_t(stream);
+  }
   result.reserve(sz);
   for (size_t i = 0; i < sz; ++i)
     utf8_from_windows1252(result, static_cast<std::byte>(stream.get()));
@@ -60,7 +64,9 @@ inline std::string fread_fixed_string(std::istream &stream, size_t width) {
     --width;
   }
   auto i = result.size() - 1;
-  while (i >= 0 && std::isspace(result[i])) --i;
+  while (i >= 0 && std::isspace(result[i])) {
+    --i;
+  }
   result.resize(i + 1);
   return result;
 }
@@ -85,4 +91,4 @@ inline auto fread_BIN(std::istream &stream) {
          stream.get();
 }
 
-}  // namespace Redatam
+} // namespace Redatam
