@@ -5,6 +5,7 @@
 #include "variable_descriptor.h"
 #include <boost/filesystem.hpp>
 #include <cpp11.hpp>
+// #include <iostream>
 
 using namespace cpp11;
 
@@ -43,13 +44,18 @@ template <typename T> strings stream_to_R(const T &obj) {
       // dic + root entity callback
       [&](Redatam::DictionaryDescriptor &dic,
           Redatam::EntityDescriptor &root_entity) {
-        writable::list ans(root_entity.num_entities);
+        // std::cout << "Dic + root entity callback called" << std::endl;
+
+        ans = writable::list(root_entity.num_entities);
         ans.attr("names") = writable::strings(root_entity.num_entities);
         ans.attr("class") = "redatam.database";
         ans.attr(description_symbol) = stream_to_R(dic);
       },
       // entity callback
       [&](Redatam::EntityDescriptor &entity, size_t i) {
+        // std::cout << "Entity callback called with entity: " << entity.name1
+        //             << " and index: " << i << std::endl;
+
         writable::list current_entity(entity.num_vars + 1);
         writable::strings current_entity_names(entity.num_vars + 1);
 
