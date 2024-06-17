@@ -5,17 +5,25 @@
 #include "cpp11/declarations.hpp"
 #include <R_ext/Visibility.h>
 
-// Rexports.cpp
-list read_redatam_(std::string dic_path_in);
-extern "C" SEXP _readredatam_read_redatam_(SEXP dic_path_in) {
+// readredatam.cpp
+data_frame create_dummy_df_();
+extern "C" SEXP _readredatam_create_dummy_df_() {
   BEGIN_CPP11
-    return cpp11::as_sexp(read_redatam_(cpp11::as_cpp<cpp11::decay_t<std::string>>(dic_path_in)));
+    return cpp11::as_sexp(create_dummy_df_());
+  END_CPP11
+}
+// readredatam.cpp
+strings read_redatam_(strings dicx_file);
+extern "C" SEXP _readredatam_read_redatam_(SEXP dicx_file) {
+  BEGIN_CPP11
+    return cpp11::as_sexp(read_redatam_(cpp11::as_cpp<cpp11::decay_t<strings>>(dicx_file)));
   END_CPP11
 }
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
-    {"_readredatam_read_redatam_", (DL_FUNC) &_readredatam_read_redatam_, 1},
+    {"_readredatam_create_dummy_df_", (DL_FUNC) &_readredatam_create_dummy_df_, 0},
+    {"_readredatam_read_redatam_",    (DL_FUNC) &_readredatam_read_redatam_,    1},
     {NULL, NULL, 0}
 };
 }
