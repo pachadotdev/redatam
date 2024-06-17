@@ -20,7 +20,6 @@ void read_dic(const boost::filesystem::path &dic_path, F &&dictionary_cb,
   std::fstream dic_file(dic_path, std::ios_base::in | std::ios_base::binary);
 
   if (!dic_file) {
-    // std::cerr << "Could not read the dic file: " << dic_path.string() << std::endl;
     throw Exception(std::string("Could not read the dic file: ") +
                     dic_path.string());
   }
@@ -35,12 +34,7 @@ void read_dic(const boost::filesystem::path &dic_path, F &&dictionary_cb,
   for (size_t entity_count = 1; entity_count < root_entity.num_entities;
        ++entity_count) {
     EntityDescriptor entity = EntityDescriptor::fread(dic_file, false);
-    // std::cerr << "Reading entity: " << entity_count
-    //           << " with ptr path: " << entity.ptr_path.string() << std::endl;
     if (!entity.resolve_ptr_data(begin(search_paths), end(search_paths))) {
-      // std::cerr << "Could not read ptr data file: "
-      //   << entity.ptr_path.string()
-      //   << std::endl;
       throw Exception(std::string("Could not read ptr data file: ") +
                       entity.ptr_path.string());
     }
@@ -49,12 +43,7 @@ void read_dic(const boost::filesystem::path &dic_path, F &&dictionary_cb,
 
     for (size_t var_id = 0; var_id < entity.num_vars; ++var_id) {
       VariableDescriptor variable = VariableDescriptor::fread(dic_file);
-      // std::cerr << "Reading variable: " << var_id
-      //           << " with rbf path: " << variable.real_rbf_path.string()
-      //           << std::endl;
       if (!variable.resolve_rbf_data(begin(search_paths), end(search_paths))) {
-        // std::cerr << "Could not read rbf data file: "
-        //           << variable.real_rbf_path.string() << std::endl;
         throw Exception(std::string("Could not read rbf data file: ") +
                         variable.real_rbf_path.string());
       }
@@ -64,4 +53,4 @@ void read_dic(const boost::filesystem::path &dic_path, F &&dictionary_cb,
   }
 }
 
-}  // namespace Redatam
+} // namespace Redatam

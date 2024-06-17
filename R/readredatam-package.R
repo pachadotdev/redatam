@@ -4,5 +4,5 @@
 #' COMPLETE
 #'
 #' @name readredatam-package
-#' @useDynLib readredatam read_redatam_
+#' @useDynLib readredatam, .registration = TRUE
 "_PACKAGE"

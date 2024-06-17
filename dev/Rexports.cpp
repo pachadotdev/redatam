@@ -16,8 +16,7 @@
 #include "read_ptr.h"
 #include "variable_descriptor.h"
 
-template <typename T>
-SEXP stream_to_R(const T &obj) {
+template <typename T> SEXP stream_to_R(const T &obj) {
   std::stringstream ss;
   ss << obj << '\n';
   return mkString(ss.str().c_str());
@@ -98,30 +97,30 @@ SEXP read_redatam_(SEXP dic_path_in) {
         int column_sexptype = -1;
         SEXP column_class = nullptr;
         switch (variable.declaration->type) {
-          case Redatam::VariableDescriptor::Declaration::Type::DBL:
-            column_sexptype = REALSXP;
-            column_class = variable_dbl_class_rvector;
-            break;
-          case Redatam::VariableDescriptor::Declaration::Type::CHR:
-            column_sexptype = STRSXP;
-            column_class = variable_chr_class_rvector;
-            break;
-          case Redatam::VariableDescriptor::Declaration::Type::INT:
-            column_sexptype = INTSXP;
-            column_class = variable_int_class_rvector;
-            break;
-          case Redatam::VariableDescriptor::Declaration::Type::LNG:
-            column_sexptype = INTSXP;
-            column_class = variable_lng_class_rvector;
-            break;
-          case Redatam::VariableDescriptor::Declaration::Type::BIN:
-            column_sexptype = INTSXP;
-            column_class = variable_bin_class_rvector;
-            break;
-          case Redatam::VariableDescriptor::Declaration::Type::PCK:
-            column_sexptype = INTSXP;
-            column_class = variable_pck_class_rvector;
-            break;
+        case Redatam::VariableDescriptor::Declaration::Type::DBL:
+          column_sexptype = REALSXP;
+          column_class = variable_dbl_class_rvector;
+          break;
+        case Redatam::VariableDescriptor::Declaration::Type::CHR:
+          column_sexptype = STRSXP;
+          column_class = variable_chr_class_rvector;
+          break;
+        case Redatam::VariableDescriptor::Declaration::Type::INT:
+          column_sexptype = INTSXP;
+          column_class = variable_int_class_rvector;
+          break;
+        case Redatam::VariableDescriptor::Declaration::Type::LNG:
+          column_sexptype = INTSXP;
+          column_class = variable_lng_class_rvector;
+          break;
+        case Redatam::VariableDescriptor::Declaration::Type::BIN:
+          column_sexptype = INTSXP;
+          column_class = variable_bin_class_rvector;
+          break;
+        case Redatam::VariableDescriptor::Declaration::Type::PCK:
+          column_sexptype = INTSXP;
+          column_class = variable_pck_class_rvector;
+          break;
         }
         SEXP column = allocVector(column_sexptype, 0);
         classgets(column, column_class);
@@ -164,4 +163,4 @@ SEXP read_redatam_(SEXP dic_path_in) {
       });
   return ans;
 }
-}  // extern "C"
+} // extern "C"

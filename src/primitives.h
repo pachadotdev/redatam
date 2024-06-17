@@ -36,21 +36,18 @@ inline void utf8_from_windows1252(std::string &dst, std::byte c) {
 
 inline std::string fread_string(std::istream &stream) {
   size_t sz = fread_uint16_t(stream);
-  // std::cerr << "Reading string size: " << sz << std::endl;
   std::string result;
   if (sz == 0) {
     return result;
   }
   if (sz == 0xFFFF) {
     sz = fread_uint32_t(stream);
-    // std::cerr << "Extended string size: " << sz << std::endl;
   }
   result.reserve(sz);
   for (size_t i = 0; i < sz; ++i) {
     char c = stream.get();
     utf8_from_windows1252(result, static_cast<std::byte>(c));
   }
-  // std::cerr << "Read string content: " << result << std::endl;
   return result;
 }
 
