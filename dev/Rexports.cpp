@@ -4,50 +4,49 @@
 
 #undef length
 
-#include "dictionary_descriptor.h"
-#include "entity_descriptor.h"
-#include "read_dic.h"
-#include "read_ptr.h"
-#include "variable_descriptor.h"
-
 #include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
 
-#include "protected_sexp.h"
+#include "dictionary_descriptor.h"
+#include "entity_descriptor.h"
+#include "read_dic.h"
+#include "read_ptr.h"
+#include "variable_descriptor.h"
 
-template <typename T> SEXP stream_to_R(const T &obj) {
+template <typename T>
+SEXP stream_to_R(const T &obj) {
   std::stringstream ss;
   ss << obj << '\n';
   return mkString(ss.str().c_str());
 }
 
 extern "C" {
-SEXP _redatam4r_read_redatam_(SEXP dic_path_in) {
+SEXP read_redatam_(SEXP dic_path_in) {
   boost::filesystem::path dic_path{CHAR(asChar(dic_path_in))};
 
-  ProtectedSEXP description_rsymbol = mkString("description");
-  ProtectedSEXP levelkeys_rsymbol = mkString("levelkeys");
+  SEXP description_rsymbol = mkString("description");
+  SEXP levelkeys_rsymbol = mkString("levelkeys");
 
-  ProtectedSEXP entity_class_rvector = allocVector(STRSXP, 2);
+  SEXP entity_class_rvector = allocVector(STRSXP, 2);
   SET_STRING_ELT(entity_class_rvector, 0, mkChar("redatam.entity"));
   SET_STRING_ELT(entity_class_rvector, 1, mkChar("data.frame"));
 
-  ProtectedSEXP variable_int_class_rvector = mkString("redatam.variable.int");
-  ProtectedSEXP variable_lng_class_rvector = mkString("redatam.variable.lng");
-  ProtectedSEXP variable_chr_class_rvector = mkString("redatam.variable.chr");
-  ProtectedSEXP variable_bin_class_rvector = mkString("redatam.variable.bin");
-  ProtectedSEXP variable_dbl_class_rvector = mkString("redatam.variable.dbl");
-  ProtectedSEXP variable_pck_class_rvector = mkString("redatam.variable.pck");
+  SEXP variable_int_class_rvector = mkString("redatam.variable.int");
+  SEXP variable_lng_class_rvector = mkString("redatam.variable.lng");
+  SEXP variable_chr_class_rvector = mkString("redatam.variable.chr");
+  SEXP variable_bin_class_rvector = mkString("redatam.variable.bin");
+  SEXP variable_dbl_class_rvector = mkString("redatam.variable.dbl");
+  SEXP variable_pck_class_rvector = mkString("redatam.variable.pck");
 
-  ProtectedSEXP instance_len_rsymbol = mkString("instance.len");
-  ProtectedSEXP instance_num_rsymbol = mkString("instance.num");
-  ProtectedSEXP data_path_rsymbol = mkString("data.path");
+  SEXP instance_len_rsymbol = mkString("instance.len");
+  SEXP instance_num_rsymbol = mkString("instance.num");
+  SEXP data_path_rsymbol = mkString("data.path");
 
-  ProtectedSEXP ans, ans_names;
-  ProtectedSEXP current_entity, current_entity_names;
+  SEXP ans, ans_names;
+  SEXP current_entity, current_entity_names;
 
   Redatam::read_dic(
       dic_path,
@@ -67,7 +66,7 @@ SEXP _redatam4r_read_redatam_(SEXP dic_path_in) {
         current_entity = allocVector(VECSXP, entity.num_vars + 1);
         current_entity_names = allocVector(STRSXP, entity.num_vars + 1);
 
-        ProtectedSEXP column0 = allocVector(INTSXP, entity.num_instances);
+        SEXP column0 = allocVector(INTSXP, entity.num_instances);
         Redatam::read_ptr(entity.real_ptr_path, INTEGER(column0));
 
         std::string column0_description = "Parent instance row in " +
@@ -81,7 +80,7 @@ SEXP _redatam4r_read_redatam_(SEXP dic_path_in) {
 
         // compact row names representation (see .set_row_names and
         // .row_names_info)
-        ProtectedSEXP current_entity_rownames = allocVector(INTSXP, 2);
+        SEXP current_entity_rownames = allocVector(INTSXP, 2);
         SET_INTEGER_ELT(current_entity_rownames, 0, R_NaInt);
         SET_INTEGER_ELT(current_entity_rownames, 1, -entity.num_instances);
         setAttrib(current_entity, R_RowNamesSymbol, current_entity_rownames);
@@ -99,32 +98,32 @@ SEXP _redatam4r_read_redatam_(SEXP dic_path_in) {
         int column_sexptype = -1;
         SEXP column_class = nullptr;
         switch (variable.declaration->type) {
-        case Redatam::VariableDescriptor::Declaration::Type::DBL:
-          column_sexptype = REALSXP;
-          column_class = variable_dbl_class_rvector;
-          break;
-        case Redatam::VariableDescriptor::Declaration::Type::CHR:
-          column_sexptype = STRSXP;
-          column_class = variable_chr_class_rvector;
-          break;
-        case Redatam::VariableDescriptor::Declaration::Type::INT:
-          column_sexptype = INTSXP;
-          column_class = variable_int_class_rvector;
-          break;
-        case Redatam::VariableDescriptor::Declaration::Type::LNG:
-          column_sexptype = INTSXP;
-          column_class = variable_lng_class_rvector;
-          break;
-        case Redatam::VariableDescriptor::Declaration::Type::BIN:
-          column_sexptype = INTSXP;
-          column_class = variable_bin_class_rvector;
-          break;
-        case Redatam::VariableDescriptor::Declaration::Type::PCK:
-          column_sexptype = INTSXP;
-          column_class = variable_pck_class_rvector;
-          break;
+          case Redatam::VariableDescriptor::Declaration::Type::DBL:
+            column_sexptype = REALSXP;
+            column_class = variable_dbl_class_rvector;
+            break;
+          case Redatam::VariableDescriptor::Declaration::Type::CHR:
+            column_sexptype = STRSXP;
+            column_class = variable_chr_class_rvector;
+            break;
+          case Redatam::VariableDescriptor::Declaration::Type::INT:
+            column_sexptype = INTSXP;
+            column_class = variable_int_class_rvector;
+            break;
+          case Redatam::VariableDescriptor::Declaration::Type::LNG:
+            column_sexptype = INTSXP;
+            column_class = variable_lng_class_rvector;
+            break;
+          case Redatam::VariableDescriptor::Declaration::Type::BIN:
+            column_sexptype = INTSXP;
+            column_class = variable_bin_class_rvector;
+            break;
+          case Redatam::VariableDescriptor::Declaration::Type::PCK:
+            column_sexptype = INTSXP;
+            column_class = variable_pck_class_rvector;
+            break;
         }
-        ProtectedSEXP column = allocVector(column_sexptype, 0);
+        SEXP column = allocVector(column_sexptype, 0);
         classgets(column, column_class);
 
         // fill data needed for indexing: datatype size, number of instances and
@@ -153,8 +152,8 @@ SEXP _redatam4r_read_redatam_(SEXP dic_path_in) {
 
           std::sort(levels.begin(), levels.end());
 
-          ProtectedSEXP labels_rvector = allocVector(STRSXP, levels.size());
-          ProtectedSEXP levels_rvector = allocVector(INTSXP, levels.size());
+          SEXP labels_rvector = allocVector(STRSXP, levels.size());
+          SEXP levels_rvector = allocVector(INTSXP, levels.size());
           for (size_t i = 0; i < levels.size(); ++i) {
             SET_STRING_ELT(labels_rvector, i, mkChar(levels[i].second.c_str()));
             SET_INTEGER_ELT(levels_rvector, i, levels[i].first);
@@ -165,4 +164,4 @@ SEXP _redatam4r_read_redatam_(SEXP dic_path_in) {
       });
   return ans;
 }
-} // extern "C"
+}  // extern "C"

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "primitives.hpp"
+#include "primitives.h"
 
 namespace Redatam {
 
@@ -10,9 +10,10 @@ void read_ptr(const boost::filesystem::path &ptr_path, OutputIterator output) {
   std::fstream ptr_file(ptr_path, std::ios_base::in | std::ios_base::binary);
 
   // Throw an exception if the file cannot be opened
-  if (!ptr_file)
+  if (!ptr_file) {
     throw Exception(std::string("Could not read ptr file: ") +
                     ptr_path.string());
+  }
 
   // Initialize variables
   int parent_id = 0;

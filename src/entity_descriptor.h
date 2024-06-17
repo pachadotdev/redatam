@@ -6,8 +6,8 @@
 #include <iostream>
 #include <string>
 
-#include "primitives.hpp"
-#include "utils.hpp"
+#include "primitives.h"
+#include "utils.h"
 
 namespace Redatam {
 

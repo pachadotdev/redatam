@@ -11,8 +11,8 @@
 #include <string>
 #include <vector>
 
-#include "primitives.hpp"
-#include "utils.hpp"
+#include "primitives.h"
+#include "utils.h"
 
 namespace Redatam {
 

@@ -5,7 +5,7 @@
 #include <iostream>
 #include <string>
 
-#include "primitives.hpp"
+#include "primitives.h"
 
 namespace Redatam {
 
