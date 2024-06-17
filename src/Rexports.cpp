@@ -43,8 +43,8 @@ template <typename T> strings stream_to_R(const T &obj) {
       // dic + root entity callback
       [&](Redatam::DictionaryDescriptor &dic,
           Redatam::EntityDescriptor &root_entity) {
-        writable::list ans(root_entity.num_entities - 1);
-        ans.attr("names") = writable::strings(root_entity.num_entities - 1);
+        writable::list ans(root_entity.num_entities);
+        ans.attr("names") = writable::strings(root_entity.num_entities);
         ans.attr("class") = "redatam.database";
         ans.attr(description_symbol) = stream_to_R(dic);
       },
