@@ -1,0 +1,46 @@
+==25050== Memcheck, a memory error detector
+==25050== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==25050== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==25050== Command: /usr/lib/R/bin/exec/R --vanilla -f dev/test.r
+==25050== 
+
+R version 4.4.0 (2024-04-24) -- "Puppy Cup"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> # devtools::load_all()
+> # variables <- dic_to_list("dev/AR-BASE EPH FINAL.dic")
+> variables <- redatam::dic_to_list("dev/AR-BASE EPH FINAL.dic")
+Error: r_vector
+Execution halted
+==25050== 
+==25050== HEAP SUMMARY:
+==25050==     in use at exit: 45,717,338 bytes in 9,933 blocks
+==25050==   total heap usage: 23,509 allocs, 13,576 frees, 64,762,170 bytes allocated
+==25050== 
+==25050== LEAK SUMMARY:
+==25050==    definitely lost: 0 bytes in 0 blocks
+==25050==    indirectly lost: 0 bytes in 0 blocks
+==25050==      possibly lost: 0 bytes in 0 blocks
+==25050==    still reachable: 45,717,338 bytes in 9,933 blocks
+==25050==                       of which reachable via heuristic:
+==25050==                         newarray           : 4,264 bytes in 1 blocks
+==25050==         suppressed: 0 bytes in 0 blocks
+==25050== Reachable blocks (those to which a pointer was found) are not shown.
+==25050== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==25050== 
+==25050== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

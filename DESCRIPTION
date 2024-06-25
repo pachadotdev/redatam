@@ -1,10 +1,16 @@
-Package: readredatam
+Package: redatam
 Type: Package
-Title: REDATAM File Reader
+Title: Read REDATAM files
 Version: 0.1.0
-Author: Your Name
-Maintainer: Your Name <your.email@example.com>
-Description: An R package to read REDATAM files using C++ (cpp11).
+Authors@R: c(
+    person(
+        given = "Mauricio",
+        family = "Vargas Sepulveda",
+        role = c("aut", "cre"),
+        email = "m.sepulveda@mail.utoronto.ca",
+        comment = c(ORCID = "0000-0003-1017-7574"))
+    )
+Description: Read REDATAM files into R 
 License: Apache License (>= 2)
 LinkingTo: cpp11
 RoxygenNote: 7.3.1
