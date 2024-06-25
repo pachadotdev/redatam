@@ -1,4 +1,3 @@
-// clang-format off
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -10,13 +9,12 @@
 
 EntityDescriptor EntityDescriptor::fread(std::istream &stream, bool is_root) {
   EntityDescriptor d;
-  while (d.name1.empty()) {
-    d.name1 = fread_string(stream);
-  }
+  d.name1 = fread_string(stream);
 
   if (!is_root) {
     d.name2 = fread_string(stream);
   }
+  
   d.parent = fread_string(stream);
   d.description = fread_string(stream);
   d.ptr_path = DOSPath(fread_string(stream));
@@ -25,13 +23,11 @@ EntityDescriptor EntityDescriptor::fread(std::istream &stream, bool is_root) {
   d.name_varname = fread_string(stream);
   d.documentation = fread_string(stream);
   d.num_entities = fread_uint16_t(stream);
-  for (auto &c : d.unknown2)
-    c = stream.get();
+  stream.read(reinterpret_cast<char*>(&d.unknown2), sizeof(d.unknown2));
   d.num_vars = fread_uint16_t(stream);
   d.unknown3 = fread_uint16_t(stream);
   d.is_selectable = fread_uint16_t(stream);
-  for (auto &c : d.unknown6)
-    c = stream.get();
+  stream.read(reinterpret_cast<char*>(&d.unknown6), sizeof(d.unknown6));
   d.weight_varname = fread_string(stream);
   d.label = fread_string(stream);
   d.is_sensible = fread_uint16_t(stream);
