@@ -12,28 +12,28 @@ read_redatam <- function(dic_path) read_redatam_(dic_path)
 description <- function(x, ...) UseMethod("description")
 
 #' @export
-description.redatam.database <- function(x) cat(attr(x, "description"))
+description.redatam.database <- function(x, ...) cat(attr(x, "description"))
 
 #' @export
-description.redatam.entity <- function(x) cat(attr(x, "description"))
+description.redatam.entity <- function(x, ...) cat(attr(x, "description"))
 
 #' @export
-description.redatam.variable.int <- function(x) cat(attr(x, "description"))
+description.redatam.variable.int <- function(x, ...) cat(attr(x, "description"))
 
 #' @export
-description.redatam.variable.lng <- function(x) cat(attr(x, "description"))
+description.redatam.variable.lng <- function(x, ...) cat(attr(x, "description"))
 
 #' @export
-description.redatam.variable.chr <- function(x) cat(attr(x, "description"))
+description.redatam.variable.chr <- function(x, ...) cat(attr(x, "description"))
 
 #' @export
-description.redatam.variable.bin <- function(x) cat(attr(x, "description"))
+description.redatam.variable.bin <- function(x, ...) cat(attr(x, "description"))
 
 #' @export
-description.redatam.variable.dbl <- function(x) cat(attr(x, "description"))
+description.redatam.variable.dbl <- function(x, ...) cat(attr(x, "description"))
 
 #' @export
-description.redatam.variable.pck <- function(x) cat(attr(x, "description"))
+description.redatam.variable.pck <- function(x, ...) cat(attr(x, "description"))
 
 variable_indexing <- function(x, i, funcname = "bin") {
   if (is.logical(i)) {
@@ -64,48 +64,48 @@ variable_indexing <- function(x, i, funcname = "bin") {
 }
 
 #' @export
-"[.redatam.variable.bin" <- function(x, i) variable_indexing(x, i, "bin")
+"[.redatam.variable.bin" <- function(x, i, value = "bin") variable_indexing(x, i, value)
 
 #' @export
-"[.redatam.variable.pck" <- function(x, i) variable_indexing(x, i, "pck")
+"[.redatam.variable.pck" <- function(x, i, value = "pck") variable_indexing(x, i, value)
 
 #' @export
-"[.redatam.variable.chr" <- function(x, i) variable_indexing(x, i, "chr")
+"[.redatam.variable.chr" <- function(x, i, value = "chr") variable_indexing(x, i, value)
 
 #' @export
-"[.redatam.variable.int" <- function(x, i) variable_indexing(x, i, "int")
+"[.redatam.variable.int" <- function(x, i, value = "int") variable_indexing(x, i, value)
 
 #' @export
-"[.redatam.variable.lng" <- function(x, i) variable_indexing(x, i, "lng")
+"[.redatam.variable.lng" <- function(x, i, value = "lng") variable_indexing(x, i, value)
 
 #' @export
-"[.redatam.variable.real" <- function(x, i) variable_indexing(x, i, "real")
+"[.redatam.variable.real" <- function(x, i, value = "real") variable_indexing(x, i, value)
 
 assign_indexing <- function(x, i, val) stop("writing to redatam objects is not allowed")
 
 #' @export
-"[<-.redatam.database" <- function(x, i, v) assign_indexing(x, i, v)
+"[<-.redatam.database" <- function(x, i, value) assign_indexing(x, i, value)
 
 #' @export
-"[<-.redatam.entity" <- function(x, i, v) assign_indexing(x, i, v)
+"[<-.redatam.entity" <- function(x, i, value) assign_indexing(x, i, value)
 
 #' @export
-"[<-.redatam.variable.bin" <- function(x, i, v) assign_indexing(x, i, v)
+"[<-.redatam.variable.bin" <- function(x, i, value) assign_indexing(x, i, value)
 
 #' @export
-"[<-.redatam.variable.pck" <- function(x, i, v) assign_indexing(x, i, v)
+"[<-.redatam.variable.pck" <- function(x, i, value) assign_indexing(x, i, value)
 
 #' @export
-"[<-.redatam.variable.chr" <- function(x, i, v) assign_indexing(x, i, v)
+"[<-.redatam.variable.chr" <- function(x, i, value) assign_indexing(x, i, value)
 
 #' @export
-"[<-.redatam.variable.int" <- function(x, i, v) assign_indexing(x, i, v)
+"[<-.redatam.variable.int" <- function(x, i, value) assign_indexing(x, i, value)
 
 #' @export
-"[<-.redatam.variable.lng" <- function(x, i, v) assign_indexing(x, i, v)
+"[<-.redatam.variable.lng" <- function(x, i, value) assign_indexing(x, i, value)
 
 #' @export
-"[<-.redatam.variable.real" <- function(x, i, v) assign_indexing(x, i, v)
+"[<-.redatam.variable.real" <- function(x, i, value) assign_indexing(x, i, value)
 
 #' @export
 length.redatam.variable.bin <- function(x) attr(x, "instance.num")
