@@ -15,6 +15,7 @@ public:
 
   static DictionaryDescriptor fread(std::istream &stream);
 };
+
 std::ostream &operator<<(std::ostream &stream, const DictionaryDescriptor &d);
 
 #endif
