@@ -7,14 +7,13 @@
 
 #include "dictionary_descriptor.h"
 #include "entity_descriptor.h"
-#include "variable_descriptor.h"
 #include "primitives.h"
 #include "util.h"
+#include "variable_descriptor.h"
 
 using namespace cpp11;
 
-template <typename T>
-sexp serialize_to_R(const T& obj) {
+template <typename T> sexp serialize_to_R(const T &obj) {
   std::stringstream ss;
   ss << obj << '\n';
   return Rf_mkString(ss.str().c_str());
@@ -27,7 +26,8 @@ sexp serialize_to_R(const T& obj) {
   std::fstream dic_file(dic_path.as_string(),
                         std::ios_base::in | std::ios_base::binary);
 
-  if (!dic_file) error_return("could not open dictionary file for reading");
+  if (!dic_file)
+    error_return("could not open dictionary file for reading");
 
   auto dic = DictionaryDescriptor::fread(dic_file);
   auto root_entity = EntityDescriptor::fread(dic_file, true);
@@ -58,7 +58,8 @@ sexp serialize_to_R(const T& obj) {
   for (int entity_count = 1; entity_count < root_entity.num_entities;
        ++entity_count) {
     auto entity = EntityDescriptor::fread(dic_file, false);
-    SET_STRING_ELT(ans_names, entity_count - 1, Rf_mkChar(entity.name1.c_str()));
+    SET_STRING_ELT(ans_names, entity_count - 1,
+                   Rf_mkChar(entity.name1.c_str()));
 
     uint32_t num_instances = 0;
     if (!entity.ptr_path.empty()) {
@@ -79,7 +80,7 @@ sexp serialize_to_R(const T& obj) {
         uint32_t prev_n;
         uint32_t next_n;
         int parent_id = 0;
-        prev_n = fread_uint32_t(ptr_file);  // always reads 0 at offset 0
+        prev_n = fread_uint32_t(ptr_file); // always reads 0 at offset 0
         while (next_n = fread_uint32_t(ptr_file), ptr_file) {
           ++parent_id;
           for (uint32_t k = prev_n; k < next_n; ++k) {
@@ -126,27 +127,27 @@ sexp serialize_to_R(const T& obj) {
                            Rf_mkString(rbf_real_path.as_string().c_str()));
 
               switch (var.declaration->type) {
-                case VariableDescriptor::Declaration::Type::DBL:
-                  Rf_classgets(column, variable_dbl_class_rvector);
-                  break;
-                case VariableDescriptor::Declaration::Type::CHR:
-                  Rf_classgets(column, variable_chr_class_rvector);
-                  break;
-                case VariableDescriptor::Declaration::Type::INT:
-                  Rf_classgets(column, variable_int_class_rvector);
-                  break;
-                case VariableDescriptor::Declaration::Type::LNG:
-                  Rf_classgets(column, variable_lng_class_rvector);
-                  break;
-                case VariableDescriptor::Declaration::Type::BIN:
-                  Rf_classgets(column, variable_bin_class_rvector);
-                  break;
-                case VariableDescriptor::Declaration::Type::PCK: {
-                  Rf_classgets(column, variable_pck_class_rvector);
-                  break;
-                }
-                default:
-                  break;
+              case VariableDescriptor::Declaration::Type::DBL:
+                Rf_classgets(column, variable_dbl_class_rvector);
+                break;
+              case VariableDescriptor::Declaration::Type::CHR:
+                Rf_classgets(column, variable_chr_class_rvector);
+                break;
+              case VariableDescriptor::Declaration::Type::INT:
+                Rf_classgets(column, variable_int_class_rvector);
+                break;
+              case VariableDescriptor::Declaration::Type::LNG:
+                Rf_classgets(column, variable_lng_class_rvector);
+                break;
+              case VariableDescriptor::Declaration::Type::BIN:
+                Rf_classgets(column, variable_bin_class_rvector);
+                break;
+              case VariableDescriptor::Declaration::Type::PCK: {
+                Rf_classgets(column, variable_pck_class_rvector);
+                break;
+              }
+              default:
+                break;
               }
             }
           }

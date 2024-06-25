@@ -7,6 +7,9 @@
 #' @useDynLib redatam, .registration = TRUE
 "_PACKAGE"
 
+#' Read a REDATAM dictionary file with the corresponding entity tables
+#' @param dic_path Path to the REDATAM dictionary file
+#' @export 
 read_redatam <- function(dic_path) read_redatam_(dic_path)
 
 description <- function(x, ...) UseMethod("description")
