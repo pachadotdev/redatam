@@ -1,19 +1,20 @@
 #include <fstream>
 #include <string>
 #include <regex>
-#include <optional>
+#include <memory>
 
 #include "primitives.h"
 #include "util.h"
 #include "variable_descriptor.h"
 
-std::optional<VariableDescriptor::Declaration>
+std::unique_ptr<VariableDescriptor::Declaration>
 VariableDescriptor::Declaration::fromDeclarationString(
     const std::string &declstr) {
   static const std::regex r(
       "DATASET (BIN|CHR|DBL|INT|LNG|PCK) '([^']+)' SIZE ([0-9]+)",
       std::regex::extended);
-  if (std::smatch match; std::regex_match(declstr, match, r)) {
+  std::smatch match;
+  if (std::regex_match(declstr, match, r)) {
     Declaration::Type t = Declaration::Type::CHR;
     if (match[1] == "BIN")
       t = Declaration::Type::BIN;
@@ -29,11 +30,12 @@ VariableDescriptor::Declaration::fromDeclarationString(
       t = Declaration::Type::PCK;
     std::string p = match[2];
     size_t s = std::stoi(match[3]);
-    return Declaration{t, p, s};
+    return std::unique_ptr<Declaration>(new Declaration{t, p, s});
   } else {
-    return std::nullopt;
+    return std::unique_ptr<Declaration>();
   }
 }
+
 VariableDescriptor VariableDescriptor::fread(std::istream &stream) {
   VariableDescriptor d;
   d.name = fread_string(stream);
@@ -58,10 +60,11 @@ VariableDescriptor VariableDescriptor::fread(std::istream &stream) {
   static const std::regex missing_regex("MISSING ([0-9]+)");
   static const std::regex notapplicable_regex("NOTAPPLICABLE ([0-9]+)");
   if (std::regex_search(descriptor_str, match, missing_regex)) {
-    d.descriptor.missing = std::stoi(match[1]);
+    d.descriptor.missing = std::unique_ptr<int>(new int(std::stoi(match[1])));
   }
   if (std::regex_search(descriptor_str, match, notapplicable_regex)) {
-    d.descriptor.not_applicable = std::stoi(match[1]);
+    d.descriptor.not_applicable =
+        std::unique_ptr<int>(new int(std::stoi(match[1])));
   }
 
   d.unknown1 = fread_uint16_t(stream);

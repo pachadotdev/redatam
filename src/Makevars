@@ -1,1 +1,6 @@
-PKG_CPPFLAGS = -UDEBUG -g -O0 -Wall -pedantic -std=c++17
+# to test it compiles in older systems
+# CXX_STD = CXX11 
+
+# disable optimization and enable debugging symbols
+# PKG_CXXFLAGS = -Wall -O0 -pedantic
+# PKG_CPPFLAGS = -UDEBUG -g

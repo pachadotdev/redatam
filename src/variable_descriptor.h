@@ -4,14 +4,14 @@
 #include <fstream>
 #include <string>
 #include <array>
-#include <optional>
+#include <memory>
 
 class VariableDescriptor {
 public:
   class Declaration {
   public:
     enum class Type { BIN, CHR, DBL, INT, LNG, PCK };
-    static std::optional<Declaration>
+    static std::unique_ptr<Declaration>
     fromDeclarationString(const std::string &declstr);
     Type type;
     DOSPath rbf_path;
@@ -22,11 +22,11 @@ public:
     std::string alias;
     size_t decimals = 0;
     std::string group;
-    std::optional<int> missing;
-    std::optional<int> not_applicable;
+    std::unique_ptr<int> missing;
+    std::unique_ptr<int> not_applicable;
   };
   std::string name;
-  std::optional<Declaration> declaration;
+  std::unique_ptr<Declaration> declaration;
   std::string filter;
   std::string range;
   std::string datatype;

@@ -16,9 +16,9 @@ uint32_t fread_uint32_t(std::istream &stream) {
 }
 
 void utf8_from_windows1252(std::string &dst, unsigned char c) {
-  if (c > 0x7f) {
-    dst += static_cast<char>(0b11000000 | ((c & 0b11000000) >> 6));
-    dst += static_cast<char>(0b10000000 | (c & 0b00111111));
+  if (c > 0x7F) {
+    dst += static_cast<char>(0xC0 | ((c & 0xC0) >> 6));
+    dst += static_cast<char>(0x80 | (c & 0x3F));
   } else {
     dst += static_cast<char>(c);
   }
