@@ -14,6 +14,5 @@ Description: Read REDATAM files into R. Adapts from the existing implementations
   for Windows made by Pablo de Grande and  Francisco Altoe to work on Windows
   and Unix-like systems.
 License: Apache License (>= 2)
-LinkingTo: cpp11
 RoxygenNote: 7.3.1
 Encoding: UTF-8

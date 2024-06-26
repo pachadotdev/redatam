@@ -1,2 +1,1 @@
-# CXX_STD = CXX11
-PKG_CXXFLAGS = -Wall -O0 -pedantic
+PKG_CPPFLAGS = -UDEBUG -g -O0 -Wall -pedantic -std=c++20
