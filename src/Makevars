@@ -1,1 +1,1 @@
-PKG_CPPFLAGS = -UDEBUG -g -O0 -Wall -pedantic -std=c++20
+PKG_CPPFLAGS = -UDEBUG -g -O0 -Wall -pedantic -std=c++17
