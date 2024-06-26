@@ -16,7 +16,7 @@ extern "C" {
     {NULL, NULL, 0}
 	};
 
-	void R_init_redatam(DllInfo* dll) {
+	void R_init_redatam(DllInfo* info) {
     R_RegisterCCallable("redatam", "_redatam_read_rdtm", (DL_FUNC)&_redatam_read_rdtm);
     R_RegisterCCallable("redatam", "_redatam_bin_get_rvector", (DL_FUNC)&_redatam_bin_get_rvector);
     R_RegisterCCallable("redatam", "_redatam_pck_get_rvector", (DL_FUNC)&_redatam_pck_get_rvector);
@@ -24,5 +24,7 @@ extern "C" {
     R_RegisterCCallable("redatam", "_redatam_int_get_rvector", (DL_FUNC)&_redatam_int_get_rvector);
     R_RegisterCCallable("redatam", "_redatam_lng_get_rvector", (DL_FUNC)&_redatam_lng_get_rvector);
     R_RegisterCCallable("redatam", "_redatam_real_get_rvector", (DL_FUNC)&_redatam_real_get_rvector);
+    R_registerRoutines(info, NULL, NULL, NULL, NULL);
+    R_useDynamicSymbols(info, TRUE);
   }
 }
