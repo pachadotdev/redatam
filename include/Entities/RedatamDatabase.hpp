@@ -16,15 +16,13 @@ class RedatamDatabase
 public:
     std::vector<std::shared_ptr<Entity>> entityNames;
     std::vector<std::shared_ptr<Entity>> Entities;
-    std::unique_ptr<FuzzyEntityParser> FuzzyEntityParser;
-    std::unique_ptr<XmlEntityParser> XmlEntityParser;
+    std::unique_ptr<FuzzyEntityParser> fuzzyEntityParserInstance; 
+    std::unique_ptr<XmlEntityParser> xmlEntityParserInstance;
     std::string DictionaryFile;
 
-    RedatamDatabase()
-        : FuzzyEntityParser(std::make_unique<class FuzzyEntityParser>(this)),
-          XmlEntityParser(std::make_unique<class XmlEntityParser>(this))
-    {
-    }
+    RedatamDatabase() 
+        : fuzzyEntityParserInstance(std::make_unique<FuzzyEntityParser>(this)),
+          xmlEntityParserInstance(std::make_unique<XmlEntityParser>(this)) {}
 
     int64_t GetTotalDataItems()
     {
@@ -82,7 +80,7 @@ public:
             std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
             if (ext == ".dic")
             {
-                FuzzyEntityParser->ParseEntities(file);
+                fuzzyEntityParserInstance->ParseEntities(file);
                 // Parse de entidades y variables
                 try
                 {
@@ -95,7 +93,7 @@ public:
                 }
             }
             else if (ext == ".dicx")
-                XmlEntityParser->Parse(file);
+                xmlEntityParserInstance->Parse(file);
             else
                 throw std::runtime_error("Dictionary files must by .dic or .dicx files.");
         }
