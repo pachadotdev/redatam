@@ -74,7 +74,7 @@ public:
 
     int64_t Length() const
     {
-        return stream.tellg();
+        return const_cast<std::ifstream&>(stream).tellg();
     }
 
     uint32_t ReadInt32At(int64_t pos)
