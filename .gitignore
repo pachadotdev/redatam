@@ -2,7 +2,8 @@
 *.so
 *.zip
 .vscode/
-.vscode/
-.vscode/
-dev/censo*
-dev/redatam*
+dev/chile
+dev/uruguay/
+dev/mexico/
+dev/argentina/
+dev/*.txt

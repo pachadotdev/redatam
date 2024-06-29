@@ -1,6 +1,0 @@
-^dev$
-^LICENSE\.md$
-Makefile
-^\.vscode$
-
-^\.clang-format$

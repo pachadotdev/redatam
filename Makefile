@@ -1,27 +1,21 @@
+CXX = g++
+CXXFLAGS = -std=c++14 -Wall -Iinclude/Entities -Iinclude/Readers -Isrc/vendor
+
+SRC_DIR = src
+OBJ_DIR = obj
+
+SRCS = $(wildcard $(SRC_DIR)/**/*.cpp) $(wildcard $(SRC_DIR)/*.cpp)
+OBJS = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRCS))
+TARGET = redatam
+
+$(TARGET): $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
+
 clean:
-	@Rscript -e 'devtools::clean_dll()'
+	rm -rf $(OBJ_DIR)
 
-test:
-	@echo "Testing R code"
-	@Rscript -e 'devtools::document()'
-	@Rscript -e 'devtools::load_all(); devtools::test()'
-
-check:
-	@echo "Local"
-	@Rscript -e 'devtools::check()'
-	@echo "RHub"
-	@Rscript -e 'devtools::check_rhub()'
-	@echo "Win Builder"
-	@Rscript -e 'devtools::check_win_release()'
-	@Rscript -e 'devtools::check_win_devel()'
-
-site:
-	@Rscript -e 'pkgdown::build_site()'
-
-install:
-	@Rscript -e 'devtools::install()'
-
-clang_format=`which clang-format-14`
-
-format: $(shell find . -name '*.h') $(shell find . -name '*.hpp') $(shell find . -name '*.cpp')
-	@${clang_format} -i $?
+.PHONY: clean

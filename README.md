@@ -2,8 +2,22 @@
 
 *WORK IN PROGRESS*
 
-This program converts Redatam files to CSV files and is a C++20 translation of:
-1. The Redatam converter originally written in C# (https://github.com/discontinuos/redatam-converter).
-2. The redatam4r package (https://github.com/FranciscoDA/redatam4r/)
+This program converts Redatam files to CSV files and is a C++14 port of the Redatam converter originally written in C# (https://github.com/discontinuos/redatam-converter).
 
-Works with R 4.3.0+ on Linux/Mac/Windows but needs extra work.
+Compile with:
+
+```bash
+make
+```
+
+Usage example:
+
+```bash
+redatam dev/chile/BaseOrg16/CPV2017-16.dic dev/chile-csv
+```
+
+Dependencies:
+
+```
+sudo apt-get install libxml2-dev
+```
