@@ -7,6 +7,7 @@
 #include <filesystem>
 #include <vector>
 #include <cstring>
+#include <filesystem>
 #include "ICursorReader.hpp"
 
 class CursorReader : public ICursorReader
