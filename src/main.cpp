@@ -5,8 +5,6 @@
 #include "XmlEntityParser.hpp"
 #include "CSVExporter.hpp"
 
-namespace fs = std::filesystem;
-
 void convertDicToCsv(const std::string& dicFilePath, const std::string& outputDirPath)
 {
     RedatamDatabase db;
@@ -28,15 +26,15 @@ int main(int argc, char* argv[])
     std::string dicFilePath = argv[1];
     std::string outputDirPath = argv[2];
 
-    if (!fs::exists(dicFilePath))
+    if (!std::filesystem::exists(dicFilePath))
     {
         std::cerr << "Error: Input DIC file does not exist." << std::endl;
         return 1;
     }
 
-    if (!fs::exists(outputDirPath))
+    if (!std::filesystem::exists(outputDirPath))
     {
-        fs::create_directories(outputDirPath);
+        std::filesystem::create_directories(outputDirPath);
     }
 
     try

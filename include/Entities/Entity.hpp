@@ -5,51 +5,56 @@
 #include <vector>
 #include <memory>
 #include <filesystem>
-#include "ICursorReader.hpp"
 #include "Variable.hpp"
-#include "CursorReader.hpp"
-#include "NullCursorReader.hpp"
-#include "RedatamDatabase.hpp"
 
-class Entity
-{
+// Forward declarations to avoid circular dependencies
+class CursorReader;
+class NullCursorReader;
+
+class Entity {
 private:
-    std::unique_ptr<ICursorReader> reader;
-
-    std::string ResolveDataFilename();
+    std::string Name;
+    std::vector<std::shared_ptr<Variable>> Variables;
+    std::string IndexFilename;
+    std::unique_ptr<CursorReader> reader;
+    int64_t RowsCount;
+    std::vector<std::shared_ptr<Entity>> Children;
 
 public:
-    std::string rootPath;
-    std::string Name;
-    std::vector<std::shared_ptr<Entity>> Children;
-    std::string Description;
-    std::string IndexFilename;
-    int i1;
-    std::string Alias;
-    int s1;
-    uint8_t b1;
-    std::string RelationChild;
-    std::string RelationParent;
-    std::string CodesVariable;
-    std::string LabelVariable;
-    int Level;
-    int64_t RowsCount;
-    int VariableCount;
-    std::string c1;
-    std::vector<std::shared_ptr<Variable>> Variables;
-
-    Entity() = default;
-    ~Entity() = default;
-
     std::string ToString() const;
     std::vector<std::shared_ptr<Variable>> SelectedVariables() const;
     void OpenPointer();
+    std::string ResolveDataFilename();
     bool HasData() const;
     int GetPointerData() const;
     void ClosePointer();
     int64_t CalculateRowCount(std::shared_ptr<Entity> parentEntity);
-    static std::vector<std::pair<std::string, std::string>> Linealize(std::shared_ptr<Entity> parent, const std::vector<std::shared_ptr<Entity>>& entitiesNames);
+    std::vector<std::pair<std::string, std::string>> Linealize(std::shared_ptr<Entity> parent, const std::vector<std::shared_ptr<Entity>>& entitiesNames);
     bool DataFileExists() const;
+
+    std::vector<std::shared_ptr<Entity>> SubEntities;
+    std::shared_ptr<Entity> Parent;
+    std::string rootPath;  // Declared only once
+
+    // Public setter for Name
+    void setName(const std::string& name) {
+        Name = name;
+    }
+
+    // Public getter for Name
+    std::string getName() const {
+        return Name;
+    }
+
+    // Public getter for Children
+    std::vector<std::shared_ptr<Entity>>& getChildren() {
+        return Children;
+    }
+
+    // Public setter for Children
+    void setChildren(const std::vector<std::shared_ptr<Entity>>& children) {
+        Children = children;
+    }
 };
 
 #endif // ENTITY_HPP

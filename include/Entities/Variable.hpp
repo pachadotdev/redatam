@@ -4,16 +4,18 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <filesystem>
+#include <variant>
 #include "tinyxml2.h"
 #include "ValueLabel.hpp"
 #include "ICursorReader.hpp"
-#include "Entity.hpp"
 #include "CursorReader.hpp"
 #include "NullCursorReader.hpp"
-#include "RedatamDatabase.hpp"
 
-class Variable
-{
+// Forward declaration of Entity class
+class Entity;
+
+class Variable {
 private:
     std::unique_ptr<ICursorReader> reader;
     std::shared_ptr<Entity> entity;
@@ -44,17 +46,15 @@ public:
         : entity(entity) {}
 
     Variable(const std::string& name, const std::string& type, const std::string& label)
-        : Name(name), Type(type), Label(label) {}
+        : Name(name), Label(label), Type(type) {}
 
     ~Variable() = default;
 
-    std::string ToString() const
-    {
+    std::string ToString() const {
         return Name;
     }
 
-    auto GetData()
-    {
+    std::variant<std::string, uint64_t, int, double> GetData() {
         if (Type == "STRING")
             return reader->ReadString();
         else if (Type == "INTEGER")
@@ -67,35 +67,28 @@ public:
             throw std::runtime_error("Unsupported data type: " + Type);
     }
 
-    bool FileSizeFails(long& expectedSize, long& actual)
-    {
+    bool FileSizeFails(long& expectedSize, long& actual) {
         expectedSize = GetExpectedFileSize();
         actual = reader->Length();
         return expectedSize > actual;
     }
 
-    void OpenData()
-    {
-        if (DataFileExists())
-        {
+    void OpenData() {
+        if (DataFileExists()) {
             std::string file = ResolveDataFilename();
             reader = std::make_unique<CursorReader>(file, Type == "STRING", BinaryDataSet, Size);
             reader->Open();
-        }
-        else
-        {
+        } else {
             reader = std::make_unique<NullCursorReader>();
         }
     }
 
-    bool DataFileExists()
-    {
+    bool DataFileExists() {
         std::string file = ResolveDataFilename();
         return std::filesystem::exists(file);
     }
 
-    void CloseData()
-    {
+    void CloseData() {
         reader->Close();
     }
 };

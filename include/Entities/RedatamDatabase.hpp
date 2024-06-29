@@ -7,9 +7,10 @@
 #include <filesystem>
 #include <stdexcept>
 #include "Entity.hpp"
+#include "Variable.hpp"
 #include "FuzzyEntityParser.hpp"
 #include "XmlEntityParser.hpp"
-#include "EntityParser.hpp"
+// #include "EntityParser.hpp"
 
 class RedatamDatabase
 {

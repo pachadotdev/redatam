@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Iinclude/Entities -Iinclude/Readers -Isrc/vendor
+CXXFLAGS = -std=c++17 -Wall -Iinclude/Entities -Iinclude/Readers -Iinclude/Exporters -Ivendor
 
 SRC_DIR = src
 OBJ_DIR = obj

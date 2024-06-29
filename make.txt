@@ -1,1221 +1,587 @@
-g++ -std=c++14 -Wall -Iinclude/Entities -Iinclude/Readers -Isrc/vendor -c -o obj/Entities/Entity.o src/Entities/Entity.cpp
-In file included from include/Entities/Variable.hpp:10,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Readers/CursorReader.hpp: In constructor ‘CursorReader::CursorReader(const string&, bool, bool, int)’:
-include/Readers/CursorReader.hpp:16:10: warning: ‘CursorReader::IsString’ will be initialized after [-Wreorder]
-   16 |     bool IsString;
-      |          ^~~~~~~~
-include/Readers/CursorReader.hpp:15:17: warning:   ‘std::string CursorReader::Filename’ [-Wreorder]
-   15 |     std::string Filename;
-      |                 ^~~~~~~~
-include/Readers/CursorReader.hpp:30:5: warning:   when initialized here [-Wreorder]
-   30 |     CursorReader(const std::string& file, bool isString, bool isBin, int size)
-      |     ^~~~~~~~~~~~
-include/Readers/CursorReader.hpp:17:10: warning: ‘CursorReader::IsBinaryDataSet’ will be initialized after [-Wreorder]
-   17 |     bool IsBinaryDataSet;
-      |          ^~~~~~~~~~~~~~~
-include/Readers/CursorReader.hpp:14:9: warning:   ‘int CursorReader::BlockSize’ [-Wreorder]
-   14 |     int BlockSize;
-      |         ^~~~~~~~~
-include/Readers/CursorReader.hpp:30:5: warning:   when initialized here [-Wreorder]
-   30 |     CursorReader(const std::string& file, bool isString, bool isBin, int size)
-      |     ^~~~~~~~~~~~
-include/Readers/CursorReader.hpp: In member function ‘virtual void CursorReader::Open()’:
-include/Readers/CursorReader.hpp:35:25: error: ‘std::filesystem’ has not been declared
-   35 |         fileSize = std::filesystem::file_size(Filename);
-      |                         ^~~~~~~~~~
-include/Readers/CursorReader.hpp: In member function ‘virtual double CursorReader::ReadDouble()’:
-include/Readers/CursorReader.hpp:55:14: error: ‘memcpy’ is not a member of ‘std’; did you mean ‘wmemcpy’?
-   55 |         std::memcpy(&ret, bytes.data(), sizeof(ret));
-      |              ^~~~~~
-      |              wmemcpy
-include/Readers/CursorReader.hpp: In member function ‘virtual int64_t CursorReader::Length() const’:
-include/Readers/CursorReader.hpp:99:28: error: passing ‘const ifstream’ {aka ‘const std::basic_ifstream<char>’} as ‘this’ argument discards qualifiers [-fpermissive]
-   99 |         return stream.tellg();
-      |                ~~~~~~~~~~~~^~
-In file included from /usr/include/c++/11/fstream:38,
-                 from include/Readers/CursorReader.hpp:5,
-                 from include/Entities/Variable.hpp:10,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-/usr/include/c++/11/istream:571:7: note:   in call to ‘std::basic_istream<_CharT, _Traits>::pos_type std::basic_istream<_CharT, _Traits>::tellg() [with _CharT = char; _Traits = std::char_traits<char>; std::basic_istream<_CharT, _Traits>::pos_type = std::fpos<__mbstate_t>]’
-  571 |       tellg();
-      |       ^~~~~
-In file included from include/Readers/FuzzyEntityParser.hpp:9,
-                 from include/Entities/RedatamDatabase.hpp:10,
-                 from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Readers/DataBlock.hpp: In member function ‘bool DataBlock::PlausibleString(std::string&, bool)’:
-include/Readers/DataBlock.hpp:55:19: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<unsigned char>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
-   55 |         if (n + 2 >= data.size())
-      |             ~~~~~~^~~~~~~~~~~~~~
-include/Readers/DataBlock.hpp:58:54: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<unsigned char>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
-   58 |         if (length < 0 || length > 128 || n + length > data.size())
-      |                                           ~~~~~~~~~~~^~~~~~~~~~~~~
-In file included from include/Entities/RedatamDatabase.hpp:10,
-                 from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Readers/FuzzyEntityParser.hpp: At global scope:
+g++ -std=c++17 -Wall -Iinclude/Entities -Iinclude/Readers -Iinclude/Exporters -Ivendor -c -o obj/main.o src/main.cpp
+In file included from include/Entities/RedatamDatabase.hpp:11,
+                 from src/main.cpp:3:
 include/Readers/FuzzyEntityParser.hpp:14:5: error: ‘RedatamDatabase’ does not name a type
    14 |     RedatamDatabase* db;
       |     ^~~~~~~~~~~~~~~
-include/Readers/FuzzyEntityParser.hpp:16:99: error: ‘Entity’ was not declared in this scope
-   16 |     void TryEntities(DataBlock& dataBlock, const std::string& parent, std::vector<std::shared_ptr<Entity>>& entitiesNames);
-      |                                                                                                   ^~~~~~
-include/Readers/FuzzyEntityParser.hpp:16:99: error: template argument 1 is invalid
-include/Readers/FuzzyEntityParser.hpp:16:105: error: template argument 1 is invalid
-   16 |     void TryEntities(DataBlock& dataBlock, const std::string& parent, std::vector<std::shared_ptr<Entity>>& entitiesNames);
-      |                                                                                                         ^~
-include/Readers/FuzzyEntityParser.hpp:16:105: error: template argument 2 is invalid
-include/Readers/FuzzyEntityParser.hpp:18:77: error: ‘Entity’ was not declared in this scope
-   18 |     void ProcessOcurrence(DataBlock& dataBlock, std::vector<std::shared_ptr<Entity>>& leaves, std::vector<std::shared_ptr<Entity>>& entitiesNames);
-      |                                                                             ^~~~~~
-include/Readers/FuzzyEntityParser.hpp:18:77: error: template argument 1 is invalid
-include/Readers/FuzzyEntityParser.hpp:18:83: error: template argument 1 is invalid
-   18 |     void ProcessOcurrence(DataBlock& dataBlock, std::vector<std::shared_ptr<Entity>>& leaves, std::vector<std::shared_ptr<Entity>>& entitiesNames);
-      |                                                                                   ^~
-include/Readers/FuzzyEntityParser.hpp:18:83: error: template argument 2 is invalid
-include/Readers/FuzzyEntityParser.hpp:18:123: error: ‘Entity’ was not declared in this scope
-   18 |     void ProcessOcurrence(DataBlock& dataBlock, std::vector<std::shared_ptr<Entity>>& leaves, std::vector<std::shared_ptr<Entity>>& entitiesNames);
-      |                                                                                                                           ^~~~~~
-include/Readers/FuzzyEntityParser.hpp:18:123: error: template argument 1 is invalid
-In file included from include/Entities/RedatamDatabase.hpp:10,
-                 from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Readers/FuzzyEntityParser.hpp:18:129: error: template argument 1 is invalid
-   18 |     void ProcessOcurrence(DataBlock& dataBlock, std::vector<std::shared_ptr<Entity>>& leaves, std::vector<std::shared_ptr<Entity>>& entitiesNames);
-      |                                                                                                                                 ^~
-include/Readers/FuzzyEntityParser.hpp:18:129: error: template argument 2 is invalid
-include/Readers/FuzzyEntityParser.hpp:19:33: error: ‘Entity’ was not declared in this scope
-   19 |     std::vector<std::shared_ptr<Entity>> GetBest(const std::vector<std::vector<std::shared_ptr<Entity>>>& leaves);
-      |                                 ^~~~~~
-include/Readers/FuzzyEntityParser.hpp:19:33: error: template argument 1 is invalid
-include/Readers/FuzzyEntityParser.hpp:19:39: error: template argument 1 is invalid
-   19 |     std::vector<std::shared_ptr<Entity>> GetBest(const std::vector<std::vector<std::shared_ptr<Entity>>>& leaves);
-      |                                       ^~
-include/Readers/FuzzyEntityParser.hpp:19:39: error: template argument 2 is invalid
-include/Readers/FuzzyEntityParser.hpp:19:96: error: ‘Entity’ was not declared in this scope
-   19 |     std::vector<std::shared_ptr<Entity>> GetBest(const std::vector<std::vector<std::shared_ptr<Entity>>>& leaves);
-      |                                                                                                ^~~~~~
-include/Readers/FuzzyEntityParser.hpp:19:96: error: template argument 1 is invalid
-include/Readers/FuzzyEntityParser.hpp:19:102: error: template argument 1 is invalid
-   19 |     std::vector<std::shared_ptr<Entity>> GetBest(const std::vector<std::vector<std::shared_ptr<Entity>>>& leaves);
-      |                                                                                                      ^~
-include/Readers/FuzzyEntityParser.hpp:19:102: error: template argument 2 is invalid
-include/Readers/FuzzyEntityParser.hpp:19:104: error: template argument 1 is invalid
-   19 |     std::vector<std::shared_ptr<Entity>> GetBest(const std::vector<std::vector<std::shared_ptr<Entity>>>& leaves);
-      |                                                                                                        ^
-include/Readers/FuzzyEntityParser.hpp:19:104: error: template argument 2 is invalid
-include/Readers/FuzzyEntityParser.hpp:20:61: error: ‘Entity’ was not declared in this scope
-   20 |     int CalculateTreeSize(const std::vector<std::shared_ptr<Entity>>& list);
-      |                                                             ^~~~~~
-include/Readers/FuzzyEntityParser.hpp:20:61: error: template argument 1 is invalid
-include/Readers/FuzzyEntityParser.hpp:20:67: error: template argument 1 is invalid
-   20 |     int CalculateTreeSize(const std::vector<std::shared_ptr<Entity>>& list);
-      |                                                                   ^~
-include/Readers/FuzzyEntityParser.hpp:20:67: error: template argument 2 is invalid
-include/Readers/FuzzyEntityParser.hpp:23:38: error: expected ‘)’ before ‘*’ token
-   23 |     FuzzyEntityParser(RedatamDatabase* db) : db(db) {}
+In file included from include/Entities/RedatamDatabase.hpp:11,
+                 from src/main.cpp:3:
+include/Readers/FuzzyEntityParser.hpp:93:38: error: expected ‘)’ before ‘*’ token
+   93 |     FuzzyEntityParser(RedatamDatabase* db) : db(db) {}
       |                      ~               ^
       |                                      )
-include/Readers/FuzzyEntityParser.hpp: In member function ‘void FuzzyEntityParser::ParseEntities(const string&)’:
-include/Readers/FuzzyEntityParser.hpp:27:49: error: ‘Entity’ was not declared in this scope
-   27 |         std::vector<std::vector<std::shared_ptr<Entity>>> candidates;
-      |                                                 ^~~~~~
-include/Readers/FuzzyEntityParser.hpp:27:49: error: template argument 1 is invalid
-include/Readers/FuzzyEntityParser.hpp:27:55: error: template argument 1 is invalid
-   27 |         std::vector<std::vector<std::shared_ptr<Entity>>> candidates;
-      |                                                       ^~
-include/Readers/FuzzyEntityParser.hpp:27:55: error: template argument 2 is invalid
-include/Readers/FuzzyEntityParser.hpp:27:57: error: template argument 1 is invalid
-   27 |         std::vector<std::vector<std::shared_ptr<Entity>>> candidates;
-      |                                                         ^
-include/Readers/FuzzyEntityParser.hpp:27:57: error: template argument 2 is invalid
-include/Readers/FuzzyEntityParser.hpp:32:27: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<unsigned char>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
-   32 |         for (int i = 0; i < dataBlock.data.size(); i++)
-      |                         ~~^~~~~~~~~~~~~~~~~~~~~~~
-include/Readers/FuzzyEntityParser.hpp:35:47: error: template argument 1 is invalid
-   35 |             std::vector<std::shared_ptr<Entity>> entitiesNames;
-      |                                               ^~
-include/Readers/FuzzyEntityParser.hpp:35:47: error: template argument 2 is invalid
-include/Readers/FuzzyEntityParser.hpp:37:32: error: request for member ‘empty’ in ‘entitiesNames’, which is of non-class type ‘int’
-   37 |             if (!entitiesNames.empty())
-      |                                ^~~~~
-include/Readers/FuzzyEntityParser.hpp:38:28: error: request for member ‘push_back’ in ‘candidates’, which is of non-class type ‘int’
-   38 |                 candidates.push_back(entitiesNames);
+include/Readers/FuzzyEntityParser.hpp: In member function ‘bool FuzzyEntityParser::checkEntityStart(DataBlock&)’:
+include/Readers/FuzzyEntityParser.hpp:31:30: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<unsigned char>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+   31 |         if (dataBlock.n + 10 >= dataBlock.data.size())
+      |             ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+include/Readers/FuzzyEntityParser.hpp:46:28: error: ‘std::string’ {aka ‘class std::__cxx11::basic_string<char>’} has no member named ‘ends_with’
+   46 |         return description.ends_with(".ptr") ||
       |                            ^~~~~~~~~
-include/Readers/FuzzyEntityParser.hpp:40:9: error: ‘db’ was not declared in this scope
-   40 |         db->entityNames = GetBest(candidates);
+include/Readers/FuzzyEntityParser.hpp:47:30: error: ‘std::string’ {aka ‘class std::__cxx11::basic_string<char>’} has no member named ‘ends_with’
+   47 |                indexfilename.ends_with(".ptr") || description.ends_with(".PTR") ||
+      |                              ^~~~~~~~~
+include/Readers/FuzzyEntityParser.hpp:47:63: error: ‘std::string’ {aka ‘class std::__cxx11::basic_string<char>’} has no member named ‘ends_with’
+   47 |                indexfilename.ends_with(".ptr") || description.ends_with(".PTR") ||
+      |                                                               ^~~~~~~~~
+include/Readers/FuzzyEntityParser.hpp:48:30: error: ‘std::string’ {aka ‘class std::__cxx11::basic_string<char>’} has no member named ‘ends_with’
+   48 |                indexfilename.ends_with(".PTR");
+      |                              ^~~~~~~~~
+include/Readers/FuzzyEntityParser.hpp: In member function ‘void FuzzyEntityParser::ProcessOcurrence(DataBlock&, std::vector<std::shared_ptr<Entity> >&, std::vector<std::shared_ptr<Entity> >&)’:
+include/Readers/FuzzyEntityParser.hpp:52:23: error: ‘class DataBlock’ has no member named ‘moveBackString’
+   52 |         if (dataBlock.moveBackString() == -1)
+      |                       ^~~~~~~~~~~~~~
+include/Readers/FuzzyEntityParser.hpp: In member function ‘std::vector<std::shared_ptr<Entity> > FuzzyEntityParser::GetBest(const std::vector<std::vector<std::shared_ptr<Entity> > >&)’:
+include/Readers/FuzzyEntityParser.hpp:73:27: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<std::vector<std::shared_ptr<Entity> > >::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+   73 |         for (int n = 0; n < leaves.size(); n++) {
+      |                         ~~^~~~~~~~~~~~~~~
+include/Readers/FuzzyEntityParser.hpp: In member function ‘void FuzzyEntityParser::ParseEntities(const string&)’:
+include/Readers/FuzzyEntityParser.hpp:100:27: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<unsigned char>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  100 |         for (int i = 0; i < dataBlock.data.size(); i++) {
+      |                         ~~^~~~~~~~~~~~~~~~~~~~~~~
+include/Readers/FuzzyEntityParser.hpp:107:9: error: ‘db’ was not declared in this scope
+  107 |         db->entityNames = GetBest(candidates);
       |         ^~
-In file included from include/Readers/XmlEntityParser.hpp:11,
-                 from include/Entities/RedatamDatabase.hpp:11,
-                 from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Readers/XmlVariableParser.hpp: At global scope:
-include/Readers/XmlVariableParser.hpp:13:21: error: ‘Variable’ was not declared in this scope
-   13 |     std::shared_ptr<Variable> variable;
-      |                     ^~~~~~~~
-include/Readers/XmlVariableParser.hpp:13:29: error: template argument 1 is invalid
-   13 |     std::shared_ptr<Variable> variable;
-      |                             ^
-include/Readers/XmlVariableParser.hpp:61:39: error: ‘Variable’ was not declared in this scope; did you mean ‘variable’?
-   61 |     XmlVariableParser(std::shared_ptr<Variable> variable) : variable(variable) {}
-      |                                       ^~~~~~~~
-      |                                       variable
-include/Readers/XmlVariableParser.hpp:61:47: error: template argument 1 is invalid
-   61 |     XmlVariableParser(std::shared_ptr<Variable> variable) : variable(variable) {}
-      |                                               ^
-include/Readers/XmlVariableParser.hpp: In member function ‘std::string XmlVariableParser::GetMissingLabel(std::string, const string&)’:
-include/Readers/XmlVariableParser.hpp:45:27: error: base operand of ‘->’ is not a pointer
-   45 |             this->variable->ValueLabels.emplace_back(value, label);
-      |                           ^~
-include/Readers/XmlVariableParser.hpp: In member function ‘void XmlVariableParser::ParseDecimals(std::string)’:
-include/Readers/XmlVariableParser.hpp:56:27: error: base operand of ‘->’ is not a pointer
-   56 |             this->variable->Decimals = std::stoi(value);
-      |                           ^~
+In file included from include/Readers/XmlEntityParser.hpp:12,
+                 from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
 include/Readers/XmlVariableParser.hpp: In member function ‘void XmlVariableParser::ParseValueLabels(tinyxml2::XMLElement*)’:
-include/Readers/XmlVariableParser.hpp:65:23: error: base operand of ‘->’ is not a pointer
-   65 |         this->variable->ValueLabels.clear();
-      |                       ^~
-include/Readers/XmlVariableParser.hpp:66:13: error: ‘XmlEntityParser’ has not been declared
-   66 |         if (XmlEntityParser::hasChildByName(variableNode, "valueLabels"))
+include/Readers/XmlVariableParser.hpp:69:13: error: ‘XmlEntityParser’ has not been declared
+   69 |         if (XmlEntityParser::hasChildByName(variableNode, "valueLabels"))
       |             ^~~~~~~~~~~~~~~
-include/Readers/XmlVariableParser.hpp:68:28: error: ‘XmlEntityParser’ has not been declared
-   68 |             auto* values = XmlEntityParser::getChildByName(variableNode, "valueLabels");
+include/Readers/XmlVariableParser.hpp:71:28: error: ‘XmlEntityParser’ has not been declared
+   71 |             auto* values = XmlEntityParser::getChildByName(variableNode, "valueLabels");
       |                            ^~~~~~~~~~~~~~~
-include/Readers/XmlVariableParser.hpp:71:31: error: ‘XmlEntityParser’ has not been declared
-   71 |                 auto* value = XmlEntityParser::getChildByName(ele, "value");
+include/Readers/XmlVariableParser.hpp:74:31: error: ‘XmlEntityParser’ has not been declared
+   74 |                 auto* value = XmlEntityParser::getChildByName(ele, "value");
       |                               ^~~~~~~~~~~~~~~
-include/Readers/XmlVariableParser.hpp:72:31: error: ‘XmlEntityParser’ has not been declared
-   72 |                 auto* label = XmlEntityParser::getChildByName(ele, "label");
+include/Readers/XmlVariableParser.hpp:75:31: error: ‘XmlEntityParser’ has not been declared
+   75 |                 auto* label = XmlEntityParser::getChildByName(ele, "label");
       |                               ^~~~~~~~~~~~~~~
-include/Readers/XmlVariableParser.hpp:73:31: error: base operand of ‘->’ is not a pointer
-   73 |                 this->variable->ValueLabels.emplace_back(value->GetText(), label->GetText());
-      |                               ^~
 include/Readers/XmlVariableParser.hpp: In member function ‘void XmlVariableParser::ParseDeclaration(tinyxml2::XMLElement*)’:
-include/Readers/XmlVariableParser.hpp:80:24: error: ‘XmlEntityParser’ has not been declared
-   80 |         auto* choice = XmlEntityParser::getChildByName(node, "varDicChoice");
+include/Readers/XmlVariableParser.hpp:83:24: error: ‘XmlEntityParser’ has not been declared
+   83 |         auto* choice = XmlEntityParser::getChildByName(node, "varDicChoice");
       |                        ^~~~~~~~~~~~~~~
-include/Readers/XmlVariableParser.hpp:81:26: error: ‘XmlEntityParser’ has not been declared
-   81 |         auto* typeNode = XmlEntityParser::getChildByName(choice, "datasetType");
+include/Readers/XmlVariableParser.hpp:84:26: error: ‘XmlEntityParser’ has not been declared
+   84 |         auto* typeNode = XmlEntityParser::getChildByName(choice, "datasetType");
       |                          ^~~~~~~~~~~~~~~
-include/Readers/XmlVariableParser.hpp:83:26: error: ‘XmlEntityParser’ has not been declared
-   83 |         auto* sizeNode = XmlEntityParser::getChildByName(choice, "datasetSize");
+include/Readers/XmlVariableParser.hpp:86:26: error: ‘XmlEntityParser’ has not been declared
+   86 |         auto* sizeNode = XmlEntityParser::getChildByName(choice, "datasetSize");
       |                          ^~~~~~~~~~~~~~~
-include/Readers/XmlVariableParser.hpp:86:27: error: base operand of ‘->’ is not a pointer
-   86 |         if (this->variable->Type == "STRING" && type != "CHR")
-      |                           ^~
-include/Readers/XmlVariableParser.hpp:88:27: error: base operand of ‘->’ is not a pointer
-   88 |         if (this->variable->Type == "REAL" && type != "DBL")
-      |                           ^~
-include/Readers/XmlVariableParser.hpp:91:27: error: base operand of ‘->’ is not a pointer
-   91 |             this->variable->Size = 64;
-      |                           ^~
-include/Readers/XmlVariableParser.hpp:93:27: error: base operand of ‘->’ is not a pointer
-   93 |             this->variable->Size = 32;
-      |                           ^~
-include/Readers/XmlVariableParser.hpp:96:27: error: base operand of ‘->’ is not a pointer
-   96 |             this->variable->Size = 16;
-      |                           ^~
-include/Readers/XmlVariableParser.hpp:97:27: error: base operand of ‘->’ is not a pointer
-   97 |             this->variable->Type = "INT16";
-      |                           ^~
-include/Readers/XmlVariableParser.hpp:101:27: error: base operand of ‘->’ is not a pointer
-  101 |             this->variable->Size = std::stoi(size);
-      |                           ^~
-include/Readers/XmlVariableParser.hpp:103:31: error: base operand of ‘->’ is not a pointer
-  103 |                 this->variable->BinaryDataSet = true;
-      |                               ^~
-include/Readers/XmlVariableParser.hpp:108:26: error: ‘XmlEntityParser’ has not been declared
-  108 |         auto* fileNode = XmlEntityParser::getChildByName(node, "filename");
+include/Readers/XmlVariableParser.hpp:111:26: error: ‘XmlEntityParser’ has not been declared
+  111 |         auto* fileNode = XmlEntityParser::getChildByName(node, "filename");
       |                          ^~~~~~~~~~~~~~~
-include/Readers/XmlVariableParser.hpp:109:23: error: base operand of ‘->’ is not a pointer
-  109 |         this->variable->Filename = fileNode->GetText();
-      |                       ^~
-include/Readers/XmlVariableParser.hpp: In member function ‘std::string XmlVariableParser::ToString() const’:
-include/Readers/XmlVariableParser.hpp:114:30: error: base operand of ‘->’ is not a pointer
-  114 |         return this->variable->Name;
-      |                              ^~
-In file included from include/Entities/RedatamDatabase.hpp:11,
-                 from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
+In file included from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
 include/Readers/XmlEntityParser.hpp: At global scope:
-include/Readers/XmlEntityParser.hpp:16:5: error: ‘RedatamDatabase’ does not name a type
-   16 |     RedatamDatabase* db;
+include/Readers/XmlEntityParser.hpp:17:5: error: ‘RedatamDatabase’ does not name a type
+   17 |     RedatamDatabase* db;
       |     ^~~~~~~~~~~~~~~
-include/Readers/XmlEntityParser.hpp:52:21: error: ‘Entity’ was not declared in this scope
-   52 |     std::shared_ptr<Entity> ReadEntity(tinyxml2::XMLElement* node)
-      |                     ^~~~~~
-include/Readers/XmlEntityParser.hpp:52:27: error: template argument 1 is invalid
-   52 |     std::shared_ptr<Entity> ReadEntity(tinyxml2::XMLElement* node)
-      |                           ^
-include/Readers/XmlEntityParser.hpp:75:68: error: ‘Entity’ was not declared in this scope
-   75 |     void ReadVariables(tinyxml2::XMLElement* node, std::shared_ptr<Entity> e)
-      |                                                                    ^~~~~~
-include/Readers/XmlEntityParser.hpp:75:74: error: template argument 1 is invalid
-   75 |     void ReadVariables(tinyxml2::XMLElement* node, std::shared_ptr<Entity> e)
-      |                                                                          ^
-include/Readers/XmlEntityParser.hpp:115:36: error: expected ‘)’ before ‘*’ token
-  115 |     XmlEntityParser(RedatamDatabase* db) : db(db) {}
+include/Readers/XmlEntityParser.hpp:116:36: error: expected ‘)’ before ‘*’ token
+  116 |     XmlEntityParser(RedatamDatabase* db) : db(db) {}
       |                    ~               ^
       |                                    )
-include/Readers/XmlEntityParser.hpp: In member function ‘int XmlEntityParser::ReadEntity(tinyxml2::XMLElement*)’:
-include/Readers/XmlEntityParser.hpp:54:35: error: ‘Entity’ was not declared in this scope
-   54 |         auto e = std::make_shared<Entity>();
-      |                                   ^~~~~~
-include/Readers/XmlEntityParser.hpp:54:42: error: no matching function for call to ‘make_shared<<expression error> >()’
-   54 |         auto e = std::make_shared<Entity>();
-      |                  ~~~~~~~~~~~~~~~~~~~~~~~~^~
-In file included from /usr/include/c++/11/memory:77,
-                 from include/Entities/Entity.hpp:6,
-                 from src/Entities/Entity.cpp:1:
-/usr/include/c++/11/bits/shared_ptr.h:875:5: note: candidate: ‘template<class _Tp, class ... _Args> std::shared_ptr<_Tp> std::make_shared(_Args&& ...)’
-  875 |     make_shared(_Args&&... __args)
-      |     ^~~~~~~~~~~
-/usr/include/c++/11/bits/shared_ptr.h:875:5: note:   template argument deduction/substitution failed:
-In file included from include/Entities/RedatamDatabase.hpp:11,
-                 from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Readers/XmlEntityParser.hpp:54:42: error: template argument 1 is invalid
-   54 |         auto e = std::make_shared<Entity>();
-      |                  ~~~~~~~~~~~~~~~~~~~~~~~~^~
-include/Readers/XmlEntityParser.hpp: In member function ‘void XmlEntityParser::ReadVariables(tinyxml2::XMLElement*, int)’:
-include/Readers/XmlEntityParser.hpp:79:39: error: ‘Variable’ was not declared in this scope; did you mean ‘variable’?
-   79 |             auto v = std::make_shared<Variable>(e);
-      |                                       ^~~~~~~~
-      |                                       variable
-include/Readers/XmlEntityParser.hpp:79:48: error: no matching function for call to ‘make_shared<<expression error> >(int&)’
-   79 |             auto v = std::make_shared<Variable>(e);
-      |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-In file included from /usr/include/c++/11/memory:77,
-                 from include/Entities/Entity.hpp:6,
-                 from src/Entities/Entity.cpp:1:
-/usr/include/c++/11/bits/shared_ptr.h:875:5: note: candidate: ‘template<class _Tp, class ... _Args> std::shared_ptr<_Tp> std::make_shared(_Args&& ...)’
-  875 |     make_shared(_Args&&... __args)
-      |     ^~~~~~~~~~~
-/usr/include/c++/11/bits/shared_ptr.h:875:5: note:   template argument deduction/substitution failed:
-In file included from include/Entities/RedatamDatabase.hpp:11,
-                 from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Readers/XmlEntityParser.hpp:79:48: error: template argument 1 is invalid
-   79 |             auto v = std::make_shared<Variable>(e);
-      |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-include/Readers/XmlEntityParser.hpp:97:14: error: base operand of ‘->’ is not a pointer
-   97 |             e->Variables.push_back(v);
-      |              ^~
+include/Readers/XmlEntityParser.hpp: In member function ‘std::shared_ptr<Entity> XmlEntityParser::ReadEntity(tinyxml2::XMLElement*)’:
+include/Readers/XmlEntityParser.hpp:57:12: error: ‘std::string Entity::Name’ is private within this context
+   57 |         e->Name = getChildByName(node, "name")->GetText();
+      |            ^~~~
+In file included from include/Entities/RedatamDatabase.hpp:9,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp:16:17: note: declared private here
+   16 |     std::string Name;
+      |                 ^~~~
+In file included from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlEntityParser.hpp:59:16: error: ‘using element_type = class Entity’ {aka ‘class Entity’} has no member named ‘Description’
+   59 |             e->Description = getChildByName(node, "label")->GetText();
+      |                ^~~~~~~~~~~
+include/Readers/XmlEntityParser.hpp:60:12: error: ‘std::string Entity::IndexFilename’ is private within this context
+   60 |         e->IndexFilename = getChildByName(node, "filename")->GetText();
+      |            ^~~~~~~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:9,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp:18:17: note: declared private here
+   18 |     std::string IndexFilename;
+      |                 ^~~~~~~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlEntityParser.hpp:62:16: error: ‘using element_type = class Entity’ {aka ‘class Entity’} has no member named ‘CodesVariable’
+   62 |             e->CodesVariable = getChildByName(node, "refCode")->GetText();
+      |                ^~~~~~~~~~~~~
+include/Readers/XmlEntityParser.hpp:64:16: error: ‘using element_type = class Entity’ {aka ‘class Entity’} has no member named ‘LabelVariable’
+   64 |             e->LabelVariable = getChildByName(node, "refLabel")->GetText();
+      |                ^~~~~~~~~~~~~
+include/Readers/XmlEntityParser.hpp:66:12: error: ‘using element_type = class Entity’ {aka ‘class Entity’} has no member named ‘VariableCount’; did you mean ‘std::vector<std::shared_ptr<Variable> > Entity::Variables’? (not accessible from this context)
+   66 |         e->VariableCount = e->Variables.size();
+      |            ^~~~~~~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:9,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp:17:44: note: declared private here
+   17 |     std::vector<std::shared_ptr<Variable>> Variables;
+      |                                            ^~~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlEntityParser.hpp:66:31: error: ‘std::vector<std::shared_ptr<Variable> > Entity::Variables’ is private within this context
+   66 |         e->VariableCount = e->Variables.size();
+      |                               ^~~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:9,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp:17:44: note: declared private here
+   17 |     std::vector<std::shared_ptr<Variable>> Variables;
+      |                                            ^~~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlEntityParser.hpp:71:16: error: ‘std::vector<std::shared_ptr<Entity> > Entity::Children’ is private within this context
+   71 |             e->Children.push_back(child);
+      |                ^~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:9,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp:21:42: note: declared private here
+   21 |     std::vector<std::shared_ptr<Entity>> Children;
+      |                                          ^~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlEntityParser.hpp:71:16: note: field ‘std::vector<std::shared_ptr<Entity> > Entity::Children’ can be accessed via ‘std::vector<std::shared_ptr<Entity> >& Entity::getChildren()’
+   71 |             e->Children.push_back(child);
+      |                ^~~~~~~~
+      |                getChildren()
+include/Readers/XmlEntityParser.hpp: In member function ‘void XmlEntityParser::ReadVariables(tinyxml2::XMLElement*, std::shared_ptr<Entity>)’:
+include/Readers/XmlEntityParser.hpp:98:16: error: ‘std::vector<std::shared_ptr<Variable> > Entity::Variables’ is private within this context
+   98 |             e->Variables.push_back(v);
+      |                ^~~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:9,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp:17:44: note: declared private here
+   17 |     std::vector<std::shared_ptr<Variable>> Variables;
+      |                                            ^~~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
 include/Readers/XmlEntityParser.hpp: In member function ‘void XmlEntityParser::Parse(const string&)’:
-include/Readers/XmlEntityParser.hpp:119:25: error: ‘std::filesystem’ has not been declared
-  119 |         rootPath = std::filesystem::path(path).parent_path().string();
-      |                         ^~~~~~~~~~
-include/Readers/XmlEntityParser.hpp:126:9: error: ‘db’ was not declared in this scope
-  126 |         db->Entities.push_back(ReadEntity(root));
+include/Readers/XmlEntityParser.hpp:127:9: error: ‘db’ was not declared in this scope
+  127 |         db->Entities.push_back(ReadEntity(root));
       |         ^~
+In file included from src/main.cpp:3:
+include/Entities/RedatamDatabase.hpp: In member function ‘int64_t RedatamDatabase::GetEntitiesTotalDataItems(const std::vector<std::shared_ptr<Entity> >&, std::shared_ptr<Entity>)’:
+include/Entities/RedatamDatabase.hpp:39:71: error: ‘int64_t Entity::RowsCount’ is private within this context
+   39 |             ret += (entity->SelectedVariables().size() + 2) * entity->RowsCount;
+      |                                                                       ^~~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:9,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp:20:13: note: declared private here
+   20 |     int64_t RowsCount;
+      |             ^~~~~~~~~
+In file included from src/main.cpp:3:
+include/Entities/RedatamDatabase.hpp:40:54: error: ‘std::vector<std::shared_ptr<Entity> > Entity::Children’ is private within this context
+   40 |             ret += GetEntitiesTotalDataItems(entity->Children, entity);
+      |                                                      ^~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:9,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp:21:42: note: declared private here
+   21 |     std::vector<std::shared_ptr<Entity>> Children;
+      |                                          ^~~~~~~~
+In file included from src/main.cpp:3:
+include/Entities/RedatamDatabase.hpp:40:54: note: field ‘std::vector<std::shared_ptr<Entity> > Entity::Children’ can be accessed via ‘std::vector<std::shared_ptr<Entity> >& Entity::getChildren()’
+   40 |             ret += GetEntitiesTotalDataItems(entity->Children, entity);
+      |                                                      ^~~~~~~~
+      |                                                      getChildren()
+include/Entities/RedatamDatabase.hpp: In member function ‘int64_t RedatamDatabase::GetEntitiesRowsSize(const std::vector<std::shared_ptr<Entity> >&, std::shared_ptr<Entity>)’:
+include/Entities/RedatamDatabase.hpp:61:48: error: ‘std::vector<std::shared_ptr<Entity> > Entity::Children’ is private within this context
+   61 |             ret += GetEntitiesRowsSize(entity->Children, entity);
+      |                                                ^~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:9,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp:21:42: note: declared private here
+   21 |     std::vector<std::shared_ptr<Entity>> Children;
+      |                                          ^~~~~~~~
+In file included from src/main.cpp:3:
+include/Entities/RedatamDatabase.hpp:61:48: note: field ‘std::vector<std::shared_ptr<Entity> > Entity::Children’ can be accessed via ‘std::vector<std::shared_ptr<Entity> >& Entity::getChildren()’
+   61 |             ret += GetEntitiesRowsSize(entity->Children, entity);
+      |                                                ^~~~~~~~
+      |                                                getChildren()
+include/Entities/RedatamDatabase.hpp: In member function ‘void RedatamDatabase::OpenDictionary(const string&)’:
+include/Entities/RedatamDatabase.hpp:88:21: error: ‘EntityParser’ was not declared in this scope; did you mean ‘XmlEntityParser’?
+   88 |                     EntityParser parser(this);
+      |                     ^~~~~~~~~~~~
+      |                     XmlEntityParser
+include/Entities/RedatamDatabase.hpp:89:21: error: ‘parser’ was not declared in this scope
+   89 |                     parser.Parse(file);
+      |                     ^~~~~~
+In file included from src/main.cpp:3:
+include/Entities/RedatamDatabase.hpp: In member function ‘void RedatamDatabase::doGetEntitiesList(std::vector<std::shared_ptr<Entity> >&, const std::vector<std::shared_ptr<Entity> >&)’:
+include/Entities/RedatamDatabase.hpp:120:39: error: ‘std::vector<std::shared_ptr<Entity> > Entity::Children’ is private within this context
+  120 |             doGetEntitiesList(ret, e->Children);
+      |                                       ^~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:9,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp:21:42: note: declared private here
+   21 |     std::vector<std::shared_ptr<Entity>> Children;
+      |                                          ^~~~~~~~
+In file included from src/main.cpp:3:
+include/Entities/RedatamDatabase.hpp:120:39: note: field ‘std::vector<std::shared_ptr<Entity> > Entity::Children’ can be accessed via ‘std::vector<std::shared_ptr<Entity> >& Entity::getChildren()’
+  120 |             doGetEntitiesList(ret, e->Children);
+      |                                       ^~~~~~~~
+      |                                       getChildren()
 In file included from include/Readers/EntityParser.hpp:12,
-                 from include/Entities/RedatamDatabase.hpp:12,
-                 from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Readers/DOSEncoder.hpp: At global scope:
-include/Readers/DOSEncoder.hpp:14:5: error: ‘RedatamDatabase’ does not name a type
-   14 |     RedatamDatabase* db;
-      |     ^~~~~~~~~~~~~~~
-include/Readers/DOSEncoder.hpp:49:54: error: ‘Entity’ was not declared in this scope
-   49 |     bool ProcessEntities(std::vector<std::shared_ptr<Entity>>& entities)
-      |                                                      ^~~~~~
-include/Readers/DOSEncoder.hpp:49:54: error: template argument 1 is invalid
-include/Readers/DOSEncoder.hpp:49:60: error: template argument 1 is invalid
-   49 |     bool ProcessEntities(std::vector<std::shared_ptr<Entity>>& entities)
-      |                                                            ^~
-include/Readers/DOSEncoder.hpp:49:60: error: template argument 2 is invalid
-include/Readers/DOSEncoder.hpp:71:33: error: expected ‘)’ before ‘*’ token
-   71 |     MsDOSEncoder(RedatamDatabase* db) : db(db) {}
-      |                 ~               ^
-      |                                 )
-include/Readers/DOSEncoder.hpp: In member function ‘bool MsDOSEncoder::ProcessEntities(int&)’:
-include/Readers/DOSEncoder.hpp:51:29: error: ‘begin’ was not declared in this scope; did you mean ‘std::begin’?
-   51 |         for (auto& entity : entities)
-      |                             ^~~~~~~~
-      |                             std::begin
-In file included from /usr/include/c++/11/string:54,
-                 from include/Entities/Entity.hpp:4,
-                 from src/Entities/Entity.cpp:1:
-/usr/include/c++/11/bits/range_access.h:108:37: note: ‘std::begin’ declared here
-  108 |   template<typename _Tp> const _Tp* begin(const valarray<_Tp>&) noexcept;
-      |                                     ^~~~~
+                 from src/main.cpp:4:
+include/Readers/DOSEncoder.hpp: In member function ‘bool MsDOSEncoder::ProcessEntities(std::vector<std::shared_ptr<Entity> >&)’:
+include/Readers/DOSEncoder.hpp:53:43: error: ‘std::vector<std::shared_ptr<Variable> > Entity::Variables’ is private within this context
+   53 |             for (auto& variable : entity->Variables)
+      |                                           ^~~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:9,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp:17:44: note: declared private here
+   17 |     std::vector<std::shared_ptr<Variable>> Variables;
+      |                                            ^~~~~~~~~
 In file included from include/Readers/EntityParser.hpp:12,
-                 from include/Entities/RedatamDatabase.hpp:12,
-                 from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Readers/DOSEncoder.hpp:51:29: error: ‘end’ was not declared in this scope; did you mean ‘std::end’?
-   51 |         for (auto& entity : entities)
-      |                             ^~~~~~~~
-      |                             std::end
-In file included from /usr/include/c++/11/string:54,
-                 from include/Entities/Entity.hpp:4,
-                 from src/Entities/Entity.cpp:1:
-/usr/include/c++/11/bits/range_access.h:110:37: note: ‘std::end’ declared here
-  110 |   template<typename _Tp> const _Tp* end(const valarray<_Tp>&) noexcept;
-      |                                     ^~~
+                 from src/main.cpp:4:
+include/Readers/DOSEncoder.hpp:61:41: error: ‘std::vector<std::shared_ptr<Entity> > Entity::Children’ is private within this context
+   61 |             if (ProcessEntities(entity->Children))
+      |                                         ^~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:9,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp:21:42: note: declared private here
+   21 |     std::vector<std::shared_ptr<Entity>> Children;
+      |                                          ^~~~~~~~
 In file included from include/Readers/EntityParser.hpp:12,
-                 from include/Entities/RedatamDatabase.hpp:12,
-                 from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Readers/DOSEncoder.hpp: In member function ‘void MsDOSEncoder::ReencodeLabels()’:
-include/Readers/DOSEncoder.hpp:76:25: error: ‘db’ was not declared in this scope
-   76 |         ProcessEntities(db->Entities);
-      |                         ^~
-include/Readers/DOSEncoder.hpp: In member function ‘bool MsDOSEncoder::RequiresProcessing()’:
-include/Readers/DOSEncoder.hpp:84:32: error: ‘db’ was not declared in this scope
-   84 |         return ProcessEntities(db->Entities);
-      |                                ^~
+                 from src/main.cpp:4:
+include/Readers/DOSEncoder.hpp:61:41: note: field ‘std::vector<std::shared_ptr<Entity> > Entity::Children’ can be accessed via ‘std::vector<std::shared_ptr<Entity> >& Entity::getChildren()’
+   61 |             if (ProcessEntities(entity->Children))
+      |                                         ^~~~~~~~
+      |                                         getChildren()
 In file included from include/Readers/EntityParser.hpp:13,
-                 from include/Entities/RedatamDatabase.hpp:12,
-                 from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Readers/VariableParser.hpp: At global scope:
-include/Readers/VariableParser.hpp:12:21: error: ‘Variable’ was not declared in this scope
-   12 |     std::shared_ptr<Variable> variable;
-      |                     ^~~~~~~~
-include/Readers/VariableParser.hpp:12:29: error: template argument 1 is invalid
-   12 |     std::shared_ptr<Variable> variable;
-      |                             ^
-include/Readers/VariableParser.hpp:60:36: error: ‘Variable’ was not declared in this scope; did you mean ‘variable’?
-   60 |     VariableParser(std::shared_ptr<Variable> variable) : variable(variable) {}
-      |                                    ^~~~~~~~
-      |                                    variable
-include/Readers/VariableParser.hpp:60:44: error: template argument 1 is invalid
-   60 |     VariableParser(std::shared_ptr<Variable> variable) : variable(variable) {}
-      |                                            ^
-include/Readers/VariableParser.hpp: In member function ‘std::string VariableParser::GetMissingLabel(std::string, const string&)’:
-include/Readers/VariableParser.hpp:44:27: error: base operand of ‘->’ is not a pointer
-   44 |             this->variable->ValueLabels.emplace_back(value, label);
-      |                           ^~
-include/Readers/VariableParser.hpp: In member function ‘void VariableParser::ParseDecimals(std::string)’:
-include/Readers/VariableParser.hpp:55:27: error: base operand of ‘->’ is not a pointer
-   55 |             this->variable->Decimals = std::stoi(value);
-      |                           ^~
+                 from src/main.cpp:4:
 include/Readers/VariableParser.hpp: In member function ‘void VariableParser::ParseValueLabels()’:
-include/Readers/VariableParser.hpp:64:49: error: base operand of ‘->’ is not a pointer
-   64 |         std::istringstream stream(this->variable->ValuesLabelsRaw);
-      |                                                 ^~
-include/Readers/VariableParser.hpp:66:23: error: base operand of ‘->’ is not a pointer
-   66 |         this->variable->ValueLabels.clear();
-      |                       ^~
-include/Readers/VariableParser.hpp:67:27: error: base operand of ‘->’ is not a pointer
-   67 |         if (this->variable->ValuesLabelsRaw.empty()) return;
-      |                           ^~
-include/Readers/VariableParser.hpp:77:31: error: base operand of ‘->’ is not a pointer
-   77 |                 this->variable->ValueLabels.emplace_back(part1, part2);
-      |                               ^~
 include/Readers/VariableParser.hpp:76:21: warning: unused variable ‘x’ [-Wunused-variable]
    76 |                 int x = std::stoi(part1);
       |                     ^
-include/Readers/VariableParser.hpp:81:31: error: base operand of ‘->’ is not a pointer
-   81 |                 this->variable->ValueLabels.emplace_back("0", item);
-      |                               ^~
-include/Readers/VariableParser.hpp: In member function ‘void VariableParser::ParseDeclaration()’:
-include/Readers/VariableParser.hpp:88:42: error: base operand of ‘->’ is not a pointer
-   88 |         std::string info = this->variable->Declaration;
-      |                                          ^~
-include/Readers/VariableParser.hpp:95:27: error: base operand of ‘->’ is not a pointer
-   95 |         if (this->variable->Type == "STRING" && type != "CHR")
-      |                           ^~
-include/Readers/VariableParser.hpp:97:27: error: base operand of ‘->’ is not a pointer
-   97 |         if (this->variable->Type == "REAL" && type != "DBL")
-      |                           ^~
-include/Readers/VariableParser.hpp:100:27: error: base operand of ‘->’ is not a pointer
-  100 |             this->variable->Size = 64;
-      |                           ^~
-include/Readers/VariableParser.hpp:102:27: error: base operand of ‘->’ is not a pointer
-  102 |             this->variable->Size = 32;
-      |                           ^~
-include/Readers/VariableParser.hpp:105:27: error: base operand of ‘->’ is not a pointer
-  105 |             this->variable->Size = 16;
-      |                           ^~
-include/Readers/VariableParser.hpp:106:27: error: base operand of ‘->’ is not a pointer
-  106 |             this->variable->Type = "INT16";
-      |                           ^~
-include/Readers/VariableParser.hpp:110:27: error: base operand of ‘->’ is not a pointer
-  110 |             this->variable->Size = std::stoi(size);
-      |                           ^~
-include/Readers/VariableParser.hpp:112:31: error: base operand of ‘->’ is not a pointer
-  112 |                 this->variable->BinaryDataSet = true;
-      |                               ^~
-include/Readers/VariableParser.hpp:116:23: error: base operand of ‘->’ is not a pointer
-  116 |         this->variable->Filename = fileRaw;
-      |                       ^~
-include/Readers/VariableParser.hpp: In member function ‘void VariableParser::ParseMissingAndPrecision()’:
-include/Readers/VariableParser.hpp:121:44: error: base operand of ‘->’ is not a pointer
-  121 |         std::string extras = this->variable->Group;
-      |                                            ^~
-include/Readers/VariableParser.hpp: In member function ‘std::string VariableParser::ToString() const’:
-include/Readers/VariableParser.hpp:129:30: error: base operand of ‘->’ is not a pointer
-  129 |         return this->variable->Name;
-      |                              ^~
-In file included from include/Entities/RedatamDatabase.hpp:12,
-                 from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Readers/EntityParser.hpp: At global scope:
-include/Readers/EntityParser.hpp:18:5: error: ‘RedatamDatabase’ does not name a type
-   18 |     RedatamDatabase* db;
-      |     ^~~~~~~~~~~~~~~
-include/Readers/EntityParser.hpp:21:12: warning: inline variables are only available with ‘-std=c++17’ or ‘-std=gnu++17’
-   21 |     static inline const std::vector<std::string> validTypes = { "DBL", "LNG", "INT", "BIN", "PCK", "CHR" };
-      |            ^~~~~~
-include/Readers/EntityParser.hpp:23:5: error: ‘Variable’ does not name a type
-   23 |     Variable ParseVariable(DataBlock& dataBlock, std::shared_ptr<Entity> e);
-      |     ^~~~~~~~
-include/Readers/EntityParser.hpp:27:114: error: ‘Entity’ was not declared in this scope
-   27 |     std::unordered_map<std::string, DataBlock> SplitDataBlocks(DataBlock& dataBlock, std::vector<std::shared_ptr<Entity>>& entitiesNames);
-      |                                                                                                                  ^~~~~~
-include/Readers/EntityParser.hpp:27:114: error: template argument 1 is invalid
-include/Readers/EntityParser.hpp:27:120: error: template argument 1 is invalid
-   27 |     std::unordered_map<std::string, DataBlock> SplitDataBlocks(DataBlock& dataBlock, std::vector<std::shared_ptr<Entity>>& entitiesNames);
-      |                                                                                                                        ^~
-include/Readers/EntityParser.hpp:27:120: error: template argument 2 is invalid
-In file included from include/Entities/RedatamDatabase.hpp:12,
-                 from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Readers/EntityParser.hpp:30:33: error: expected ‘)’ before ‘*’ token
-   30 |     EntityParser(RedatamDatabase* db) : db(db) {}
-      |                 ~               ^
-      |                                 )
-include/Readers/EntityParser.hpp:52:33: error: ‘Entity’ was not declared in this scope
-   52 |     std::vector<std::shared_ptr<Entity>> ParseEntities(std::shared_ptr<Entity> parent, std::vector<std::shared_ptr<Entity>>& entitiesNames, std::unordered_map<std::string, DataBlock>& dataParts)
-      |                                 ^~~~~~
-include/Readers/EntityParser.hpp:52:33: error: template argument 1 is invalid
-include/Readers/EntityParser.hpp:52:39: error: template argument 1 is invalid
-   52 |     std::vector<std::shared_ptr<Entity>> ParseEntities(std::shared_ptr<Entity> parent, std::vector<std::shared_ptr<Entity>>& entitiesNames, std::unordered_map<std::string, DataBlock>& dataParts)
-      |                                       ^~
-include/Readers/EntityParser.hpp:52:39: error: template argument 2 is invalid
-include/Readers/EntityParser.hpp:52:72: error: ‘Entity’ was not declared in this scope
-   52 |     std::vector<std::shared_ptr<Entity>> ParseEntities(std::shared_ptr<Entity> parent, std::vector<std::shared_ptr<Entity>>& entitiesNames, std::unordered_map<std::string, DataBlock>& dataParts)
-      |                                                                        ^~~~~~
-include/Readers/EntityParser.hpp:52:78: error: template argument 1 is invalid
-   52 |     std::vector<std::shared_ptr<Entity>> ParseEntities(std::shared_ptr<Entity> parent, std::vector<std::shared_ptr<Entity>>& entitiesNames, std::unordered_map<std::string, DataBlock>& dataParts)
-      |                                                                              ^
-include/Readers/EntityParser.hpp:52:116: error: ‘Entity’ was not declared in this scope
-   52 |     std::vector<std::shared_ptr<Entity>> ParseEntities(std::shared_ptr<Entity> parent, std::vector<std::shared_ptr<Entity>>& entitiesNames, std::unordered_map<std::string, DataBlock>& dataParts)
-      |                                                                                                                    ^~~~~~
-include/Readers/EntityParser.hpp:52:116: error: template argument 1 is invalid
-include/Readers/EntityParser.hpp:52:122: error: template argument 1 is invalid
-   52 |     std::vector<std::shared_ptr<Entity>> ParseEntities(std::shared_ptr<Entity> parent, std::vector<std::shared_ptr<Entity>>& entitiesNames, std::unordered_map<std::string, DataBlock>& dataParts)
-      |                                                                                                                          ^~
-include/Readers/EntityParser.hpp:52:122: error: template argument 2 is invalid
-include/Readers/EntityParser.hpp:67:21: error: ‘Entity’ was not declared in this scope
-   67 |     std::shared_ptr<Entity> ParseEntity(DataBlock& dataBlock, const std::string& entity, const std::string& parent)
-      |                     ^~~~~~
-include/Readers/EntityParser.hpp:67:27: error: template argument 1 is invalid
-   67 |     std::shared_ptr<Entity> ParseEntity(DataBlock& dataBlock, const std::string& entity, const std::string& parent)
-      |                           ^
-include/Readers/EntityParser.hpp: In member function ‘void EntityParser::Parse(const string&)’:
-include/Readers/EntityParser.hpp:34:25: error: ‘std::filesystem’ has not been declared
-   34 |         rootPath = std::filesystem::path(path).parent_path().string();
-      |                         ^~~~~~~~~~
-include/Readers/EntityParser.hpp:38:53: error: ‘db’ was not declared in this scope
-   38 |         auto dataParts = SplitDataBlocks(dataBlock, db->entityNames);
-      |                                                     ^~
-include/Readers/EntityParser.hpp: In member function ‘int EntityParser::ParseEntities(int, int&, std::unordered_map<std::__cxx11::basic_string<char>, DataBlock>&)’:
-include/Readers/EntityParser.hpp:54:37: error: ‘Entity’ was not declared in this scope
-   54 |         std::vector<std::shared_ptr<Entity>> ret;
-      |                                     ^~~~~~
-include/Readers/EntityParser.hpp:54:37: error: template argument 1 is invalid
-include/Readers/EntityParser.hpp:54:43: error: template argument 1 is invalid
-   54 |         std::vector<std::shared_ptr<Entity>> ret;
-      |                                           ^~
-include/Readers/EntityParser.hpp:54:43: error: template argument 2 is invalid
-include/Readers/EntityParser.hpp:55:33: error: ‘begin’ was not declared in this scope; did you mean ‘std::begin’?
-   55 |         for (auto& entityName : entitiesNames)
-      |                                 ^~~~~~~~~~~~~
-      |                                 std::begin
-In file included from /usr/include/c++/11/string:54,
-                 from include/Entities/Entity.hpp:4,
-                 from src/Entities/Entity.cpp:1:
-/usr/include/c++/11/bits/range_access.h:108:37: note: ‘std::begin’ declared here
-  108 |   template<typename _Tp> const _Tp* begin(const valarray<_Tp>&) noexcept;
-      |                                     ^~~~~
-In file included from include/Entities/RedatamDatabase.hpp:12,
-                 from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Readers/EntityParser.hpp:55:33: error: ‘end’ was not declared in this scope; did you mean ‘std::end’?
-   55 |         for (auto& entityName : entitiesNames)
-      |                                 ^~~~~~~~~~~~~
-      |                                 std::end
-In file included from /usr/include/c++/11/string:54,
-                 from include/Entities/Entity.hpp:4,
-                 from src/Entities/Entity.cpp:1:
-/usr/include/c++/11/bits/range_access.h:110:37: note: ‘std::end’ declared here
-  110 |   template<typename _Tp> const _Tp* end(const valarray<_Tp>&) noexcept;
-      |                                     ^~~
-In file included from include/Entities/RedatamDatabase.hpp:12,
-                 from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Readers/EntityParser.hpp:57:46: error: invalid operands of types ‘int’ and ‘std::nullptr_t’ to binary ‘operator==’
-   57 |             std::string parentName = (parent == nullptr ? "" : parent->Name);
-      |                                       ~~~~~~~^~~~~~~~~~
-include/Readers/EntityParser.hpp:57:70: error: base operand of ‘->’ is not a pointer
-   57 |             std::string parentName = (parent == nullptr ? "" : parent->Name);
-      |                                                                      ^~
-include/Readers/EntityParser.hpp:59:17: error: request for member ‘push_back’ in ‘ret’, which is of non-class type ‘int’
-   59 |             ret.push_back(entity);
-      |                 ^~~~~~~~~
-include/Readers/EntityParser.hpp: In member function ‘int EntityParser::ParseEntity(DataBlock&, const string&, const string&)’:
-include/Readers/EntityParser.hpp:69:35: error: ‘Entity’ was not declared in this scope; did you mean ‘entity’?
-   69 |         auto e = std::make_shared<Entity>();
-      |                                   ^~~~~~
-      |                                   entity
-include/Readers/EntityParser.hpp:69:42: error: no matching function for call to ‘make_shared<<expression error> >()’
-   69 |         auto e = std::make_shared<Entity>();
-      |                  ~~~~~~~~~~~~~~~~~~~~~~~~^~
-In file included from /usr/include/c++/11/memory:77,
-                 from include/Entities/Entity.hpp:6,
-                 from src/Entities/Entity.cpp:1:
-/usr/include/c++/11/bits/shared_ptr.h:875:5: note: candidate: ‘template<class _Tp, class ... _Args> std::shared_ptr<_Tp> std::make_shared(_Args&& ...)’
-  875 |     make_shared(_Args&&... __args)
-      |     ^~~~~~~~~~~
-/usr/include/c++/11/bits/shared_ptr.h:875:5: note:   template argument deduction/substitution failed:
-In file included from include/Entities/RedatamDatabase.hpp:12,
-                 from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Readers/EntityParser.hpp:69:42: error: template argument 1 is invalid
-   69 |         auto e = std::make_shared<Entity>();
-      |                  ~~~~~~~~~~~~~~~~~~~~~~~~^~
-include/Readers/EntityParser.hpp:100:26: error: ‘ParseVariable’ was not declared in this scope
-  100 |                 auto v = ParseVariable(dataBlock, e);
-      |                          ^~~~~~~~~~~~~
-In file included from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Entities/RedatamDatabase.hpp: At global scope:
-include/Entities/RedatamDatabase.hpp:17:33: error: ‘Entity’ was not declared in this scope
-   17 |     std::vector<std::shared_ptr<Entity>> entityNames;
-      |                                 ^~~~~~
-include/Entities/RedatamDatabase.hpp:17:33: error: template argument 1 is invalid
-include/Entities/RedatamDatabase.hpp:17:39: error: template argument 1 is invalid
-   17 |     std::vector<std::shared_ptr<Entity>> entityNames;
-      |                                       ^~
-include/Entities/RedatamDatabase.hpp:17:39: error: template argument 2 is invalid
-include/Entities/RedatamDatabase.hpp:18:33: error: ‘Entity’ was not declared in this scope
-   18 |     std::vector<std::shared_ptr<Entity>> Entities;
-      |                                 ^~~~~~
-include/Entities/RedatamDatabase.hpp:18:33: error: template argument 1 is invalid
-include/Entities/RedatamDatabase.hpp:18:39: error: template argument 1 is invalid
-   18 |     std::vector<std::shared_ptr<Entity>> Entities;
-      |                                       ^~
-include/Entities/RedatamDatabase.hpp:18:39: error: template argument 2 is invalid
-include/Entities/RedatamDatabase.hpp:19:40: error: declaration of ‘std::unique_ptr<FuzzyEntityParser> RedatamDatabase::FuzzyEntityParser’ changes meaning of ‘FuzzyEntityParser’ [-fpermissive]
-   19 |     std::unique_ptr<FuzzyEntityParser> FuzzyEntityParser;
-      |                                        ^~~~~~~~~~~~~~~~~
-In file included from include/Entities/RedatamDatabase.hpp:10,
-                 from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Readers/FuzzyEntityParser.hpp:11:7: note: ‘FuzzyEntityParser’ declared here as ‘class FuzzyEntityParser’
-   11 | class FuzzyEntityParser
-      |       ^~~~~~~~~~~~~~~~~
-In file included from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Entities/RedatamDatabase.hpp:20:38: error: declaration of ‘std::unique_ptr<XmlEntityParser> RedatamDatabase::XmlEntityParser’ changes meaning of ‘XmlEntityParser’ [-fpermissive]
-   20 |     std::unique_ptr<XmlEntityParser> XmlEntityParser;
-      |                                      ^~~~~~~~~~~~~~~
-In file included from include/Entities/RedatamDatabase.hpp:11,
-                 from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Readers/XmlEntityParser.hpp:13:7: note: ‘XmlEntityParser’ declared here as ‘class XmlEntityParser’
-   13 | class XmlEntityParser
-      |       ^~~~~~~~~~~~~~~
-In file included from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Entities/RedatamDatabase.hpp:35:73: error: ‘Entity’ was not declared in this scope; did you mean ‘Entities’?
-   35 |     int64_t GetEntitiesTotalDataItems(const std::vector<std::shared_ptr<Entity>>& entities, std::shared_ptr<Entity> parent)
-      |                                                                         ^~~~~~
-      |                                                                         Entities
-include/Entities/RedatamDatabase.hpp:35:73: error: template argument 1 is invalid
-include/Entities/RedatamDatabase.hpp:35:79: error: template argument 1 is invalid
-   35 |     int64_t GetEntitiesTotalDataItems(const std::vector<std::shared_ptr<Entity>>& entities, std::shared_ptr<Entity> parent)
-      |                                                                               ^~
-include/Entities/RedatamDatabase.hpp:35:79: error: template argument 2 is invalid
-include/Entities/RedatamDatabase.hpp:35:109: error: ‘Entity’ was not declared in this scope; did you mean ‘Entities’?
-   35 |     int64_t GetEntitiesTotalDataItems(const std::vector<std::shared_ptr<Entity>>& entities, std::shared_ptr<Entity> parent)
-      |                                                                                                             ^~~~~~
-      |                                                                                                             Entities
-include/Entities/RedatamDatabase.hpp:35:115: error: template argument 1 is invalid
-   35 |     int64_t GetEntitiesTotalDataItems(const std::vector<std::shared_ptr<Entity>>& entities, std::shared_ptr<Entity> parent)
-      |                                                                                                                   ^
-include/Entities/RedatamDatabase.hpp:53:67: error: ‘Entity’ was not declared in this scope; did you mean ‘Entities’?
-   53 |     int64_t GetEntitiesRowsSize(const std::vector<std::shared_ptr<Entity>>& entities, std::shared_ptr<Entity> parent)
-      |                                                                   ^~~~~~
-      |                                                                   Entities
-include/Entities/RedatamDatabase.hpp:53:67: error: template argument 1 is invalid
-include/Entities/RedatamDatabase.hpp:53:73: error: template argument 1 is invalid
-   53 |     int64_t GetEntitiesRowsSize(const std::vector<std::shared_ptr<Entity>>& entities, std::shared_ptr<Entity> parent)
-      |                                                                         ^~
-include/Entities/RedatamDatabase.hpp:53:73: error: template argument 2 is invalid
-include/Entities/RedatamDatabase.hpp:53:103: error: ‘Entity’ was not declared in this scope; did you mean ‘Entities’?
-   53 |     int64_t GetEntitiesRowsSize(const std::vector<std::shared_ptr<Entity>>& entities, std::shared_ptr<Entity> parent)
-      |                                                                                                       ^~~~~~
-      |                                                                                                       Entities
-include/Entities/RedatamDatabase.hpp:53:109: error: template argument 1 is invalid
-   53 |     int64_t GetEntitiesRowsSize(const std::vector<std::shared_ptr<Entity>>& entities, std::shared_ptr<Entity> parent)
-      |                                                                                                             ^
-In file included from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Entities/RedatamDatabase.hpp:108:33: error: ‘Entity’ was not declared in this scope; did you mean ‘Entities’?
-  108 |     std::vector<std::shared_ptr<Entity>> GetEntitiesList()
-      |                                 ^~~~~~
-      |                                 Entities
-include/Entities/RedatamDatabase.hpp:108:33: error: template argument 1 is invalid
-include/Entities/RedatamDatabase.hpp:108:39: error: template argument 1 is invalid
-  108 |     std::vector<std::shared_ptr<Entity>> GetEntitiesList()
-      |                                       ^~
-include/Entities/RedatamDatabase.hpp:108:39: error: template argument 2 is invalid
-include/Entities/RedatamDatabase.hpp:116:56: error: ‘Entity’ was not declared in this scope; did you mean ‘Entities’?
-  116 |     void doGetEntitiesList(std::vector<std::shared_ptr<Entity>>& ret, const std::vector<std::shared_ptr<Entity>>& list)
-      |                                                        ^~~~~~
-      |                                                        Entities
-include/Entities/RedatamDatabase.hpp:116:56: error: template argument 1 is invalid
-include/Entities/RedatamDatabase.hpp:116:62: error: template argument 1 is invalid
-  116 |     void doGetEntitiesList(std::vector<std::shared_ptr<Entity>>& ret, const std::vector<std::shared_ptr<Entity>>& list)
-      |                                                              ^~
-include/Entities/RedatamDatabase.hpp:116:62: error: template argument 2 is invalid
-include/Entities/RedatamDatabase.hpp:116:105: error: ‘Entity’ was not declared in this scope; did you mean ‘Entities’?
-  116 |     void doGetEntitiesList(std::vector<std::shared_ptr<Entity>>& ret, const std::vector<std::shared_ptr<Entity>>& list)
-      |                                                                                                         ^~~~~~
-      |                                                                                                         Entities
-include/Entities/RedatamDatabase.hpp:116:105: error: template argument 1 is invalid
-include/Entities/RedatamDatabase.hpp:116:111: error: template argument 1 is invalid
-  116 |     void doGetEntitiesList(std::vector<std::shared_ptr<Entity>>& ret, const std::vector<std::shared_ptr<Entity>>& list)
-      |                                                                                                               ^~
-include/Entities/RedatamDatabase.hpp:116:111: error: template argument 2 is invalid
-In file included from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Entities/RedatamDatabase.hpp: In member function ‘int64_t RedatamDatabase::GetTotalDataItems()’:
-include/Entities/RedatamDatabase.hpp:31:52: error: cannot convert ‘std::nullptr_t’ to ‘int’
-   31 |         return GetEntitiesTotalDataItems(Entities, nullptr);
-      |                                                    ^~~~~~~
-      |                                                    |
-      |                                                    std::nullptr_t
-include/Entities/RedatamDatabase.hpp:35:117: note:   initializing argument 2 of ‘int64_t RedatamDatabase::GetEntitiesTotalDataItems(const int&, int)’
-   35 |     int64_t GetEntitiesTotalDataItems(const std::vector<std::shared_ptr<Entity>>& entities, std::shared_ptr<Entity> parent)
-      |                                                                                             ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
-include/Entities/RedatamDatabase.hpp: In member function ‘int64_t RedatamDatabase::GetEntitiesTotalDataItems(const int&, int)’:
-include/Entities/RedatamDatabase.hpp:38:35: error: ‘begin’ was not declared in this scope; did you mean ‘std::begin’?
-   38 |         for (const auto& entity : entities)
-      |                                   ^~~~~~~~
-      |                                   std::begin
-In file included from /usr/include/c++/11/string:54,
-                 from include/Entities/Entity.hpp:4,
-                 from src/Entities/Entity.cpp:1:
-/usr/include/c++/11/bits/range_access.h:108:37: note: ‘std::begin’ declared here
-  108 |   template<typename _Tp> const _Tp* begin(const valarray<_Tp>&) noexcept;
-      |                                     ^~~~~
-In file included from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Entities/RedatamDatabase.hpp:38:35: error: ‘end’ was not declared in this scope; did you mean ‘std::end’?
-   38 |         for (const auto& entity : entities)
-      |                                   ^~~~~~~~
-      |                                   std::end
-In file included from /usr/include/c++/11/string:54,
-                 from include/Entities/Entity.hpp:4,
-                 from src/Entities/Entity.cpp:1:
-/usr/include/c++/11/bits/range_access.h:110:37: note: ‘std::end’ declared here
-  110 |   template<typename _Tp> const _Tp* end(const valarray<_Tp>&) noexcept;
-      |                                     ^~~
-In file included from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Entities/RedatamDatabase.hpp: In member function ‘int64_t RedatamDatabase::GetTotalRowsSize()’:
-include/Entities/RedatamDatabase.hpp:49:46: error: cannot convert ‘std::nullptr_t’ to ‘int’
-   49 |         return GetEntitiesRowsSize(Entities, nullptr);
-      |                                              ^~~~~~~
-      |                                              |
-      |                                              std::nullptr_t
-include/Entities/RedatamDatabase.hpp:53:111: note:   initializing argument 2 of ‘int64_t RedatamDatabase::GetEntitiesRowsSize(const int&, int)’
-   53 |     int64_t GetEntitiesRowsSize(const std::vector<std::shared_ptr<Entity>>& entities, std::shared_ptr<Entity> parent)
-      |                                                                                       ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
-include/Entities/RedatamDatabase.hpp: In member function ‘int64_t RedatamDatabase::GetEntitiesRowsSize(const int&, int)’:
-include/Entities/RedatamDatabase.hpp:56:35: error: ‘begin’ was not declared in this scope; did you mean ‘std::begin’?
-   56 |         for (const auto& entity : entities)
-      |                                   ^~~~~~~~
-      |                                   std::begin
-In file included from /usr/include/c++/11/string:54,
-                 from include/Entities/Entity.hpp:4,
-                 from src/Entities/Entity.cpp:1:
-/usr/include/c++/11/bits/range_access.h:108:37: note: ‘std::begin’ declared here
-  108 |   template<typename _Tp> const _Tp* begin(const valarray<_Tp>&) noexcept;
-      |                                     ^~~~~
-In file included from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Entities/RedatamDatabase.hpp:56:35: error: ‘end’ was not declared in this scope; did you mean ‘std::end’?
-   56 |         for (const auto& entity : entities)
-      |                                   ^~~~~~~~
-      |                                   std::end
-In file included from /usr/include/c++/11/string:54,
-                 from include/Entities/Entity.hpp:4,
-                 from src/Entities/Entity.cpp:1:
-/usr/include/c++/11/bits/range_access.h:110:37: note: ‘std::end’ declared here
-  110 |   template<typename _Tp> const _Tp* end(const valarray<_Tp>&) noexcept;
-      |                                     ^~~
-In file included from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Entities/RedatamDatabase.hpp: In static member function ‘static std::string RedatamDatabase::OptimisticCombine(const string&, const string&)’:
-include/Entities/RedatamDatabase.hpp:70:14: error: ‘std::filesystem’ has not been declared
-   70 |         std::filesystem::path filefull = std::filesystem::path(path) / file;
-      |              ^~~~~~~~~~
-include/Entities/RedatamDatabase.hpp:71:18: error: ‘std::filesystem’ has not been declared
-   71 |         if (std::filesystem::exists(filefull)) return filefull.string();
-      |                  ^~~~~~~~~~
-include/Entities/RedatamDatabase.hpp:71:37: error: ‘filefull’ was not declared in this scope
-   71 |         if (std::filesystem::exists(filefull)) return filefull.string();
-      |                                     ^~~~~~~~
-include/Entities/RedatamDatabase.hpp:72:14: error: ‘std::filesystem’ has not been declared
-   72 |         std::filesystem::path fOnly = std::filesystem::path(file).filename();
-      |              ^~~~~~~~~~
-include/Entities/RedatamDatabase.hpp:73:9: error: ‘filefull’ was not declared in this scope
-   73 |         filefull = std::filesystem::path(path) / fOnly;
-      |         ^~~~~~~~
-include/Entities/RedatamDatabase.hpp:73:25: error: ‘std::filesystem’ has not been declared
-   73 |         filefull = std::filesystem::path(path) / fOnly;
-      |                         ^~~~~~~~~~
-include/Entities/RedatamDatabase.hpp:73:50: error: ‘fOnly’ was not declared in this scope
-   73 |         filefull = std::filesystem::path(path) / fOnly;
-      |                                                  ^~~~~
-include/Entities/RedatamDatabase.hpp: In member function ‘void RedatamDatabase::OpenDictionary(const string&)’:
-include/Entities/RedatamDatabase.hpp:81:29: error: ‘std::filesystem’ has not been declared
-   81 |             auto ext = std::filesystem::path(file).extension().string();
-      |                             ^~~~~~~~~~
-include/Entities/RedatamDatabase.hpp:89:45: error: no matching function for call to ‘EntityParser::EntityParser(RedatamDatabase*)’
-   89 |                     EntityParser parser(this);
-      |                                             ^
-In file included from include/Entities/RedatamDatabase.hpp:12,
-                 from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Readers/EntityParser.hpp:15:7: note: candidate: ‘EntityParser::EntityParser()’
-   15 | class EntityParser
-      |       ^~~~~~~~~~~~
-include/Readers/EntityParser.hpp:15:7: note:   candidate expects 0 arguments, 1 provided
-include/Readers/EntityParser.hpp:15:7: note: candidate: ‘EntityParser::EntityParser(const EntityParser&)’
-include/Readers/EntityParser.hpp:15:7: note:   no known conversion for argument 1 from ‘RedatamDatabase*’ to ‘const EntityParser&’
-include/Readers/EntityParser.hpp:15:7: note: candidate: ‘EntityParser::EntityParser(EntityParser&&)’
-include/Readers/EntityParser.hpp:15:7: note:   no known conversion for argument 1 from ‘RedatamDatabase*’ to ‘EntityParser&&’
-In file included from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Entities/RedatamDatabase.hpp: In member function ‘int RedatamDatabase::GetEntitiesList()’:
-include/Entities/RedatamDatabase.hpp:110:37: error: ‘Entity’ was not declared in this scope; did you mean ‘Entities’?
-  110 |         std::vector<std::shared_ptr<Entity>> ret;
-      |                                     ^~~~~~
-      |                                     Entities
-include/Entities/RedatamDatabase.hpp:110:37: error: template argument 1 is invalid
-include/Entities/RedatamDatabase.hpp:110:43: error: template argument 1 is invalid
-  110 |         std::vector<std::shared_ptr<Entity>> ret;
-      |                                           ^~
-include/Entities/RedatamDatabase.hpp:110:43: error: template argument 2 is invalid
-include/Entities/RedatamDatabase.hpp: In member function ‘void RedatamDatabase::doGetEntitiesList(int&, const int&)’:
-include/Entities/RedatamDatabase.hpp:118:30: error: ‘begin’ was not declared in this scope; did you mean ‘std::begin’?
-  118 |         for (const auto& e : list)
-      |                              ^~~~
-      |                              std::begin
-In file included from /usr/include/c++/11/string:54,
-                 from include/Entities/Entity.hpp:4,
-                 from src/Entities/Entity.cpp:1:
-/usr/include/c++/11/bits/range_access.h:108:37: note: ‘std::begin’ declared here
-  108 |   template<typename _Tp> const _Tp* begin(const valarray<_Tp>&) noexcept;
-      |                                     ^~~~~
-In file included from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Entities/RedatamDatabase.hpp:118:30: error: ‘end’ was not declared in this scope; did you mean ‘std::end’?
-  118 |         for (const auto& e : list)
-      |                              ^~~~
-      |                              std::end
-In file included from /usr/include/c++/11/string:54,
-                 from include/Entities/Entity.hpp:4,
-                 from src/Entities/Entity.cpp:1:
-/usr/include/c++/11/bits/range_access.h:110:37: note: ‘std::end’ declared here
-  110 |   template<typename _Tp> const _Tp* end(const valarray<_Tp>&) noexcept;
-      |                                     ^~~
-In file included from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Entities/RedatamDatabase.hpp:120:17: error: request for member ‘push_back’ in ‘ret’, which is of non-class type ‘int’
-  120 |             ret.push_back(e);
-      |                 ^~~~~~~~~
-In file included from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Entities/Variable.hpp: At global scope:
-include/Entities/Variable.hpp:18:21: error: ‘Entity’ was not declared in this scope
-   18 |     std::shared_ptr<Entity> entity;
-      |                     ^~~~~~
-include/Entities/Variable.hpp:18:27: error: template argument 1 is invalid
-   18 |     std::shared_ptr<Entity> entity;
-      |                           ^
-include/Entities/Variable.hpp:42:36: error: ‘Entity’ was not declared in this scope; did you mean ‘entity’?
-   42 |     Variable(const std::shared_ptr<Entity>& entity)
-      |                                    ^~~~~~
-      |                                    entity
-include/Entities/Variable.hpp:42:42: error: template argument 1 is invalid
-   42 |     Variable(const std::shared_ptr<Entity>& entity)
-      |                                          ^
-include/Entities/Variable.hpp: In constructor ‘Variable::Variable(const string&, const string&, const string&)’:
-include/Entities/Variable.hpp:29:17: warning: ‘Variable::Type’ will be initialized after [-Wreorder]
-   29 |     std::string Type;
+In file included from src/main.cpp:4:
+include/Readers/EntityParser.hpp: In member function ‘std::vector<std::shared_ptr<Entity> > EntityParser::ParseEntities(std::shared_ptr<Entity>, std::vector<std::shared_ptr<Entity> >&, std::unordered_map<std::__cxx11::basic_string<char>, DataBlock>&)’:
+include/Readers/EntityParser.hpp:45:72: error: ‘std::string Entity::Name’ is private within this context
+   45 |             std::string parentName = (parent == nullptr ? "" : parent->Name);
+      |                                                                        ^~~~
+In file included from include/Entities/RedatamDatabase.hpp:9,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp:16:17: note: declared private here
+   16 |     std::string Name;
       |                 ^~~~
-include/Entities/Variable.hpp:28:17: warning:   ‘std::string Variable::Label’ [-Wreorder]
-   28 |     std::string Label;
-      |                 ^~~~~
-include/Entities/Variable.hpp:45:5: warning:   when initialized here [-Wreorder]
-   45 |     Variable(const std::string& name, const std::string& type, const std::string& label)
+In file included from src/main.cpp:4:
+include/Readers/EntityParser.hpp:46:61: error: ‘std::string Entity::Name’ is private within this context
+   46 |             auto entity = ParseEntity(dataParts[entityName->Name], entityName->Name, parentName);
+      |                                                             ^~~~
+In file included from include/Entities/RedatamDatabase.hpp:9,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp:16:17: note: declared private here
+   16 |     std::string Name;
+      |                 ^~~~
+In file included from src/main.cpp:4:
+include/Readers/EntityParser.hpp:46:80: error: ‘std::string Entity::Name’ is private within this context
+   46 |             auto entity = ParseEntity(dataParts[entityName->Name], entityName->Name, parentName);
+      |                                                                                ^~~~
+In file included from include/Entities/RedatamDatabase.hpp:9,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp:16:17: note: declared private here
+   16 |     std::string Name;
+      |                 ^~~~
+In file included from src/main.cpp:4:
+include/Readers/EntityParser.hpp:46:27: error: ‘ParseEntity’ was not declared in this scope; did you mean ‘ParseEntities’?
+   46 |             auto entity = ParseEntity(dataParts[entityName->Name], entityName->Name, parentName);
+      |                           ^~~~~~~~~~~
+      |                           ParseEntities
+include/Readers/EntityParser.hpp: In member function ‘Variable EntityParser::ParseVariable(DataBlock&, std::shared_ptr<Entity>)’:
+include/Readers/EntityParser.hpp:60:18: error: no matching function for call to ‘Variable::Variable()’
+   60 |         Variable var;
+      |                  ^~~
+In file included from include/Entities/Entity.hpp:8,
+                 from include/Entities/RedatamDatabase.hpp:9,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:48:5: note: candidate: ‘Variable::Variable(const string&, const string&, const string&)’
+   48 |     Variable(const std::string& name, const std::string& type, const std::string& label)
       |     ^~~~~~~~
-include/Entities/Variable.hpp: In member function ‘auto Variable::GetData()’:
-include/Entities/Variable.hpp:60:38: error: inconsistent deduction for auto return type: ‘std::__cxx11::basic_string<char>’ and then ‘long unsigned int’
-   60 |             return reader->ReadNumber();
-      |                    ~~~~~~~~~~~~~~~~~~^~
-include/Entities/Variable.hpp:60:39: error: no matching function for call to ‘std::__cxx11::basic_string<char>::basic_string(uint64_t)’
-   60 |             return reader->ReadNumber();
-      |                                       ^
-In file included from /usr/include/c++/11/string:55,
-                 from include/Entities/Entity.hpp:4,
-                 from src/Entities/Entity.cpp:1:
-/usr/include/c++/11/bits/basic_string.h:638:9: note: candidate: ‘template<class _InputIterator, class> std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(_InputIterator, _InputIterator, const _Alloc&) [with _InputIterator = _InputIterator; <template-parameter-2-2> = <template-parameter-1-2>; _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’
-  638 |         basic_string(_InputIterator __beg, _InputIterator __end,
-      |         ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:638:9: note:   template argument deduction/substitution failed:
-In file included from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Entities/Variable.hpp:60:39: note:   candidate expects 3 arguments, 1 provided
-   60 |             return reader->ReadNumber();
-      |                                       ^
-In file included from /usr/include/c++/11/string:55,
-                 from include/Entities/Entity.hpp:4,
-                 from src/Entities/Entity.cpp:1:
-/usr/include/c++/11/bits/basic_string.h:600:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&&, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’
-  600 |       basic_string(basic_string&& __str, const _Alloc& __a)
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:600:7: note:   candidate expects 2 arguments, 1 provided
-/usr/include/c++/11/bits/basic_string.h:596:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’
-  596 |       basic_string(const basic_string& __str, const _Alloc& __a)
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:596:7: note:   candidate expects 2 arguments, 1 provided
-/usr/include/c++/11/bits/basic_string.h:592:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(std::initializer_list<_Tp>, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’
-  592 |       basic_string(initializer_list<_CharT> __l, const _Alloc& __a = _Alloc())
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:592:45: note:   no known conversion for argument 1 from ‘uint64_t’ {aka ‘long unsigned int’} to ‘std::initializer_list<char>’
-  592 |       basic_string(initializer_list<_CharT> __l, const _Alloc& __a = _Alloc())
-      |                    ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-/usr/include/c++/11/bits/basic_string.h:565:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’
-  565 |       basic_string(basic_string&& __str) noexcept
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:565:35: note:   no known conversion for argument 1 from ‘uint64_t’ {aka ‘long unsigned int’} to ‘std::__cxx11::basic_string<char>&&’
-  565 |       basic_string(basic_string&& __str) noexcept
-      |                    ~~~~~~~~~~~~~~~^~~~~
-/usr/include/c++/11/bits/basic_string.h:553:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type, _CharT, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>; std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type = long unsigned int]’
-  553 |       basic_string(size_type __n, _CharT __c, const _Alloc& __a = _Alloc())
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:553:7: note:   candidate expects 3 arguments, 1 provided
-/usr/include/c++/11/bits/basic_string.h:533:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const _CharT*, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’ (near match)
-  533 |       basic_string(const _CharT* __s, const _Alloc& __a = _Alloc())
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:533:7: note:   conversion of argument 1 would be ill-formed:
-In file included from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Entities/Variable.hpp:60:38: error: invalid conversion from ‘uint64_t’ {aka ‘long unsigned int’} to ‘const char*’ [-fpermissive]
-   60 |             return reader->ReadNumber();
-      |                    ~~~~~~~~~~~~~~~~~~^~
-      |                                      |
-      |                                      uint64_t {aka long unsigned int}
-In file included from /usr/include/c++/11/string:55,
-                 from include/Entities/Entity.hpp:4,
-                 from src/Entities/Entity.cpp:1:
-/usr/include/c++/11/bits/basic_string.h:518:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const _CharT*, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>; std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type = long unsigned int]’
-  518 |       basic_string(const _CharT* __s, size_type __n,
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:518:7: note:   candidate expects 3 arguments, 1 provided
-/usr/include/c++/11/bits/basic_string.h:500:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>; std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type = long unsigned int]’
-  500 |       basic_string(const basic_string& __str, size_type __pos,
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:500:7: note:   candidate expects 4 arguments, 1 provided
-/usr/include/c++/11/bits/basic_string.h:484:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>; std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type = long unsigned int]’
-  484 |       basic_string(const basic_string& __str, size_type __pos,
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:484:7: note:   candidate expects 3 arguments, 1 provided
-/usr/include/c++/11/bits/basic_string.h:469:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>; std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type = long unsigned int]’
-  469 |       basic_string(const basic_string& __str, size_type __pos,
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:469:7: note:   candidate expects 3 arguments, 1 provided
-/usr/include/c++/11/bits/basic_string.h:456:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’
-  456 |       basic_string(const basic_string& __str)
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:456:40: note:   no known conversion for argument 1 from ‘uint64_t’ {aka ‘long unsigned int’} to ‘const std::__cxx11::basic_string<char>&’
-  456 |       basic_string(const basic_string& __str)
-      |                    ~~~~~~~~~~~~~~~~~~~~^~~~~
-/usr/include/c++/11/bits/basic_string.h:448:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’
-  448 |       basic_string(const _Alloc& __a) _GLIBCXX_NOEXCEPT
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:448:34: note:   no known conversion for argument 1 from ‘uint64_t’ {aka ‘long unsigned int’} to ‘const std::allocator<char>&’
-  448 |       basic_string(const _Alloc& __a) _GLIBCXX_NOEXCEPT
-      |                    ~~~~~~~~~~~~~~^~~
-/usr/include/c++/11/bits/basic_string.h:439:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string() [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’
-  439 |       basic_string()
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:439:7: note:   candidate expects 0 arguments, 1 provided
-In file included from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Entities/Variable.hpp:62:37: error: inconsistent deduction for auto return type: ‘std::__cxx11::basic_string<char>’ and then ‘unsigned int’
-   62 |             return reader->ReadInt16();
-      |                    ~~~~~~~~~~~~~~~~~^~
-include/Entities/Variable.hpp:62:38: error: no matching function for call to ‘std::__cxx11::basic_string<char>::basic_string(uint32_t)’
-   62 |             return reader->ReadInt16();
-      |                                      ^
-In file included from /usr/include/c++/11/string:55,
-                 from include/Entities/Entity.hpp:4,
-                 from src/Entities/Entity.cpp:1:
-/usr/include/c++/11/bits/basic_string.h:638:9: note: candidate: ‘template<class _InputIterator, class> std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(_InputIterator, _InputIterator, const _Alloc&) [with _InputIterator = _InputIterator; <template-parameter-2-2> = <template-parameter-1-2>; _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’
-  638 |         basic_string(_InputIterator __beg, _InputIterator __end,
-      |         ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:638:9: note:   template argument deduction/substitution failed:
-In file included from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Entities/Variable.hpp:62:38: note:   candidate expects 3 arguments, 1 provided
-   62 |             return reader->ReadInt16();
-      |                                      ^
-In file included from /usr/include/c++/11/string:55,
-                 from include/Entities/Entity.hpp:4,
-                 from src/Entities/Entity.cpp:1:
-/usr/include/c++/11/bits/basic_string.h:600:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&&, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’
-  600 |       basic_string(basic_string&& __str, const _Alloc& __a)
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:600:7: note:   candidate expects 2 arguments, 1 provided
-/usr/include/c++/11/bits/basic_string.h:596:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’
-  596 |       basic_string(const basic_string& __str, const _Alloc& __a)
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:596:7: note:   candidate expects 2 arguments, 1 provided
-/usr/include/c++/11/bits/basic_string.h:592:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(std::initializer_list<_Tp>, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’
-  592 |       basic_string(initializer_list<_CharT> __l, const _Alloc& __a = _Alloc())
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:592:45: note:   no known conversion for argument 1 from ‘uint32_t’ {aka ‘unsigned int’} to ‘std::initializer_list<char>’
-  592 |       basic_string(initializer_list<_CharT> __l, const _Alloc& __a = _Alloc())
-      |                    ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-/usr/include/c++/11/bits/basic_string.h:565:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’
-  565 |       basic_string(basic_string&& __str) noexcept
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:565:35: note:   no known conversion for argument 1 from ‘uint32_t’ {aka ‘unsigned int’} to ‘std::__cxx11::basic_string<char>&&’
-  565 |       basic_string(basic_string&& __str) noexcept
-      |                    ~~~~~~~~~~~~~~~^~~~~
-/usr/include/c++/11/bits/basic_string.h:553:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type, _CharT, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>; std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type = long unsigned int]’
-  553 |       basic_string(size_type __n, _CharT __c, const _Alloc& __a = _Alloc())
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:553:7: note:   candidate expects 3 arguments, 1 provided
-/usr/include/c++/11/bits/basic_string.h:533:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const _CharT*, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’ (near match)
-  533 |       basic_string(const _CharT* __s, const _Alloc& __a = _Alloc())
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:533:7: note:   conversion of argument 1 would be ill-formed:
-In file included from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Entities/Variable.hpp:62:37: error: invalid conversion from ‘uint32_t’ {aka ‘unsigned int’} to ‘const char*’ [-fpermissive]
-   62 |             return reader->ReadInt16();
-      |                    ~~~~~~~~~~~~~~~~~^~
-      |                                     |
-      |                                     uint32_t {aka unsigned int}
-In file included from /usr/include/c++/11/string:55,
-                 from include/Entities/Entity.hpp:4,
-                 from src/Entities/Entity.cpp:1:
-/usr/include/c++/11/bits/basic_string.h:518:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const _CharT*, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>; std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type = long unsigned int]’
-  518 |       basic_string(const _CharT* __s, size_type __n,
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:518:7: note:   candidate expects 3 arguments, 1 provided
-/usr/include/c++/11/bits/basic_string.h:500:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>; std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type = long unsigned int]’
-  500 |       basic_string(const basic_string& __str, size_type __pos,
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:500:7: note:   candidate expects 4 arguments, 1 provided
-/usr/include/c++/11/bits/basic_string.h:484:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>; std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type = long unsigned int]’
-  484 |       basic_string(const basic_string& __str, size_type __pos,
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:484:7: note:   candidate expects 3 arguments, 1 provided
-/usr/include/c++/11/bits/basic_string.h:469:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>; std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type = long unsigned int]’
-  469 |       basic_string(const basic_string& __str, size_type __pos,
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:469:7: note:   candidate expects 3 arguments, 1 provided
-/usr/include/c++/11/bits/basic_string.h:456:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’
-  456 |       basic_string(const basic_string& __str)
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:456:40: note:   no known conversion for argument 1 from ‘uint32_t’ {aka ‘unsigned int’} to ‘const std::__cxx11::basic_string<char>&’
-  456 |       basic_string(const basic_string& __str)
-      |                    ~~~~~~~~~~~~~~~~~~~~^~~~~
-/usr/include/c++/11/bits/basic_string.h:448:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’
-  448 |       basic_string(const _Alloc& __a) _GLIBCXX_NOEXCEPT
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:448:34: note:   no known conversion for argument 1 from ‘uint32_t’ {aka ‘unsigned int’} to ‘const std::allocator<char>&’
-  448 |       basic_string(const _Alloc& __a) _GLIBCXX_NOEXCEPT
-      |                    ~~~~~~~~~~~~~~^~~
-/usr/include/c++/11/bits/basic_string.h:439:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string() [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’
-  439 |       basic_string()
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:439:7: note:   candidate expects 0 arguments, 1 provided
-In file included from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Entities/Variable.hpp:64:38: error: inconsistent deduction for auto return type: ‘std::__cxx11::basic_string<char>’ and then ‘double’
-   64 |             return reader->ReadDouble();
-      |                    ~~~~~~~~~~~~~~~~~~^~
-include/Entities/Variable.hpp:64:39: error: no matching function for call to ‘std::__cxx11::basic_string<char>::basic_string(double)’
-   64 |             return reader->ReadDouble();
-      |                                       ^
-In file included from /usr/include/c++/11/string:55,
-                 from include/Entities/Entity.hpp:4,
-                 from src/Entities/Entity.cpp:1:
-/usr/include/c++/11/bits/basic_string.h:638:9: note: candidate: ‘template<class _InputIterator, class> std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(_InputIterator, _InputIterator, const _Alloc&) [with _InputIterator = _InputIterator; <template-parameter-2-2> = <template-parameter-1-2>; _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’
-  638 |         basic_string(_InputIterator __beg, _InputIterator __end,
-      |         ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:638:9: note:   template argument deduction/substitution failed:
-In file included from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Entities/Variable.hpp:64:39: note:   candidate expects 3 arguments, 1 provided
-   64 |             return reader->ReadDouble();
-      |                                       ^
-In file included from /usr/include/c++/11/string:55,
-                 from include/Entities/Entity.hpp:4,
-                 from src/Entities/Entity.cpp:1:
-/usr/include/c++/11/bits/basic_string.h:600:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&&, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’
-  600 |       basic_string(basic_string&& __str, const _Alloc& __a)
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:600:7: note:   candidate expects 2 arguments, 1 provided
-/usr/include/c++/11/bits/basic_string.h:596:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’
-  596 |       basic_string(const basic_string& __str, const _Alloc& __a)
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:596:7: note:   candidate expects 2 arguments, 1 provided
-/usr/include/c++/11/bits/basic_string.h:592:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(std::initializer_list<_Tp>, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’
-  592 |       basic_string(initializer_list<_CharT> __l, const _Alloc& __a = _Alloc())
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:592:45: note:   no known conversion for argument 1 from ‘double’ to ‘std::initializer_list<char>’
-  592 |       basic_string(initializer_list<_CharT> __l, const _Alloc& __a = _Alloc())
-      |                    ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-/usr/include/c++/11/bits/basic_string.h:565:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’
-  565 |       basic_string(basic_string&& __str) noexcept
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:565:35: note:   no known conversion for argument 1 from ‘double’ to ‘std::__cxx11::basic_string<char>&&’
-  565 |       basic_string(basic_string&& __str) noexcept
-      |                    ~~~~~~~~~~~~~~~^~~~~
-/usr/include/c++/11/bits/basic_string.h:553:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type, _CharT, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>; std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type = long unsigned int]’
-  553 |       basic_string(size_type __n, _CharT __c, const _Alloc& __a = _Alloc())
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:553:7: note:   candidate expects 3 arguments, 1 provided
-/usr/include/c++/11/bits/basic_string.h:533:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const _CharT*, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’
-  533 |       basic_string(const _CharT* __s, const _Alloc& __a = _Alloc())
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:533:34: note:   no known conversion for argument 1 from ‘double’ to ‘const char*’
-  533 |       basic_string(const _CharT* __s, const _Alloc& __a = _Alloc())
-      |                    ~~~~~~~~~~~~~~^~~
-/usr/include/c++/11/bits/basic_string.h:518:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const _CharT*, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>; std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type = long unsigned int]’
-  518 |       basic_string(const _CharT* __s, size_type __n,
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:518:7: note:   candidate expects 3 arguments, 1 provided
-/usr/include/c++/11/bits/basic_string.h:500:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>; std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type = long unsigned int]’
-  500 |       basic_string(const basic_string& __str, size_type __pos,
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:500:7: note:   candidate expects 4 arguments, 1 provided
-/usr/include/c++/11/bits/basic_string.h:484:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>; std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type = long unsigned int]’
-  484 |       basic_string(const basic_string& __str, size_type __pos,
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:484:7: note:   candidate expects 3 arguments, 1 provided
-/usr/include/c++/11/bits/basic_string.h:469:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>; std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::size_type = long unsigned int]’
-  469 |       basic_string(const basic_string& __str, size_type __pos,
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:469:7: note:   candidate expects 3 arguments, 1 provided
-/usr/include/c++/11/bits/basic_string.h:456:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’
-  456 |       basic_string(const basic_string& __str)
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:456:40: note:   no known conversion for argument 1 from ‘double’ to ‘const std::__cxx11::basic_string<char>&’
-  456 |       basic_string(const basic_string& __str)
-      |                    ~~~~~~~~~~~~~~~~~~~~^~~~~
-/usr/include/c++/11/bits/basic_string.h:448:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’
-  448 |       basic_string(const _Alloc& __a) _GLIBCXX_NOEXCEPT
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:448:34: note:   no known conversion for argument 1 from ‘double’ to ‘const std::allocator<char>&’
-  448 |       basic_string(const _Alloc& __a) _GLIBCXX_NOEXCEPT
-      |                    ~~~~~~~~~~~~~~^~~
-/usr/include/c++/11/bits/basic_string.h:439:7: note: candidate: ‘std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string() [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’
-  439 |       basic_string()
-      |       ^~~~~~~~~~~~
-/usr/include/c++/11/bits/basic_string.h:439:7: note:   candidate expects 0 arguments, 1 provided
-In file included from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Entities/Variable.hpp: In member function ‘bool Variable::DataFileExists()’:
-include/Entities/Variable.hpp:93:21: error: ‘std::filesystem’ has not been declared
-   93 |         return std::filesystem::exists(file);
-      |                     ^~~~~~~~~~
-src/Entities/Entity.cpp: In member function ‘bool Entity::DataFileExists() const’:
-src/Entities/Entity.cpp:96:43: error: passing ‘const Entity’ as ‘this’ argument discards qualifiers [-fpermissive]
-   96 |     std::string file = ResolveDataFilename();
-      |                        ~~~~~~~~~~~~~~~~~~~^~
-src/Entities/Entity.cpp:38:13: note:   in call to ‘std::string Entity::ResolveDataFilename()’
-   38 | std::string Entity::ResolveDataFilename()
+include/Entities/Variable.hpp:48:5: note:   candidate expects 3 arguments, 0 provided
+include/Entities/Variable.hpp:45:5: note: candidate: ‘Variable::Variable(const std::shared_ptr<Entity>&)’
+   45 |     Variable(const std::shared_ptr<Entity>& entity)
+      |     ^~~~~~~~
+include/Entities/Variable.hpp:45:5: note:   candidate expects 1 argument, 0 provided
+In file included from src/main.cpp:4:
+include/Readers/EntityParser.hpp:61:30: error: ‘class DataBlock’ has no member named ‘readString’
+   61 |         var.Name = dataBlock.readString(8);
+      |                              ^~~~~~~~~~
+include/Readers/EntityParser.hpp:62:31: error: ‘class DataBlock’ has no member named ‘readString’
+   62 |         var.Label = dataBlock.readString(40);
+      |                               ^~~~~~~~~~
+include/Readers/EntityParser.hpp:63:30: error: ‘class DataBlock’ has no member named ‘readString’
+   63 |         var.Type = dataBlock.readString(3);
+      |                              ^~~~~~~~~~
+include/Readers/EntityParser.hpp:64:34: error: ‘class DataBlock’ has no member named ‘readInt’
+   64 |         var.Decimals = dataBlock.readInt();
+      |                                  ^~~~~~~
+include/Readers/EntityParser.hpp:65:13: error: ‘class Variable’ has no member named ‘Length’
+   65 |         var.Length = dataBlock.readInt();
       |             ^~~~~~
-src/Entities/Entity.cpp:97:17: error: ‘std::filesystem’ has not been declared
-   97 |     return std::filesystem::exists(file);
-      |                 ^~~~~~~~~~
-In file included from /usr/include/c++/11/memory:76,
-                 from include/Entities/Entity.hpp:6,
-                 from src/Entities/Entity.cpp:1:
+include/Readers/EntityParser.hpp:65:32: error: ‘class DataBlock’ has no member named ‘readInt’
+   65 |         var.Length = dataBlock.readInt();
+      |                                ^~~~~~~
+include/Readers/EntityParser.hpp:66:13: error: ‘class Variable’ has no member named ‘MissingValues’
+   66 |         var.MissingValues = dataBlock.readInt();
+      |             ^~~~~~~~~~~~~
+include/Readers/EntityParser.hpp:66:39: error: ‘class DataBlock’ has no member named ‘readInt’
+   66 |         var.MissingValues = dataBlock.readInt();
+      |                                       ^~~~~~~
+include/Readers/EntityParser.hpp:67:13: error: ‘class Variable’ has no member named ‘MissingValuesFormat’
+   67 |         var.MissingValuesFormat = dataBlock.readString(8);
+      |             ^~~~~~~~~~~~~~~~~~~
+include/Readers/EntityParser.hpp:67:45: error: ‘class DataBlock’ has no member named ‘readString’
+   67 |         var.MissingValuesFormat = dataBlock.readString(8);
+      |                                             ^~~~~~~~~~
+include/Readers/EntityParser.hpp:68:13: error: ‘class Variable’ has no member named ‘VariableData’; did you mean ‘Variable’?
+   68 |         var.VariableData = dataBlock.readBytes(var.Length);
+      |             ^~~~~~~~~~~~
+      |             Variable
+include/Readers/EntityParser.hpp:68:38: error: ‘class DataBlock’ has no member named ‘readBytes’; did you mean ‘eatByte’?
+   68 |         var.VariableData = dataBlock.readBytes(var.Length);
+      |                                      ^~~~~~~~~
+      |                                      eatByte
+include/Readers/EntityParser.hpp:68:52: error: ‘class Variable’ has no member named ‘Length’
+   68 |         var.VariableData = dataBlock.readBytes(var.Length);
+      |                                                    ^~~~~~
+include/Readers/EntityParser.hpp:71:17: error: ‘class Variable’ has no member named ‘VariableData’; did you mean ‘Variable’?
+   71 |             var.VariableData = dataBlock.readString(var.Length);
+      |                 ^~~~~~~~~~~~
+      |                 Variable
+include/Readers/EntityParser.hpp:71:42: error: ‘class DataBlock’ has no member named ‘readString’
+   71 |             var.VariableData = dataBlock.readString(var.Length);
+      |                                          ^~~~~~~~~~
+include/Readers/EntityParser.hpp:71:57: error: ‘class Variable’ has no member named ‘Length’
+   71 |             var.VariableData = dataBlock.readString(var.Length);
+      |                                                         ^~~~~~
+include/Readers/EntityParser.hpp:73:17: error: ‘class Variable’ has no member named ‘VariableData’; did you mean ‘Variable’?
+   73 |             var.VariableData = dataBlock.readBytes(var.Length);
+      |                 ^~~~~~~~~~~~
+      |                 Variable
+include/Readers/EntityParser.hpp:73:42: error: ‘class DataBlock’ has no member named ‘readBytes’; did you mean ‘eatByte’?
+   73 |             var.VariableData = dataBlock.readBytes(var.Length);
+      |                                          ^~~~~~~~~
+      |                                          eatByte
+include/Readers/EntityParser.hpp:73:56: error: ‘class Variable’ has no member named ‘Length’
+   73 |             var.VariableData = dataBlock.readBytes(var.Length);
+      |                                                        ^~~~~~
+include/Readers/EntityParser.hpp:76:12: error: ‘std::vector<std::shared_ptr<Variable> > Entity::Variables’ is private within this context
+   76 |         e->Variables.push_back(var);
+      |            ^~~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:9,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp:17:44: note: declared private here
+   17 |     std::vector<std::shared_ptr<Variable>> Variables;
+      |                                            ^~~~~~~~~
+In file included from src/main.cpp:4:
+include/Readers/EntityParser.hpp:76:31: error: no matching function for call to ‘std::vector<std::shared_ptr<Variable> >::push_back(Variable&)’
+   76 |         e->Variables.push_back(var);
+      |         ~~~~~~~~~~~~~~~~~~~~~~^~~~~
+In file included from /usr/include/c++/11/vector:67,
+                 from include/Entities/RedatamDatabase.hpp:4,
+                 from src/main.cpp:3:
+/usr/include/c++/11/bits/stl_vector.h:1187:7: note: candidate: ‘void std::vector<_Tp, _Alloc>::push_back(const value_type&) [with _Tp = std::shared_ptr<Variable>; _Alloc = std::allocator<std::shared_ptr<Variable> >; std::vector<_Tp, _Alloc>::value_type = std::shared_ptr<Variable>]’
+ 1187 |       push_back(const value_type& __x)
+      |       ^~~~~~~~~
+/usr/include/c++/11/bits/stl_vector.h:1187:35: note:   no known conversion for argument 1 from ‘Variable’ to ‘const value_type&’ {aka ‘const std::shared_ptr<Variable>&’}
+ 1187 |       push_back(const value_type& __x)
+      |                 ~~~~~~~~~~~~~~~~~~^~~
+/usr/include/c++/11/bits/stl_vector.h:1203:7: note: candidate: ‘void std::vector<_Tp, _Alloc>::push_back(std::vector<_Tp, _Alloc>::value_type&&) [with _Tp = std::shared_ptr<Variable>; _Alloc = std::allocator<std::shared_ptr<Variable> >; std::vector<_Tp, _Alloc>::value_type = std::shared_ptr<Variable>]’
+ 1203 |       push_back(value_type&& __x)
+      |       ^~~~~~~~~
+/usr/include/c++/11/bits/stl_vector.h:1203:30: note:   no known conversion for argument 1 from ‘Variable’ to ‘std::vector<std::shared_ptr<Variable> >::value_type&&’ {aka ‘std::shared_ptr<Variable>&&’}
+ 1203 |       push_back(value_type&& __x)
+      |                 ~~~~~~~~~~~~~^~~
+In file included from src/main.cpp:4:
+include/Readers/EntityParser.hpp:77:16: error: use of deleted function ‘Variable::Variable(const Variable&)’
+   77 |         return var;
+      |                ^~~
+In file included from include/Entities/Entity.hpp:8,
+                 from include/Entities/RedatamDatabase.hpp:9,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:18:7: note: ‘Variable::Variable(const Variable&)’ is implicitly deleted because the default definition would be ill-formed:
+   18 | class Variable {
+      |       ^~~~~~~~
+include/Entities/Variable.hpp:18:7: error: use of deleted function ‘std::unique_ptr<_Tp, _Dp>::unique_ptr(const std::unique_ptr<_Tp, _Dp>&) [with _Tp = ICursorReader; _Dp = std::default_delete<ICursorReader>]’
+In file included from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from /usr/include/c++/11/bits/fs_path.h:37,
+                 from /usr/include/c++/11/filesystem:45,
+                 from src/main.cpp:2:
+/usr/include/c++/11/bits/unique_ptr.h:468:7: note: declared here
+  468 |       unique_ptr(const unique_ptr&) = delete;
+      |       ^~~~~~~~~~
+In file included from src/main.cpp:4:
+include/Readers/EntityParser.hpp: In member function ‘bool EntityParser::JumptToDataSet(DataBlock&)’:
+include/Readers/EntityParser.hpp:81:27: error: ‘class DataBlock’ has no member named ‘eof’
+   81 |         while (!dataBlock.eof()) {
+      |                           ^~~
+include/Readers/EntityParser.hpp:82:51: error: ‘class DataBlock’ has no member named ‘readString’
+   82 |             std::string datasetMarker = dataBlock.readString(11);
+      |                                                   ^~~~~~~~~~
+include/Readers/EntityParser.hpp: In member function ‘bool EntityParser::checkDataType(DataBlock&)’:
+include/Readers/EntityParser.hpp:92:38: error: ‘class DataBlock’ has no member named ‘readString’
+   92 |         std::string type = dataBlock.readString(3);
+      |                                      ^~~~~~~~~~
+include/Readers/EntityParser.hpp: In member function ‘std::unordered_map<std::__cxx11::basic_string<char>, DataBlock> EntityParser::SplitDataBlocks(DataBlock&, std::vector<std::shared_ptr<Entity> >&)’:
+include/Readers/EntityParser.hpp:107:57: error: cannot call member function ‘std::vector<std::pair<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> > > Entity::Linealize(std::shared_ptr<Entity>, const std::vector<std::shared_ptr<Entity> >&)’ without object
+  107 |         auto linealEntityParentNames = Entity::Linealize(nullptr, entitiesNames);
+      |                                        ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+include/Readers/EntityParser.hpp: In member function ‘int EntityParser::ParseBeginning(DataBlock&, const string&, const string&)’:
+include/Readers/EntityParser.hpp:126:32: error: ‘class DataBlock’ has no member named ‘makeStringBlock’; did you mean ‘makeString’?
+  126 |         auto block = dataBlock.makeStringBlock(entity);
+      |                                ^~~~~~~~~~~~~~~
+      |                                makeString
+include/Readers/EntityParser.hpp:127:38: error: ‘class DataBlock’ has no member named ‘makeStringBlock’; did you mean ‘makeString’?
+  127 |         auto blockParent = dataBlock.makeStringBlock(parent);
+      |                                      ^~~~~~~~~~~~~~~
+      |                                      makeString
+In file included from include/Exporters/CSVExporter.hpp:11,
+                 from src/main.cpp:6:
+include/Exporters/CSVDoc.hpp: In member function ‘void CSVDoc::WriteVariableLabels()’:
+include/Exporters/CSVDoc.hpp:117:29: error: call of overloaded ‘WriteLine(<brace-enclosed initializer list>)’ is ambiguous
+  117 |             labels.WriteLine({Columns[i], Labels[i]});
+      |             ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+include/Exporters/CSVDoc.hpp:52:10: note: candidate: ‘void CSVDoc::WriteLine(const std::vector<std::__cxx11::basic_string<char> >&)’
+   52 |     void WriteLine(const std::vector<std::string>& values)
+      |          ^~~~~~~~~
+include/Exporters/CSVDoc.hpp:81:10: note: candidate: ‘void CSVDoc::WriteLine(const std::unordered_map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> >&)’
+   81 |     void WriteLine(const std::unordered_map<std::string, std::string>& data)
+      |          ^~~~~~~~~
+In file included from src/main.cpp:6:
+include/Exporters/CSVExporter.hpp: In member function ‘void CSVExporter::WriteVariableValueLabels(CSVDoc&, const std::shared_ptr<Variable>&)’:
+include/Exporters/CSVExporter.hpp:43:36: error: ‘const class ValueLabel’ has no member named ‘first’
+   43 |             labels.WriteLine({item.first, item.second});
+      |                                    ^~~~~
+include/Exporters/CSVExporter.hpp:43:48: error: ‘const class ValueLabel’ has no member named ‘second’
+   43 |             labels.WriteLine({item.first, item.second});
+      |                                                ^~~~~~
+include/Exporters/CSVExporter.hpp:43:29: error: no matching function for call to ‘CSVDoc::WriteLine(<brace-enclosed initializer list>)’
+   43 |             labels.WriteLine({item.first, item.second});
+      |             ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from include/Exporters/CSVExporter.hpp:11,
+                 from src/main.cpp:6:
+include/Exporters/CSVDoc.hpp:52:10: note: candidate: ‘void CSVDoc::WriteLine(const std::vector<std::__cxx11::basic_string<char> >&)’
+   52 |     void WriteLine(const std::vector<std::string>& values)
+      |          ^~~~~~~~~
+include/Exporters/CSVDoc.hpp:52:52: note:   no known conversion for argument 1 from ‘<brace-enclosed initializer list>’ to ‘const std::vector<std::__cxx11::basic_string<char> >&’
+   52 |     void WriteLine(const std::vector<std::string>& values)
+      |                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+include/Exporters/CSVDoc.hpp:81:10: note: candidate: ‘void CSVDoc::WriteLine(const std::unordered_map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> >&)’
+   81 |     void WriteLine(const std::unordered_map<std::string, std::string>& data)
+      |          ^~~~~~~~~
+include/Exporters/CSVDoc.hpp:81:72: note:   no known conversion for argument 1 from ‘<brace-enclosed initializer list>’ to ‘const std::unordered_map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> >&’
+   81 |     void WriteLine(const std::unordered_map<std::string, std::string>& data)
+      |                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+In file included from src/main.cpp:6:
+include/Exporters/CSVExporter.hpp: In member function ‘void CSVExporter::Export(const string&)’:
+include/Exporters/CSVExporter.hpp:60:67: error: ‘std::string Entity::Name’ is private within this context
+   60 |             std::string filename = CreateFilename(folder, entity->Name, "csv");
+      |                                                                   ^~~~
+In file included from include/Entities/RedatamDatabase.hpp:9,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp:16:17: note: declared private here
+   16 |     std::string Name;
+      |                 ^~~~
+In file included from src/main.cpp:6:
+include/Exporters/CSVExporter.hpp:62:49: error: ‘std::vector<std::shared_ptr<Variable> > Entity::Variables’ is private within this context
+   62 |             for (const auto& variable : entity->Variables)
+      |                                                 ^~~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:9,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp:17:44: note: declared private here
+   17 |     std::vector<std::shared_ptr<Variable>> Variables;
+      |                                            ^~~~~~~~~
+In file included from src/main.cpp:6:
+include/Exporters/CSVExporter.hpp:68:44: error: ‘using element_type = class Entity’ {aka ‘class Entity’} has no member named ‘Rows’
+   68 |             for (const auto& row : entity->Rows)
+      |                                            ^~~~
+src/main.cpp: In function ‘void convertDicToCsv(const string&, const string&)’:
+src/main.cpp:11:31: error: no matching function for call to ‘XmlEntityParser::XmlEntityParser(RedatamDatabase*)’
+   11 |     XmlEntityParser parser(&db);
+      |                               ^
+In file included from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlEntityParser.hpp:14:7: note: candidate: ‘XmlEntityParser::XmlEntityParser()’
+   14 | class XmlEntityParser
+      |       ^~~~~~~~~~~~~~~
+include/Readers/XmlEntityParser.hpp:14:7: note:   candidate expects 0 arguments, 1 provided
+include/Readers/XmlEntityParser.hpp:14:7: note: candidate: ‘XmlEntityParser::XmlEntityParser(const XmlEntityParser&)’
+include/Readers/XmlEntityParser.hpp:14:7: note:   no known conversion for argument 1 from ‘RedatamDatabase*’ to ‘const XmlEntityParser&’
+include/Readers/XmlEntityParser.hpp:14:7: note: candidate: ‘XmlEntityParser::XmlEntityParser(XmlEntityParser&&)’
+include/Readers/XmlEntityParser.hpp:14:7: note:   no known conversion for argument 1 from ‘RedatamDatabase*’ to ‘XmlEntityParser&&’
+In file included from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from /usr/include/c++/11/bits/fs_path.h:37,
+                 from /usr/include/c++/11/filesystem:45,
+                 from src/main.cpp:2:
 /usr/include/c++/11/bits/unique_ptr.h: In instantiation of ‘typename std::_MakeUniq<_Tp>::__single_object std::make_unique(_Args&& ...) [with _Tp = FuzzyEntityParser; _Args = {RedatamDatabase*}; typename std::_MakeUniq<_Tp>::__single_object = std::unique_ptr<FuzzyEntityParser>]’:
-include/Entities/RedatamDatabase.hpp:24:70:   required from here
+include/Entities/RedatamDatabase.hpp:25:72:   required from here
 /usr/include/c++/11/bits/unique_ptr.h:962:30: error: no matching function for call to ‘FuzzyEntityParser::FuzzyEntityParser(RedatamDatabase*)’
   962 |     { return unique_ptr<_Tp>(new _Tp(std::forward<_Args>(__args)...)); }
       |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from include/Entities/RedatamDatabase.hpp:10,
-                 from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Readers/FuzzyEntityParser.hpp:11:7: note: candidate: ‘constexpr FuzzyEntityParser::FuzzyEntityParser()’
-   11 | class FuzzyEntityParser
+In file included from include/Entities/RedatamDatabase.hpp:11,
+                 from src/main.cpp:3:
+include/Readers/FuzzyEntityParser.hpp:12:7: note: candidate: ‘constexpr FuzzyEntityParser::FuzzyEntityParser()’
+   12 | class FuzzyEntityParser {
       |       ^~~~~~~~~~~~~~~~~
-include/Readers/FuzzyEntityParser.hpp:11:7: note:   candidate expects 0 arguments, 1 provided
-include/Readers/FuzzyEntityParser.hpp:11:7: note: candidate: ‘constexpr FuzzyEntityParser::FuzzyEntityParser(const FuzzyEntityParser&)’
-include/Readers/FuzzyEntityParser.hpp:11:7: note:   no known conversion for argument 1 from ‘RedatamDatabase*’ to ‘const FuzzyEntityParser&’
-include/Readers/FuzzyEntityParser.hpp:11:7: note: candidate: ‘constexpr FuzzyEntityParser::FuzzyEntityParser(FuzzyEntityParser&&)’
-include/Readers/FuzzyEntityParser.hpp:11:7: note:   no known conversion for argument 1 from ‘RedatamDatabase*’ to ‘FuzzyEntityParser&&’
-In file included from /usr/include/c++/11/memory:76,
-                 from include/Entities/Entity.hpp:6,
-                 from src/Entities/Entity.cpp:1:
+include/Readers/FuzzyEntityParser.hpp:12:7: note:   candidate expects 0 arguments, 1 provided
+include/Readers/FuzzyEntityParser.hpp:12:7: note: candidate: ‘constexpr FuzzyEntityParser::FuzzyEntityParser(const FuzzyEntityParser&)’
+include/Readers/FuzzyEntityParser.hpp:12:7: note:   no known conversion for argument 1 from ‘RedatamDatabase*’ to ‘const FuzzyEntityParser&’
+include/Readers/FuzzyEntityParser.hpp:12:7: note: candidate: ‘constexpr FuzzyEntityParser::FuzzyEntityParser(FuzzyEntityParser&&)’
+include/Readers/FuzzyEntityParser.hpp:12:7: note:   no known conversion for argument 1 from ‘RedatamDatabase*’ to ‘FuzzyEntityParser&&’
+In file included from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from /usr/include/c++/11/bits/fs_path.h:37,
+                 from /usr/include/c++/11/filesystem:45,
+                 from src/main.cpp:2:
 /usr/include/c++/11/bits/unique_ptr.h: In instantiation of ‘typename std::_MakeUniq<_Tp>::__single_object std::make_unique(_Args&& ...) [with _Tp = XmlEntityParser; _Args = {RedatamDatabase*}; typename std::_MakeUniq<_Tp>::__single_object = std::unique_ptr<XmlEntityParser>]’:
-include/Entities/RedatamDatabase.hpp:25:66:   required from here
+include/Entities/RedatamDatabase.hpp:26:68:   required from here
 /usr/include/c++/11/bits/unique_ptr.h:962:30: error: no matching function for call to ‘XmlEntityParser::XmlEntityParser(RedatamDatabase*)’
   962 |     { return unique_ptr<_Tp>(new _Tp(std::forward<_Args>(__args)...)); }
       |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from include/Entities/RedatamDatabase.hpp:11,
-                 from include/Entities/Variable.hpp:12,
-                 from include/Entities/Entity.hpp:9,
-                 from src/Entities/Entity.cpp:1:
-include/Readers/XmlEntityParser.hpp:13:7: note: candidate: ‘XmlEntityParser::XmlEntityParser()’
-   13 | class XmlEntityParser
+In file included from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlEntityParser.hpp:14:7: note: candidate: ‘XmlEntityParser::XmlEntityParser()’
+   14 | class XmlEntityParser
       |       ^~~~~~~~~~~~~~~
-include/Readers/XmlEntityParser.hpp:13:7: note:   candidate expects 0 arguments, 1 provided
-include/Readers/XmlEntityParser.hpp:13:7: note: candidate: ‘XmlEntityParser::XmlEntityParser(const XmlEntityParser&)’
-include/Readers/XmlEntityParser.hpp:13:7: note:   no known conversion for argument 1 from ‘RedatamDatabase*’ to ‘const XmlEntityParser&’
-include/Readers/XmlEntityParser.hpp:13:7: note: candidate: ‘XmlEntityParser::XmlEntityParser(XmlEntityParser&&)’
-include/Readers/XmlEntityParser.hpp:13:7: note:   no known conversion for argument 1 from ‘RedatamDatabase*’ to ‘XmlEntityParser&&’
-make: *** [Makefile:16: obj/Entities/Entity.o] Error 1
+include/Readers/XmlEntityParser.hpp:14:7: note:   candidate expects 0 arguments, 1 provided
+include/Readers/XmlEntityParser.hpp:14:7: note: candidate: ‘XmlEntityParser::XmlEntityParser(const XmlEntityParser&)’
+include/Readers/XmlEntityParser.hpp:14:7: note:   no known conversion for argument 1 from ‘RedatamDatabase*’ to ‘const XmlEntityParser&’
+include/Readers/XmlEntityParser.hpp:14:7: note: candidate: ‘XmlEntityParser::XmlEntityParser(XmlEntityParser&&)’
+include/Readers/XmlEntityParser.hpp:14:7: note:   no known conversion for argument 1 from ‘RedatamDatabase*’ to ‘XmlEntityParser&&’
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from /usr/include/c++/11/bits/fs_path.h:37,
+                 from /usr/include/c++/11/filesystem:45,
+                 from src/main.cpp:2:
+/usr/include/c++/11/tuple: In instantiation of ‘std::pair<_T1, _T2>::pair(std::tuple<_Args1 ...>&, std::tuple<_Args2 ...>&, std::_Index_tuple<_Indexes1 ...>, std::_Index_tuple<_Indexes2 ...>) [with _Args1 = {const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&}; long unsigned int ..._Indexes1 = {0}; _Args2 = {}; long unsigned int ..._Indexes2 = {}; _T1 = const std::__cxx11::basic_string<char>; _T2 = DataBlock]’:
+/usr/include/c++/11/tuple:1809:63:   required from ‘std::pair<_T1, _T2>::pair(std::piecewise_construct_t, std::tuple<_Args1 ...>, std::tuple<_Args2 ...>) [with _Args1 = {const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&}; _Args2 = {}; _T1 = const std::__cxx11::basic_string<char>; _T2 = DataBlock]’
+/usr/include/c++/11/ext/new_allocator.h:162:4:   required from ‘void __gnu_cxx::new_allocator<_Tp>::construct(_Up*, _Args&& ...) [with _Up = std::pair<const std::__cxx11::basic_string<char>, DataBlock>; _Args = {const std::piecewise_construct_t&, std::tuple<const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>, std::tuple<>}; _Tp = std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, DataBlock>, true>]’
+/usr/include/c++/11/bits/alloc_traits.h:516:17:   required from ‘static void std::allocator_traits<std::allocator<_CharT> >::construct(std::allocator_traits<std::allocator<_CharT> >::allocator_type&, _Up*, _Args&& ...) [with _Up = std::pair<const std::__cxx11::basic_string<char>, DataBlock>; _Args = {const std::piecewise_construct_t&, std::tuple<const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>, std::tuple<>}; _Tp = std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, DataBlock>, true>; std::allocator_traits<std::allocator<_CharT> >::allocator_type = std::allocator<std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, DataBlock>, true> >]’
+/usr/include/c++/11/bits/hashtable_policy.h:1878:36:   required from ‘std::__detail::_Hashtable_alloc<_NodeAlloc>::__node_type* std::__detail::_Hashtable_alloc<_NodeAlloc>::_M_allocate_node(_Args&& ...) [with _Args = {const std::piecewise_construct_t&, std::tuple<const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>, std::tuple<>}; _NodeAlloc = std::allocator<std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, DataBlock>, true> >; std::__detail::_Hashtable_alloc<_NodeAlloc>::__node_ptr = std::allocator<std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, DataBlock>, true> >::value_type*]’
+/usr/include/c++/11/bits/hashtable.h:304:35:   required from ‘std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::_Scoped_node::_Scoped_node(std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::__hashtable_alloc*, _Args&& ...) [with _Args = {const std::piecewise_construct_t&, std::tuple<const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>, std::tuple<>}; _Key = std::__cxx11::basic_string<char>; _Value = std::pair<const std::__cxx11::basic_string<char>, DataBlock>; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, DataBlock> >; _ExtractKey = std::__detail::_Select1st; _Equal = std::equal_to<std::__cxx11::basic_string<char> >; _Hash = std::hash<std::__cxx11::basic_string<char> >; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, false, true>; std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::__hashtable_alloc = std::_Hashtable<std::__cxx11::basic_string<char>, std::pair<const std::__cxx11::basic_string<char>, DataBlock>, std::allocator<std::pair<const std::__cxx11::basic_string<char>, DataBlock> >, std::__detail::_Select1st, std::equal_to<std::__cxx11::basic_string<char> >, std::hash<std::__cxx11::basic_string<char> >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::__hashtable_alloc]’
+/usr/include/c++/11/bits/hashtable_policy.h:707:42:   required from ‘std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::mapped_type& std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::operator[](const key_type&) [with _Key = std::__cxx11::basic_string<char>; _Pair = std::pair<const std::__cxx11::basic_string<char>, DataBlock>; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, DataBlock> >; _Equal = std::equal_to<std::__cxx11::basic_string<char> >; _Hash = std::hash<std::__cxx11::basic_string<char> >; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, false, true>; std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::mapped_type = DataBlock; std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::key_type = std::__cxx11::basic_string<char>]’
+/usr/include/c++/11/bits/unordered_map.h:980:20:   required from ‘std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = std::__cxx11::basic_string<char>; _Tp = DataBlock; _Hash = std::hash<std::__cxx11::basic_string<char> >; _Pred = std::equal_to<std::__cxx11::basic_string<char> >; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, DataBlock> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = DataBlock; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = std::__cxx11::basic_string<char>]’
+include/Readers/EntityParser.hpp:46:65:   required from here
+/usr/include/c++/11/tuple:1820:9: error: no matching function for call to ‘DataBlock::DataBlock()’
+ 1820 |         second(std::forward<_Args2>(std::get<_Indexes2>(__tuple2))...)
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from include/Readers/FuzzyEntityParser.hpp:8,
+                 from include/Entities/RedatamDatabase.hpp:11,
+                 from src/main.cpp:3:
+include/Readers/DataBlock.hpp:29:5: note: candidate: ‘DataBlock::DataBlock(const std::vector<unsigned char>&)’
+   29 |     DataBlock(const std::vector<uint8_t>& bytes) : data(bytes) {}
+      |     ^~~~~~~~~
+include/Readers/DataBlock.hpp:29:5: note:   candidate expects 1 argument, 0 provided
+include/Readers/DataBlock.hpp:16:5: note: candidate: ‘DataBlock::DataBlock(const string&)’
+   16 |     DataBlock(const std::string& path) {
+      |     ^~~~~~~~~
+include/Readers/DataBlock.hpp:16:5: note:   candidate expects 1 argument, 0 provided
+include/Readers/DataBlock.hpp:11:7: note: candidate: ‘DataBlock::DataBlock(const DataBlock&)’
+   11 | class DataBlock {
+      |       ^~~~~~~~~
+include/Readers/DataBlock.hpp:11:7: note:   candidate expects 1 argument, 0 provided
+include/Readers/DataBlock.hpp:11:7: note: candidate: ‘DataBlock::DataBlock(DataBlock&&)’
+include/Readers/DataBlock.hpp:11:7: note:   candidate expects 1 argument, 0 provided
+make: *** [Makefile:16: obj/main.o] Error 1

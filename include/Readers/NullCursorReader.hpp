@@ -1,6 +1,7 @@
 #ifndef NULLCURSORREADER_HPP
 #define NULLCURSORREADER_HPP
 
+#include "CursorReader.hpp"
 #include "ICursorReader.hpp"
 #include <stdexcept>
 #include <string>
