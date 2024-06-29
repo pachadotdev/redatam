@@ -52,7 +52,7 @@ public:
     {
         int keepN = n;
         cad.clear();
-        if (n + 2 >= data.size())
+        if (n + 2 >= static_cast<int>(data.size())) {
             return false;
         int length = eat16int();
         if (length < 0 || length > 128 || n + length > data.size())
