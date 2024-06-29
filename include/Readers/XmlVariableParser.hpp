@@ -2,10 +2,13 @@
 #define XMLVARIABLEPARSER_HPP
 
 #include <string>
-#include <tinyxml2.h>
+#include "tinyxml2.h"
 #include "Variable.hpp"
 #include "ValueLabel.hpp"
 #include "XmlEntityParser.hpp"
+
+// forward declaration
+class Variable;
 
 class XmlVariableParser
 {

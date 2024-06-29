@@ -5,9 +5,10 @@
 #include <string>
 #include <stdexcept>
 #include <memory>
-#include <tinyxml2.h>
+#include "tinyxml2.h"
 #include "RedatamDatabase.hpp"
 #include "Entity.hpp"
+#include "Variable.hpp"
 #include "XmlVariableParser.hpp"
 
 class XmlEntityParser

@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include "tinyxml2.h"
 #include "ValueLabel.hpp"
 #include "ICursorReader.hpp"
 #include "Entity.hpp"

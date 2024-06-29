@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++14 -Wall -Iinclude/Entities -Iinclude/Readers -Isrc/vendor
+CXXFLAGS = -std=c++17 -Wall -Iinclude/Entities -Iinclude/Readers -Isrc/vendor
 
 SRC_DIR = src
 OBJ_DIR = obj
@@ -16,6 +16,6 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 clean:
-	rm -rf $(OBJ_DIR)
+	rm -rf $(OBJ_DIR) $(TARGET)
 
 .PHONY: clean
