@@ -11,24 +11,11 @@
 class CursorReader : public ICursorReader
 {
 public:
-    int BlockSize;
-    std::string Filename;
-    bool IsString;
-    bool IsBinaryDataSet;
-
-private:
-    std::ifstream stream;
-    int64_t fileSize;
-    uint32_t trailingBits = 0;
-    int trailingBitsCount = 0;
-    int bytesPos = 0;
-
-public:
     CursorReader(const std::string& file, int size)
         : CursorReader(file, false, false, size) {}
 
     CursorReader(const std::string& file, bool isString, bool isBin, int size)
-        : IsString(isString), Filename(file), IsBinaryDataSet(isBin), BlockSize(size) {}
+        : BlockSize(size), Filename(file), IsString(isString), IsBinaryDataSet(isBin) {}
 
     void Open()
     {
@@ -84,16 +71,6 @@ public:
         return bytesPos >= fileSize;
     }
 
-    uint32_t ReadInt32()
-    {
-        return ReadInt16() + ReadInt16() * 0x10000;
-    }
-
-    uint32_t ReadInt16()
-    {
-        return ReadByte() + ReadByte() * 0x100;
-    }
-
     int64_t Length() const
     {
         return stream.tellg();
@@ -118,6 +95,26 @@ public:
     }
 
 private:
+    int BlockSize;
+    std::string Filename;
+    bool IsString;
+    bool IsBinaryDataSet;
+    std::ifstream stream;
+    int64_t fileSize;
+    uint32_t trailingBits = 0;
+    int trailingBitsCount = 0;
+    int bytesPos = 0;
+
+    uint32_t ReadInt32()
+    {
+        return ReadInt16() + ReadInt16() * 0x10000;
+    }
+
+    uint32_t ReadInt16()
+    {
+        return ReadByte() + ReadByte() * 0x100;
+    }
+
     uint32_t Read4Bytes()
     {
         return Read2Bytes() * 0x10000 + Read2Bytes();
