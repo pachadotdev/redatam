@@ -4,9 +4,11 @@
 #include <vector>
 #include <string>
 #include <memory>
-#include "RedatamDatabase.hpp"
-#include "Entity.hpp"
 #include "DataBlock.hpp"
+
+// Forward declaration of RedatamDatabase and Entity
+class RedatamDatabase;
+class Entity;
 
 class FuzzyEntityParser
 {
