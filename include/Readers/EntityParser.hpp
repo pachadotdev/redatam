@@ -60,15 +60,13 @@ public:
     return ret;
   }
 
-  std::shared_ptr<Entity>
-  ParseEntity(const DataBlock &dataBlock, const std::string &entity,
-              const std::string &parent) { // Change to const reference
-    auto e = std::make_shared<Entity>();
-    e->rootPath = rootPath;
-
+  std::shared_ptr<Entity> ParseEntity(DataBlock &dataBlock,
+                                      const std::string &entity,
+                                      const std::string &parent) {
     auto block = dataBlock.makeStringBlock(entity);
     auto blockParent = dataBlock.makeStringBlock(parent);
     std::vector<uint8_t> full;
+
     if (!parent.empty()) {
       full = dataBlock.addArrays(block, block, blockParent);
     } else {
@@ -79,6 +77,7 @@ public:
       throw std::runtime_error("Sequence not found.");
     }
 
+    auto e = std::make_shared<Entity>();
     e->setName(dataBlock.eatShortString());
     e->setRelationChild(dataBlock.eatShortString());
     if (!e->getRelationChild().empty()) {
@@ -164,6 +163,7 @@ public:
     int iStart = 0;
     auto linealEntityParentNames = Entity::Linealize(nullptr, entitiesNames);
     for (size_t i = 0; i < linealEntityParentNames.size(); ++i) {
+      const auto &entity = linealEntityParentNames[i].second;
       iStart = ParseBeginning(dataBlock, linealEntityParentNames[i].second,
                               linealEntityParentNames[i].first);
       if (prevStart != -1) {
@@ -180,9 +180,6 @@ public:
 
   int ParseBeginning(const DataBlock &dataBlock, const std::string &entity,
                      const std::string &parent) {
-    auto e = std::make_shared<Entity>();
-    e->rootPath = rootPath;
-
     auto block = dataBlock.makeStringBlock(entity);
     auto blockParent = dataBlock.makeStringBlock(parent);
     std::vector<uint8_t> full;
@@ -191,7 +188,6 @@ public:
     } else {
       full = dataBlock.addArrays(block, blockParent);
     }
-
     if (!dataBlock.moveTo(full)) {
       throw std::runtime_error("Sequence not found.");
     }
