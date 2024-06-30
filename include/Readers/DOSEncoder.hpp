@@ -4,85 +4,84 @@
 #include <vector>
 #include <unordered_map>
 #include <string>
+#include <algorithm>
+#include <sstream>
 #include "RedatamDatabase.hpp"
 #include "Entity.hpp"
 
-class MsDOSEncoder
-{
+namespace RedatamLib {
+
+class MsDOSEncoder {
 private:
-    std::vector<int> oldChars = { 160, 130, 162, 163, 164 };
-    RedatamDatabase* db;
-    std::unordered_map<char, int> matches;
-    int sumMatches;
-    bool testing;
+  std::vector<int> oldChars = {160, 130, 162, 163, 164};
+  RedatamDatabase *db;
+  std::unordered_map<char, int> matches;
+  int sumMatches;
+  bool testing;
 
-    void Process(std::string& value)
-    {
-        if (testing)
-        {
-            CountMsDOSChars(value);
-        }
-        else
-        {
-            value = ReplaceMsDOSChars(value);
-        }
+  void Process(std::string &value) {
+    if (testing) {
+      CountMsDOSChars(value);
+    } else {
+      ReencodeMsDOSChars(value);
     }
+  }
 
-    static std::string ReplaceMsDOSChars(const std::string& value)
-    {
-        std::vector<char> text(value.begin(), value.end());
-        return std::string(text.begin(), text.end()); // Assuming encoding replacement here
+  void CountMsDOSChars(const std::string &value) {
+    for (auto ch : value) {
+      if (std::find(oldChars.begin(), oldChars.end(), ch) != oldChars.end()) {
+        matches[ch]++;
+        sumMatches++;
+      }
     }
+  }
 
-    void CountMsDOSChars(const std::string& value)
-    {
-        for (char c : value)
-        {
-            if (std::find(oldChars.begin(), oldChars.end(), static_cast<int>(c)) != oldChars.end())
-            {
-                matches[c]++;
-                sumMatches++;
-            }
-        }
+  void ReencodeMsDOSChars(std::string &value) {
+    for (auto &ch : value) {
+      if (std::find(oldChars.begin(), oldChars.end(), ch) != oldChars.end()) {
+        ch = ReencodeChar(ch);
+      }
     }
+  }
 
-    bool ProcessEntities(std::vector<std::shared_ptr<Entity>>& entities)
-    {
-        for (auto& entity : entities)
-        {
-            for (auto& variable : entity->getVariables())
-            {
-                Process(variable->Label);
-                for (auto& value : variable->ValueLabels)
-                {
-                    Process(value.Value);
-                }
-            }
-            if (ProcessEntities(entity->getChildren()))
-            {
-                if (testing)
-                    return true;
-            }
-        }
-        return (matches.size() >= 3 && sumMatches >= 6);
+  char ReencodeChar(char ch) {
+    switch (ch) {
+    case 160:
+      return 'á';
+    case 130:
+      return 'é';
+    case 162:
+      return 'ó';
+    case 163:
+      return 'ú';
+    case 164:
+      return 'ñ';
+    default:
+      return ch;
     }
+  }
 
 public:
-    MsDOSEncoder(RedatamDatabase* db) : db(db) {}
+  MsDOSEncoder(RedatamDatabase *database, bool testing)
+      : db(database), testing(testing), sumMatches(0) {}
 
-    void ReencodeLabels()
-    {
-        testing = false;
-        ProcessEntities(db->Entities);
+  void ReencodeLabels() {
+    for (auto &entity : db->Entities) {
+      for (auto &variable : entity.Variables) {
+        if (variable.ValueLabels != nullptr) {
+          for (auto &label : *variable.ValueLabels) {
+            Process(label.Value);
+          }
+        }
+        Process(variable.Label);
+      }
+      Process(entity.Label);
     }
+  }
 
-    bool RequiresProcessing()
-    {
-        testing = true;
-        matches.clear();
-        sumMatches = 0;
-        return ProcessEntities(db->Entities);
-    }
+  bool RequiresProcessing() const { return sumMatches > 3; }
 };
+
+}
 
 #endif // DOSENCODER_HPP

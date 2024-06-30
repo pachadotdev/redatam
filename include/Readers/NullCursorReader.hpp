@@ -6,6 +6,8 @@
 #include <stdexcept>
 #include <string>
 
+namespace RedatamLib {
+
 class NullCursorReader : public ICursorReader
 {
 public:
@@ -62,5 +64,7 @@ public:
         return 0;
     }
 };
+
+}
 
 #endif // NULLCURSORREADER_HPP

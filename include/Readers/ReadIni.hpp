@@ -8,6 +8,8 @@
 #include <sstream>
 #include "IniSection.hpp"
 
+namespace RedatamLib {
+
 class ReadIni
 {
 public:
@@ -46,5 +48,7 @@ private:
         return line.substr(1, line.size() - 2);
     }
 };
+
+}
 
 #endif // READINI_HPP

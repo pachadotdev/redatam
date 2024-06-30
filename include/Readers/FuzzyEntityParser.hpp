@@ -9,6 +9,8 @@
 #include "Entity.hpp"
 #include "RedatamDatabase.hpp"
 
+namespace RedatamLib {
+
 class FuzzyEntityParser {
 private:
     RedatamDatabase* db;
@@ -112,5 +114,7 @@ public:
         db->entityNames = GetBest(candidates);
     }
 };
+
+}
 
 #endif // FUZZYENTITYPARSER_HPP

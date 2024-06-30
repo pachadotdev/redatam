@@ -67,8 +67,10 @@ public:
         Children = children;
     }
 
-    std::vector<std::shared_ptr<Variable>>& getVariables() {
-        return Variables;
+    std::vector<std::shared_ptr<Variable>> &getVariables() { return Variables; }
+
+    const std::vector<std::shared_ptr<Variable>> &getVariables() const {
+      return Variables;
     }
 
     void setVariables(const std::vector<std::shared_ptr<Variable>>& variables) {

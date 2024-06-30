@@ -9,6 +9,8 @@
 #include <cstring>
 #include <cctype>
 
+namespace RedatamLib {
+
 class DataBlock {
 public:
     std::vector<uint8_t> data;
@@ -199,5 +201,7 @@ public:
         return std::equal(needle, needle + needle_len, haystack + offset);
     }
 };
+
+}
 
 #endif // DATABLOCK_HPP

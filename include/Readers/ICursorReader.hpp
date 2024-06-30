@@ -3,6 +3,8 @@
 
 #include <string>
 
+namespace RedatamLib {
+
 class ICursorReader
 {
 public:
@@ -21,5 +23,7 @@ public:
     virtual int64_t Length() const = 0;
     virtual uint32_t ReadInt32At(int64_t pos) = 0;
 };
+
+}
 
 #endif // ICURSORREADER_HPP

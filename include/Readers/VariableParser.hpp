@@ -8,6 +8,8 @@
 #include "ValueLabel.hpp"
 #include "Variable.hpp"
 
+namespace RedatamLib {
+
 class VariableParser {
 private:
     std::shared_ptr<RedatamLib::Variable> variable;
@@ -119,5 +121,7 @@ private:
         return ret;
     }
 };
+
+}
 
 #endif // VARIABLEPARSER_HPP

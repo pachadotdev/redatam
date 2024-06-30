@@ -1,81 +1,68 @@
-#ifndef CSV_EXPORTER_HPP
-#define CSV_EXPORTER_HPP
+#ifndef CSVEXPORTER_HPP
+#define CSVEXPORTER_HPP
 
-#include <string>
-#include <unordered_map>
+#include <memory>
 #include <vector>
-#include <filesystem>
-#include "RedatamDatabase.hpp"
-#include "Entity.hpp"
-#include "Variable.hpp"
+#include <string>
 #include "CSVDoc.hpp"
+#include "Variable.hpp"
+#include "Entity.hpp"
 
 namespace RedatamLib {
 
-class CSVExporter
-{
-private:
-    RedatamDatabase* db;
-
-    std::string CreateFilename(const std::string& folder, const std::string& name, const std::string& extension)
-    {
-        std::string filename = folder + "/" + name + "." + extension;
-        return filename;
-    }
-
-    void CreateVariable(CSVDoc& doc, const std::shared_ptr<Variable>& v)
-    {
-        doc.Columns.push_back(v->Name);
-        doc.Labels.push_back(v->Label);
-        if (!v->ValueLabels.empty())
-        {
-            WriteVariableValueLabels(doc, v);
-        }
-    }
-
-    void WriteVariableValueLabels(CSVDoc& doc, const std::shared_ptr<Variable>& v)
-    {
-        std::filesystem::path path = std::filesystem::path(doc.Filename).parent_path() / "Labels" / std::filesystem::path(doc.Filename).stem();
-        std::string file = path.string() + "-" + v->Name + "-LABELS.CSV";
-        CSVDoc labels(file);
-        labels.Columns = {v->Name, "label"};
-        labels.CommitDictionary();
-        for (const auto &item : v->ValueLabels) {
-          labels.WriteLine({item.first, item.second});
-        }
-        labels.Close();
-    }
-
-    void WriteVariablesData(CSVDoc& doc, const std::unordered_map<std::string, std::string>& data)
-    {
-        doc.WriteLine(data);
-    }
-
+class CSVExporter {
 public:
-    CSVExporter(RedatamDatabase* db) : db(db) {}
-
-    void Export(const std::string& folder)
-    {
-        for (const auto& entity : db->Entities)
-        {
-            std::string filename = CreateFilename(folder, entity->Name, "csv");
-            CSVDoc doc(filename);
-            for (const auto& variable : entity->Variables)
-            {
-                CreateVariable(doc, variable);
-            }
-            doc.CommitDictionary();
-
-            for (const auto& row : entity->Rows)
-            {
-                WriteVariablesData(doc, row);
-            }
-
-            doc.Close();
-        }
+  void WriteVariableValueLabels(CSVDoc &labels,
+                                const std::shared_ptr<Variable> &variable) {
+    for (const auto &item : variable->ValueLabels) {
+      labels.WriteLine(std::vector<std::string>{item.Key, item.Value});
     }
+  }
+
+  void Export(const std::string &folder) {
+    for (const auto &entity : entities) {
+      std::string filename = CreateFilename(folder, entity->getName(), "csv");
+      CSVDoc doc(filename);
+
+      WriteHeader(doc, entity);
+
+      for (const auto &variable : entity->getVariables()) {
+        WriteVariable(doc, variable);
+      }
+
+      WriteFooter(doc, entity);
+
+      // Close the document
+      doc.Close();
+    }
+  }
+
+private:
+  std::vector<std::shared_ptr<Entity>> entities;
+
+  std::string CreateFilename(const std::string &folder, const std::string &name,
+                             const std::string &extension) {
+    return folder + "/" + name + "." + extension;
+  }
+
+  void WriteHeader(CSVDoc &doc, const std::shared_ptr<Entity> &entity) {
+    doc.WriteLine({"Entity Name", "Description", "Level"});
+    doc.WriteLine({entity->getName(), entity->Description,
+                   std::to_string(entity->Level)});
+  }
+
+  void WriteVariable(CSVDoc &doc, const std::shared_ptr<Variable> &variable) {
+    doc.WriteLine({"Variable Name", "Type", "Label", "Range", "Size"});
+    doc.WriteLine({variable->Name, variable->Type, variable->Label,
+                   variable->Range, std::to_string(variable->Size)});
+    WriteVariableValueLabels(doc, variable);
+  }
+
+  void WriteFooter(CSVDoc &doc, const std::shared_ptr<Entity> &entity) {
+    doc.WriteLine({"Total Variables", std::to_string(entity->VariableCount)});
+  }
 };
 
-}
+} // namespace RedatamLib
 
-#endif // CSV_EXPORTER_HPP
+#endif // CSVEXPORTER_HPP

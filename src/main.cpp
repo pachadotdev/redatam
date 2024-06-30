@@ -1,18 +1,19 @@
 #include <iostream>
 #include <filesystem>
 #include "RedatamDatabase.hpp"
+#include "Entity.hpp"
 #include "EntityParser.hpp"
 #include "XmlEntityParser.hpp"
 #include "CSVExporter.hpp"
 
 void convertDicToCsv(const std::string& dicFilePath, const std::string& outputDirPath)
 {
-    RedatamDatabase db;
-    XmlEntityParser parser(&db);
-    parser.Parse(dicFilePath);
+  auto db = std::make_shared<RedatamLib::RedatamDatabase>();
+  RedatamLib::XmlEntityParser parser(db);
+  parser.Parse(dicFilePath);
 
-    CSVExporter exporter(&db);
-    exporter.Export(outputDirPath);
+  RedatamLib::CSVExporter exporter;
+  exporter.Export(outputDirPath);
 }
 
 int main(int argc, char* argv[])

@@ -4,6 +4,8 @@
 #include <string>
 #include <unordered_map>
 
+namespace RedatamLib {
+
 class IniSection
 {
 public:
@@ -21,5 +23,7 @@ public:
             return it->second;
     }
 };
+
+}
 
 #endif // INISECTION_HPP

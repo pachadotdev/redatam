@@ -1,306 +1,117 @@
 g++ -std=c++17 -Wall -Iinclude/Entities -Iinclude/Readers -Iinclude/Exporters -Ivendor -c -o obj/main.o src/main.cpp
-In file included from include/Readers/EntityParser.hpp:10,
-                 from src/main.cpp:4:
-include/Readers/VariableParser.hpp: In member function ‘void VariableParser::ParseValueLabels()’:
-include/Readers/VariableParser.hpp:20:63: error: ‘class std::shared_ptr<Variable>’ has no member named ‘ValuesLabelsRaw’
-   20 |         std::vector<std::string> items = split(this->variable.ValuesLabelsRaw, '\t');
-      |                                                               ^~~~~~~~~~~~~~~
-include/Readers/VariableParser.hpp:21:24: error: ‘class std::shared_ptr<Variable>’ has no member named ‘ValueLabels’
-   21 |         this->variable.ValueLabels.clear();
-      |                        ^~~~~~~~~~~
-include/Readers/VariableParser.hpp:22:28: error: ‘class std::shared_ptr<Variable>’ has no member named ‘ValuesLabelsRaw’
-   22 |         if (this->variable.ValuesLabelsRaw.empty()) return;
-      |                            ^~~~~~~~~~~~~~~
-include/Readers/VariableParser.hpp:31:32: error: ‘class std::shared_ptr<Variable>’ has no member named ‘ValueLabels’
-   31 |                 this->variable.ValueLabels.emplace_back("0", item);
-      |                                ^~~~~~~~~~~
-include/Readers/VariableParser.hpp:33:32: error: ‘class std::shared_ptr<Variable>’ has no member named ‘ValueLabels’
-   33 |                 this->variable.ValueLabels.emplace_back(part1, part2);
-      |                                ^~~~~~~~~~~
-include/Readers/VariableParser.hpp: In member function ‘void VariableParser::ParseDecimals(std::string)’:
-include/Readers/VariableParser.hpp:42:28: error: ‘class std::shared_ptr<Variable>’ has no member named ‘Decimals’
-   42 |             this->variable.Decimals = std::stoi(value);
-      |                            ^~~~~~~~
-include/Readers/VariableParser.hpp: In member function ‘std::string VariableParser::GetMissingLabel(std::string, const string&)’:
-include/Readers/VariableParser.hpp:50:28: error: ‘class std::shared_ptr<Variable>’ has no member named ‘ValueLabels’
-   50 |             this->variable.ValueLabels.emplace_back(value, label);
-      |                            ^~~~~~~~~~~
-include/Readers/VariableParser.hpp: In member function ‘void VariableParser::ParseDeclaration()’:
-include/Readers/VariableParser.hpp:56:43: error: ‘class std::shared_ptr<Variable>’ has no member named ‘Declaration’
-   56 |         std::string info = this->variable.Declaration;
-      |                                           ^~~~~~~~~~~
-include/Readers/VariableParser.hpp:63:28: error: ‘class std::shared_ptr<Variable>’ has no member named ‘Type’
-   63 |         if (this->variable.Type == "STRING" && type != "CHR")
-      |                            ^~~~
-include/Readers/VariableParser.hpp:65:28: error: ‘class std::shared_ptr<Variable>’ has no member named ‘Type’
-   65 |         if (this->variable.Type == "REAL" && type != "DBL")
-      |                            ^~~~
-include/Readers/VariableParser.hpp:68:28: error: ‘class std::shared_ptr<Variable>’ has no member named ‘Size’
-   68 |             this->variable.Size = 64;
-      |                            ^~~~
-include/Readers/VariableParser.hpp:70:28: error: ‘class std::shared_ptr<Variable>’ has no member named ‘Size’
-   70 |             this->variable.Size = 32;
-      |                            ^~~~
-include/Readers/VariableParser.hpp:72:28: error: ‘class std::shared_ptr<Variable>’ has no member named ‘Size’
-   72 |             this->variable.Size = 16;
-      |                            ^~~~
-include/Readers/VariableParser.hpp:73:28: error: ‘class std::shared_ptr<Variable>’ has no member named ‘Type’
-   73 |             this->variable.Type = "INT16";
-      |                            ^~~~
-include/Readers/VariableParser.hpp:75:28: error: ‘class std::shared_ptr<Variable>’ has no member named ‘Size’
-   75 |             this->variable.Size = std::stoi(size);
-      |                            ^~~~
-include/Readers/VariableParser.hpp:76:28: error: ‘class std::shared_ptr<Variable>’ has no member named ‘BinaryDataSet’
-   76 |             this->variable.BinaryDataSet = true;
-      |                            ^~~~~~~~~~~~~
-include/Readers/VariableParser.hpp:78:28: error: ‘class std::shared_ptr<Variable>’ has no member named ‘Size’
-   78 |             this->variable.Size = std::stoi(size);
-      |                            ^~~~
-include/Readers/VariableParser.hpp:82:24: error: ‘class std::shared_ptr<Variable>’ has no member named ‘Filename’
-   82 |         this->variable.Filename = fileRaw;
-      |                        ^~~~~~~~
-include/Readers/VariableParser.hpp: In member function ‘void VariableParser::ParseMissingAndPrecision()’:
-include/Readers/VariableParser.hpp:86:45: error: ‘class std::shared_ptr<Variable>’ has no member named ‘Group’
-   86 |         std::string extras = this->variable.Group;
-      |                                             ^~~~~
-In file included from src/main.cpp:4:
-include/Readers/EntityParser.hpp: In member function ‘bool EntityParser::checkDataType(DataBlock&)’:
-include/Readers/EntityParser.hpp:117:29: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<unsigned char>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
-  117 |         if (dataBlock.n + 3 > dataBlock.data.size()) {
-      |             ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-include/Readers/EntityParser.hpp: In member function ‘std::unordered_map<std::__cxx11::basic_string<char>, DataBlock> EntityParser::SplitDataBlocks(DataBlock&, std::vector<std::shared_ptr<Entity> >&)’:
-include/Readers/EntityParser.hpp:135:27: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<std::pair<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> > >::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
-  135 |         for (int i = 0; i < linealEntityParentNames.size(); ++i) {
-      |                         ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from include/Readers/XmlEntityParser.hpp:12,
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from /usr/include/c++/11/bits/fs_path.h:37,
+                 from /usr/include/c++/11/filesystem:45,
+                 from src/main.cpp:2:
+/usr/include/c++/11/tuple: In instantiation of ‘std::pair<_T1, _T2>::pair(std::tuple<_Args1 ...>&, std::tuple<_Args2 ...>&, std::_Index_tuple<_Indexes1 ...>, std::_Index_tuple<_Indexes2 ...>) [with _Args1 = {std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&}; long unsigned int ..._Indexes1 = {0}; _Args2 = {}; long unsigned int ..._Indexes2 = {}; _T1 = const std::__cxx11::basic_string<char>; _T2 = RedatamLib::DataBlock]’:
+/usr/include/c++/11/tuple:1809:63:   required from ‘std::pair<_T1, _T2>::pair(std::piecewise_construct_t, std::tuple<_Args1 ...>, std::tuple<_Args2 ...>) [with _Args1 = {std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&}; _Args2 = {}; _T1 = const std::__cxx11::basic_string<char>; _T2 = RedatamLib::DataBlock]’
+/usr/include/c++/11/ext/new_allocator.h:162:4:   required from ‘void __gnu_cxx::new_allocator<_Tp>::construct(_Up*, _Args&& ...) [with _Up = std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>; _Args = {const std::piecewise_construct_t&, std::tuple<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&>, std::tuple<>}; _Tp = std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, true>]’
+/usr/include/c++/11/bits/alloc_traits.h:516:17:   required from ‘static void std::allocator_traits<std::allocator<_CharT> >::construct(std::allocator_traits<std::allocator<_CharT> >::allocator_type&, _Up*, _Args&& ...) [with _Up = std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>; _Args = {const std::piecewise_construct_t&, std::tuple<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&>, std::tuple<>}; _Tp = std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, true>; std::allocator_traits<std::allocator<_CharT> >::allocator_type = std::allocator<std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, true> >]’
+/usr/include/c++/11/bits/hashtable_policy.h:1878:36:   required from ‘std::__detail::_Hashtable_alloc<_NodeAlloc>::__node_type* std::__detail::_Hashtable_alloc<_NodeAlloc>::_M_allocate_node(_Args&& ...) [with _Args = {const std::piecewise_construct_t&, std::tuple<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&>, std::tuple<>}; _NodeAlloc = std::allocator<std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, true> >; std::__detail::_Hashtable_alloc<_NodeAlloc>::__node_ptr = std::allocator<std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, true> >::value_type*]’
+/usr/include/c++/11/bits/hashtable.h:304:35:   required from ‘std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::_Scoped_node::_Scoped_node(std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::__hashtable_alloc*, _Args&& ...) [with _Args = {const std::piecewise_construct_t&, std::tuple<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&>, std::tuple<>}; _Key = std::__cxx11::basic_string<char>; _Value = std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock> >; _ExtractKey = std::__detail::_Select1st; _Equal = std::equal_to<std::__cxx11::basic_string<char> >; _Hash = std::hash<std::__cxx11::basic_string<char> >; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, false, true>; std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::__hashtable_alloc = std::_Hashtable<std::__cxx11::basic_string<char>, std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, std::allocator<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock> >, std::__detail::_Select1st, std::equal_to<std::__cxx11::basic_string<char> >, std::hash<std::__cxx11::basic_string<char> >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::__hashtable_alloc]’
+/usr/include/c++/11/bits/hashtable_policy.h:734:42:   required from ‘std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::mapped_type& std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::operator[](std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::key_type&&) [with _Key = std::__cxx11::basic_string<char>; _Pair = std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock> >; _Equal = std::equal_to<std::__cxx11::basic_string<char> >; _Hash = std::hash<std::__cxx11::basic_string<char> >; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, false, true>; std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::mapped_type = RedatamLib::DataBlock; std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::key_type = std::__cxx11::basic_string<char>]’
+/usr/include/c++/11/bits/unordered_map.h:984:20:   required from ‘std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = std::__cxx11::basic_string<char>; _Tp = RedatamLib::DataBlock; _Hash = std::hash<std::__cxx11::basic_string<char> >; _Pred = std::equal_to<std::__cxx11::basic_string<char> >; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = RedatamLib::DataBlock; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = std::__cxx11::basic_string<char>]’
+include/Readers/EntityParser.hpp:29:71:   required from here
+/usr/include/c++/11/tuple:1820:9: error: no matching function for call to ‘RedatamLib::DataBlock::DataBlock()’
+ 1820 |         second(std::forward<_Args2>(std::get<_Indexes2>(__tuple2))...)
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from include/Readers/EntityParser.hpp:9,
                  from src/main.cpp:5:
-include/Readers/XmlVariableParser.hpp: In member function ‘void XmlVariableParser::ParseValueLabels(tinyxml2::XMLElement*)’:
-include/Readers/XmlVariableParser.hpp:69:30: error: incomplete type ‘XmlEntityParser’ used in nested name specifier
-   69 |         if (XmlEntityParser::hasChildByName(variableNode, "valueLabels"))
-      |                              ^~~~~~~~~~~~~~
-include/Readers/XmlVariableParser.hpp:71:45: error: incomplete type ‘XmlEntityParser’ used in nested name specifier
-   71 |             auto* values = XmlEntityParser::getChildByName(variableNode, "valueLabels");
-      |                                             ^~~~~~~~~~~~~~
-include/Readers/XmlVariableParser.hpp:74:48: error: incomplete type ‘XmlEntityParser’ used in nested name specifier
-   74 |                 auto* value = XmlEntityParser::getChildByName(ele, "value");
-      |                                                ^~~~~~~~~~~~~~
-include/Readers/XmlVariableParser.hpp:75:48: error: incomplete type ‘XmlEntityParser’ used in nested name specifier
-   75 |                 auto* label = XmlEntityParser::getChildByName(ele, "label");
-      |                                                ^~~~~~~~~~~~~~
-include/Readers/XmlVariableParser.hpp: In member function ‘void XmlVariableParser::ParseDeclaration(tinyxml2::XMLElement*)’:
-include/Readers/XmlVariableParser.hpp:83:41: error: incomplete type ‘XmlEntityParser’ used in nested name specifier
-   83 |         auto* choice = XmlEntityParser::getChildByName(node, "varDicChoice");
-      |                                         ^~~~~~~~~~~~~~
-include/Readers/XmlVariableParser.hpp:84:43: error: incomplete type ‘XmlEntityParser’ used in nested name specifier
-   84 |         auto* typeNode = XmlEntityParser::getChildByName(choice, "datasetType");
-      |                                           ^~~~~~~~~~~~~~
-include/Readers/XmlVariableParser.hpp:86:43: error: incomplete type ‘XmlEntityParser’ used in nested name specifier
-   86 |         auto* sizeNode = XmlEntityParser::getChildByName(choice, "datasetSize");
-      |                                           ^~~~~~~~~~~~~~
-include/Readers/XmlVariableParser.hpp:111:43: error: incomplete type ‘XmlEntityParser’ used in nested name specifier
-  111 |         auto* fileNode = XmlEntityParser::getChildByName(node, "filename");
-      |                                           ^~~~~~~~~~~~~~
-In file included from src/main.cpp:5:
-include/Readers/XmlEntityParser.hpp: In member function ‘std::shared_ptr<Entity> XmlEntityParser::ReadEntity(tinyxml2::XMLElement*)’:
-include/Readers/XmlEntityParser.hpp:57:12: error: ‘std::string Entity::Name’ is private within this context
-   57 |         e->Name = getChildByName(node, "name")->GetText();
-      |            ^~~~
-In file included from include/Entities/RedatamDatabase.hpp:7,
+include/Readers/DataBlock.hpp:33:5: note: candidate: ‘RedatamLib::DataBlock::DataBlock(const std::vector<unsigned char>&)’
+   33 |     DataBlock(const std::vector<uint8_t>& bytes) : data(bytes) {}
+      |     ^~~~~~~~~
+include/Readers/DataBlock.hpp:33:5: note:   candidate expects 1 argument, 0 provided
+include/Readers/DataBlock.hpp:19:5: note: candidate: ‘RedatamLib::DataBlock::DataBlock(const string&)’
+   19 |     DataBlock(const std::string& path) {
+      |     ^~~~~~~~~
+include/Readers/DataBlock.hpp:19:5: note:   candidate expects 1 argument, 0 provided
+include/Readers/DataBlock.hpp:14:7: note: candidate: ‘RedatamLib::DataBlock::DataBlock(const RedatamLib::DataBlock&)’
+   14 | class DataBlock {
+      |       ^~~~~~~~~
+include/Readers/DataBlock.hpp:14:7: note:   candidate expects 1 argument, 0 provided
+include/Readers/DataBlock.hpp:14:7: note: candidate: ‘RedatamLib::DataBlock::DataBlock(RedatamLib::DataBlock&&)’
+include/Readers/DataBlock.hpp:14:7: note:   candidate expects 1 argument, 0 provided
+In file included from /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h:33,
+                 from /usr/include/c++/11/bits/allocator.h:46,
+                 from /usr/include/c++/11/string:41,
+                 from /usr/include/c++/11/bits/locale_classes.h:40,
+                 from /usr/include/c++/11/bits/ios_base.h:41,
+                 from /usr/include/c++/11/ios:42,
+                 from /usr/include/c++/11/ostream:38,
+                 from /usr/include/c++/11/iostream:39,
+                 from src/main.cpp:1:
+/usr/include/c++/11/ext/new_allocator.h: In instantiation of ‘void __gnu_cxx::new_allocator<_Tp>::construct(_Up*, _Args&& ...) [with _Up = RedatamLib::Variable; _Args = {std::shared_ptr<RedatamLib::Entity>&}; _Tp = RedatamLib::Variable]’:
+/usr/include/c++/11/bits/alloc_traits.h:516:17:   required from ‘static void std::allocator_traits<std::allocator<_CharT> >::construct(std::allocator_traits<std::allocator<_CharT> >::allocator_type&, _Up*, _Args&& ...) [with _Up = RedatamLib::Variable; _Args = {std::shared_ptr<RedatamLib::Entity>&}; _Tp = RedatamLib::Variable; std::allocator_traits<std::allocator<_CharT> >::allocator_type = std::allocator<RedatamLib::Variable>]’
+/usr/include/c++/11/bits/shared_ptr_base.h:519:39:   required from ‘std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::_Sp_counted_ptr_inplace(_Alloc, _Args&& ...) [with _Args = {std::shared_ptr<RedatamLib::Entity>&}; _Tp = RedatamLib::Variable; _Alloc = std::allocator<RedatamLib::Variable>; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_atomic]’
+/usr/include/c++/11/bits/shared_ptr_base.h:650:16:   required from ‘std::__shared_count<_Lp>::__shared_count(_Tp*&, std::_Sp_alloc_shared_tag<_Alloc>, _Args&& ...) [with _Tp = RedatamLib::Variable; _Alloc = std::allocator<RedatamLib::Variable>; _Args = {std::shared_ptr<RedatamLib::Entity>&}; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_atomic]’
+/usr/include/c++/11/bits/shared_ptr_base.h:1342:14:   required from ‘std::__shared_ptr<_Tp, _Lp>::__shared_ptr(std::_Sp_alloc_shared_tag<_Tp>, _Args&& ...) [with _Alloc = std::allocator<RedatamLib::Variable>; _Args = {std::shared_ptr<RedatamLib::Entity>&}; _Tp = RedatamLib::Variable; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_atomic]’
+/usr/include/c++/11/bits/shared_ptr.h:409:59:   required from ‘std::shared_ptr<_Tp>::shared_ptr(std::_Sp_alloc_shared_tag<_Tp>, _Args&& ...) [with _Alloc = std::allocator<RedatamLib::Variable>; _Args = {std::shared_ptr<RedatamLib::Entity>&}; _Tp = RedatamLib::Variable]’
+/usr/include/c++/11/bits/shared_ptr.h:862:14:   required from ‘std::shared_ptr<_Tp> std::allocate_shared(const _Alloc&, _Args&& ...) [with _Tp = RedatamLib::Variable; _Alloc = std::allocator<RedatamLib::Variable>; _Args = {std::shared_ptr<RedatamLib::Entity>&}]’
+/usr/include/c++/11/bits/shared_ptr.h:878:39:   required from ‘std::shared_ptr<_Tp> std::make_shared(_Args&& ...) [with _Tp = RedatamLib::Variable; _Args = {std::shared_ptr<RedatamLib::Entity>&}]’
+include/Readers/EntityParser.hpp:86:56:   required from here
+/usr/include/c++/11/ext/new_allocator.h:162:11: error: call of overloaded ‘Variable(std::shared_ptr<RedatamLib::Entity>&)’ is ambiguous
+  162 |         { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from include/Entities/Entity.hpp:7,
+                 from include/Entities/RedatamDatabase.hpp:7,
                  from src/main.cpp:3:
-include/Entities/Entity.hpp:11:17: note: declared private here
-   11 |     std::string Name;
-      |                 ^~~~
-In file included from src/main.cpp:5:
-include/Readers/XmlEntityParser.hpp:60:12: error: ‘std::string Entity::IndexFilename’ is private within this context
-   60 |         e->IndexFilename = getChildByName(node, "filename")->GetText();
-      |            ^~~~~~~~~~~~~
-In file included from include/Entities/RedatamDatabase.hpp:7,
-                 from src/main.cpp:3:
-include/Entities/Entity.hpp:13:17: note: declared private here
-   13 |     std::string IndexFilename;
-      |                 ^~~~~~~~~~~~~
-In file included from src/main.cpp:5:
-include/Readers/XmlEntityParser.hpp:66:31: error: ‘std::vector<std::shared_ptr<Variable> > Entity::Variables’ is private within this context
-   66 |         e->VariableCount = e->Variables.size();
-      |                               ^~~~~~~~~
-In file included from include/Entities/RedatamDatabase.hpp:7,
-                 from src/main.cpp:3:
-include/Entities/Entity.hpp:12:44: note: declared private here
-   12 |     std::vector<std::shared_ptr<Variable>> Variables;
-      |                                            ^~~~~~~~~
-In file included from src/main.cpp:5:
-include/Readers/XmlEntityParser.hpp:66:31: note: field ‘std::vector<std::shared_ptr<Variable> > Entity::Variables’ can be accessed via ‘std::vector<std::shared_ptr<Variable> >& Entity::getVariables()’
-   66 |         e->VariableCount = e->Variables.size();
-      |                               ^~~~~~~~~
-      |                               getVariables()
-include/Readers/XmlEntityParser.hpp:71:16: error: ‘std::vector<std::shared_ptr<Entity> > Entity::Children’ is private within this context
-   71 |             e->Children.push_back(child);
-      |                ^~~~~~~~
-In file included from include/Entities/RedatamDatabase.hpp:7,
-                 from src/main.cpp:3:
-include/Entities/Entity.hpp:16:42: note: declared private here
-   16 |     std::vector<std::shared_ptr<Entity>> Children;
-      |                                          ^~~~~~~~
-In file included from src/main.cpp:5:
-include/Readers/XmlEntityParser.hpp:71:16: note: field ‘std::vector<std::shared_ptr<Entity> > Entity::Children’ can be accessed via ‘std::vector<std::shared_ptr<Entity> >& Entity::getChildren()’
-   71 |             e->Children.push_back(child);
-      |                ^~~~~~~~
-      |                getChildren()
-include/Readers/XmlEntityParser.hpp: In member function ‘void XmlEntityParser::ReadVariables(tinyxml2::XMLElement*, std::shared_ptr<Entity>)’:
-include/Readers/XmlEntityParser.hpp:98:16: error: ‘std::vector<std::shared_ptr<Variable> > Entity::Variables’ is private within this context
-   98 |             e->Variables.push_back(v);
-      |                ^~~~~~~~~
-In file included from include/Entities/RedatamDatabase.hpp:7,
-                 from src/main.cpp:3:
-include/Entities/Entity.hpp:12:44: note: declared private here
-   12 |     std::vector<std::shared_ptr<Variable>> Variables;
-      |                                            ^~~~~~~~~
-In file included from src/main.cpp:5:
-include/Readers/XmlEntityParser.hpp:98:16: note: field ‘std::vector<std::shared_ptr<Variable> > Entity::Variables’ can be accessed via ‘std::vector<std::shared_ptr<Variable> >& Entity::getVariables()’
-   98 |             e->Variables.push_back(v);
-      |                ^~~~~~~~~
-      |                getVariables()
-In file included from include/Exporters/CSVExporter.hpp:11,
-                 from src/main.cpp:6:
-include/Exporters/CSVDoc.hpp: In member function ‘void CSVDoc::WriteVariableLabels()’:
-include/Exporters/CSVDoc.hpp:117:29: error: call of overloaded ‘WriteLine(<brace-enclosed initializer list>)’ is ambiguous
-  117 |             labels.WriteLine({Columns[i], Labels[i]});
-      |             ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
-include/Exporters/CSVDoc.hpp:52:10: note: candidate: ‘void CSVDoc::WriteLine(const std::vector<std::__cxx11::basic_string<char> >&)’
-   52 |     void WriteLine(const std::vector<std::string>& values)
-      |          ^~~~~~~~~
-include/Exporters/CSVDoc.hpp:81:10: note: candidate: ‘void CSVDoc::WriteLine(const std::unordered_map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> >&)’
-   81 |     void WriteLine(const std::unordered_map<std::string, std::string>& data)
-      |          ^~~~~~~~~
-In file included from src/main.cpp:6:
-include/Exporters/CSVExporter.hpp: In member function ‘void CSVExporter::WriteVariableValueLabels(CSVDoc&, const std::shared_ptr<Variable>&)’:
-include/Exporters/CSVExporter.hpp:43:36: error: ‘const class ValueLabel’ has no member named ‘first’
-   43 |             labels.WriteLine({item.first, item.second});
-      |                                    ^~~~~
-include/Exporters/CSVExporter.hpp:43:48: error: ‘const class ValueLabel’ has no member named ‘second’
-   43 |             labels.WriteLine({item.first, item.second});
-      |                                                ^~~~~~
-include/Exporters/CSVExporter.hpp:43:29: error: no matching function for call to ‘CSVDoc::WriteLine(<brace-enclosed initializer list>)’
-   43 |             labels.WriteLine({item.first, item.second});
-      |             ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from include/Exporters/CSVExporter.hpp:11,
-                 from src/main.cpp:6:
-include/Exporters/CSVDoc.hpp:52:10: note: candidate: ‘void CSVDoc::WriteLine(const std::vector<std::__cxx11::basic_string<char> >&)’
-   52 |     void WriteLine(const std::vector<std::string>& values)
-      |          ^~~~~~~~~
-include/Exporters/CSVDoc.hpp:52:52: note:   no known conversion for argument 1 from ‘<brace-enclosed initializer list>’ to ‘const std::vector<std::__cxx11::basic_string<char> >&’
-   52 |     void WriteLine(const std::vector<std::string>& values)
-      |                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
-include/Exporters/CSVDoc.hpp:81:10: note: candidate: ‘void CSVDoc::WriteLine(const std::unordered_map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> >&)’
-   81 |     void WriteLine(const std::unordered_map<std::string, std::string>& data)
-      |          ^~~~~~~~~
-include/Exporters/CSVDoc.hpp:81:72: note:   no known conversion for argument 1 from ‘<brace-enclosed initializer list>’ to ‘const std::unordered_map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> >&’
-   81 |     void WriteLine(const std::unordered_map<std::string, std::string>& data)
-      |                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-In file included from src/main.cpp:6:
-include/Exporters/CSVExporter.hpp: In member function ‘void CSVExporter::Export(const string&)’:
-include/Exporters/CSVExporter.hpp:60:67: error: ‘std::string Entity::Name’ is private within this context
-   60 |             std::string filename = CreateFilename(folder, entity->Name, "csv");
-      |                                                                   ^~~~
-In file included from include/Entities/RedatamDatabase.hpp:7,
-                 from src/main.cpp:3:
-include/Entities/Entity.hpp:11:17: note: declared private here
-   11 |     std::string Name;
-      |                 ^~~~
-In file included from src/main.cpp:6:
-include/Exporters/CSVExporter.hpp:62:49: error: ‘std::vector<std::shared_ptr<Variable> > Entity::Variables’ is private within this context
-   62 |             for (const auto& variable : entity->Variables)
-      |                                                 ^~~~~~~~~
-In file included from include/Entities/RedatamDatabase.hpp:7,
-                 from src/main.cpp:3:
-include/Entities/Entity.hpp:12:44: note: declared private here
-   12 |     std::vector<std::shared_ptr<Variable>> Variables;
-      |                                            ^~~~~~~~~
-In file included from src/main.cpp:6:
-include/Exporters/CSVExporter.hpp:62:49: note: field ‘std::vector<std::shared_ptr<Variable> > Entity::Variables’ can be accessed via ‘std::vector<std::shared_ptr<Variable> >& Entity::getVariables()’
-   62 |             for (const auto& variable : entity->Variables)
-      |                                                 ^~~~~~~~~
-      |                                                 getVariables()
-include/Exporters/CSVExporter.hpp:68:44: error: ‘using element_type = class Entity’ {aka ‘class Entity’} has no member named ‘Rows’
-   68 |             for (const auto& row : entity->Rows)
-      |                                            ^~~~
+include/Entities/Variable.hpp:97:5: note: candidate: ‘RedatamLib::Variable::Variable(std::shared_ptr<RedatamLib::Entity>)’
+   97 |     Variable(std::shared_ptr<Entity> parent) : parentEntity(parent) {}
+      |     ^~~~~~~~
+include/Entities/Variable.hpp:47:5: note: candidate: ‘RedatamLib::Variable::Variable(const std::shared_ptr<RedatamLib::Entity>&)’
+   47 |     Variable(const std::shared_ptr<Entity>& entity)
+      |     ^~~~~~~~
+include/Entities/Variable.hpp:20:7: note: candidate: ‘RedatamLib::Variable::Variable(const RedatamLib::Variable&)’ (deleted)
+   20 | class Variable {
+      |       ^~~~~~~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from /usr/include/c++/11/bits/fs_path.h:37,
+                 from /usr/include/c++/11/filesystem:45,
+                 from src/main.cpp:2:
+/usr/include/c++/11/tuple: In instantiation of ‘std::pair<_T1, _T2>::pair(std::tuple<_Args1 ...>&, std::tuple<_Args2 ...>&, std::_Index_tuple<_Indexes1 ...>, std::_Index_tuple<_Indexes2 ...>) [with _Args1 = {const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&}; long unsigned int ..._Indexes1 = {0}; _Args2 = {}; long unsigned int ..._Indexes2 = {}; _T1 = const std::__cxx11::basic_string<char>; _T2 = RedatamLib::DataBlock]’:
+/usr/include/c++/11/tuple:1809:63:   required from ‘std::pair<_T1, _T2>::pair(std::piecewise_construct_t, std::tuple<_Args1 ...>, std::tuple<_Args2 ...>) [with _Args1 = {const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&}; _Args2 = {}; _T1 = const std::__cxx11::basic_string<char>; _T2 = RedatamLib::DataBlock]’
+/usr/include/c++/11/ext/new_allocator.h:162:4:   required from ‘void __gnu_cxx::new_allocator<_Tp>::construct(_Up*, _Args&& ...) [with _Up = std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>; _Args = {const std::piecewise_construct_t&, std::tuple<const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>, std::tuple<>}; _Tp = std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, true>]’
+/usr/include/c++/11/bits/alloc_traits.h:516:17:   required from ‘static void std::allocator_traits<std::allocator<_CharT> >::construct(std::allocator_traits<std::allocator<_CharT> >::allocator_type&, _Up*, _Args&& ...) [with _Up = std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>; _Args = {const std::piecewise_construct_t&, std::tuple<const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>, std::tuple<>}; _Tp = std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, true>; std::allocator_traits<std::allocator<_CharT> >::allocator_type = std::allocator<std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, true> >]’
+/usr/include/c++/11/bits/hashtable_policy.h:1878:36:   required from ‘std::__detail::_Hashtable_alloc<_NodeAlloc>::__node_type* std::__detail::_Hashtable_alloc<_NodeAlloc>::_M_allocate_node(_Args&& ...) [with _Args = {const std::piecewise_construct_t&, std::tuple<const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>, std::tuple<>}; _NodeAlloc = std::allocator<std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, true> >; std::__detail::_Hashtable_alloc<_NodeAlloc>::__node_ptr = std::allocator<std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, true> >::value_type*]’
+/usr/include/c++/11/bits/hashtable.h:304:35:   required from ‘std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::_Scoped_node::_Scoped_node(std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::__hashtable_alloc*, _Args&& ...) [with _Args = {const std::piecewise_construct_t&, std::tuple<const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>, std::tuple<>}; _Key = std::__cxx11::basic_string<char>; _Value = std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock> >; _ExtractKey = std::__detail::_Select1st; _Equal = std::equal_to<std::__cxx11::basic_string<char> >; _Hash = std::hash<std::__cxx11::basic_string<char> >; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, false, true>; std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::__hashtable_alloc = std::_Hashtable<std::__cxx11::basic_string<char>, std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, std::allocator<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock> >, std::__detail::_Select1st, std::equal_to<std::__cxx11::basic_string<char> >, std::hash<std::__cxx11::basic_string<char> >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::__hashtable_alloc]’
+/usr/include/c++/11/bits/hashtable_policy.h:707:42:   required from ‘std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::mapped_type& std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::operator[](const key_type&) [with _Key = std::__cxx11::basic_string<char>; _Pair = std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock> >; _Equal = std::equal_to<std::__cxx11::basic_string<char> >; _Hash = std::hash<std::__cxx11::basic_string<char> >; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, false, true>; std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::mapped_type = RedatamLib::DataBlock; std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::key_type = std::__cxx11::basic_string<char>]’
+/usr/include/c++/11/bits/unordered_map.h:980:20:   required from ‘std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = std::__cxx11::basic_string<char>; _Tp = RedatamLib::DataBlock; _Hash = std::hash<std::__cxx11::basic_string<char> >; _Pred = std::equal_to<std::__cxx11::basic_string<char> >; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = RedatamLib::DataBlock; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = std::__cxx11::basic_string<char>]’
+include/Readers/EntityParser.hpp:142:64:   required from here
+/usr/include/c++/11/tuple:1820:9: error: no matching function for call to ‘RedatamLib::DataBlock::DataBlock()’
+ 1820 |         second(std::forward<_Args2>(std::get<_Indexes2>(__tuple2))...)
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from include/Readers/EntityParser.hpp:9,
+                 from src/main.cpp:5:
+include/Readers/DataBlock.hpp:33:5: note: candidate: ‘RedatamLib::DataBlock::DataBlock(const std::vector<unsigned char>&)’
+   33 |     DataBlock(const std::vector<uint8_t>& bytes) : data(bytes) {}
+      |     ^~~~~~~~~
+include/Readers/DataBlock.hpp:33:5: note:   candidate expects 1 argument, 0 provided
+include/Readers/DataBlock.hpp:19:5: note: candidate: ‘RedatamLib::DataBlock::DataBlock(const string&)’
+   19 |     DataBlock(const std::string& path) {
+      |     ^~~~~~~~~
+include/Readers/DataBlock.hpp:19:5: note:   candidate expects 1 argument, 0 provided
+include/Readers/DataBlock.hpp:14:7: note: candidate: ‘RedatamLib::DataBlock::DataBlock(const RedatamLib::DataBlock&)’
+   14 | class DataBlock {
+      |       ^~~~~~~~~
+include/Readers/DataBlock.hpp:14:7: note:   candidate expects 1 argument, 0 provided
+include/Readers/DataBlock.hpp:14:7: note: candidate: ‘RedatamLib::DataBlock::DataBlock(RedatamLib::DataBlock&&)’
+include/Readers/DataBlock.hpp:14:7: note:   candidate expects 1 argument, 0 provided
 In file included from /usr/include/c++/11/bits/locale_conv.h:41,
                  from /usr/include/c++/11/locale:43,
                  from /usr/include/c++/11/bits/fs_path.h:37,
                  from /usr/include/c++/11/filesystem:45,
                  from src/main.cpp:2:
-/usr/include/c++/11/bits/unique_ptr.h: In instantiation of ‘void std::default_delete<_Tp>::operator()(_Tp*) const [with _Tp = FuzzyEntityParser]’:
-/usr/include/c++/11/bits/unique_ptr.h:361:17:   required from ‘std::unique_ptr<_Tp, _Dp>::~unique_ptr() [with _Tp = FuzzyEntityParser; _Dp = std::default_delete<FuzzyEntityParser>]’
-include/Entities/RedatamDatabase.hpp:13:7:   required from here
-/usr/include/c++/11/bits/unique_ptr.h:83:23: error: invalid application of ‘sizeof’ to incomplete type ‘FuzzyEntityParser’
+/usr/include/c++/11/bits/unique_ptr.h: In instantiation of ‘void std::default_delete<_Tp>::operator()(_Tp*) const [with _Tp = RedatamLib::FuzzyEntityParser]’:
+/usr/include/c++/11/bits/unique_ptr.h:361:17:   required from ‘std::unique_ptr<_Tp, _Dp>::~unique_ptr() [with _Tp = RedatamLib::FuzzyEntityParser; _Dp = std::default_delete<RedatamLib::FuzzyEntityParser>]’
+include/Entities/RedatamDatabase.hpp:15:7:   required from ‘void __gnu_cxx::new_allocator<_Tp>::destroy(_Up*) [with _Up = RedatamLib::RedatamDatabase; _Tp = RedatamLib::RedatamDatabase]’
+/usr/include/c++/11/bits/alloc_traits.h:535:15:   required from ‘static void std::allocator_traits<std::allocator<_CharT> >::destroy(std::allocator_traits<std::allocator<_CharT> >::allocator_type&, _Up*) [with _Up = RedatamLib::RedatamDatabase; _Tp = RedatamLib::RedatamDatabase; std::allocator_traits<std::allocator<_CharT> >::allocator_type = std::allocator<RedatamLib::RedatamDatabase>]’
+/usr/include/c++/11/bits/shared_ptr_base.h:528:35:   required from ‘void std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::_M_dispose() [with _Tp = RedatamLib::RedatamDatabase; _Alloc = std::allocator<RedatamLib::RedatamDatabase>; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_atomic]’
+/usr/include/c++/11/bits/shared_ptr_base.h:526:7:   required from here
+/usr/include/c++/11/bits/unique_ptr.h:83:23: error: invalid application of ‘sizeof’ to incomplete type ‘RedatamLib::FuzzyEntityParser’
    83 |         static_assert(sizeof(_Tp)>0,
       |                       ^~~~~~~~~~~
-In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
-                 from /usr/include/c++/11/bits/locale_conv.h:41,
-                 from /usr/include/c++/11/locale:43,
-                 from /usr/include/c++/11/bits/fs_path.h:37,
-                 from /usr/include/c++/11/filesystem:45,
-                 from src/main.cpp:2:
-/usr/include/c++/11/tuple: In instantiation of ‘std::pair<_T1, _T2>::pair(std::tuple<_Args1 ...>&, std::tuple<_Args2 ...>&, std::_Index_tuple<_Indexes1 ...>, std::_Index_tuple<_Indexes2 ...>) [with _Args1 = {std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&}; long unsigned int ..._Indexes1 = {0}; _Args2 = {}; long unsigned int ..._Indexes2 = {}; _T1 = const std::__cxx11::basic_string<char>; _T2 = DataBlock]’:
-/usr/include/c++/11/tuple:1809:63:   required from ‘std::pair<_T1, _T2>::pair(std::piecewise_construct_t, std::tuple<_Args1 ...>, std::tuple<_Args2 ...>) [with _Args1 = {std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&}; _Args2 = {}; _T1 = const std::__cxx11::basic_string<char>; _T2 = DataBlock]’
-/usr/include/c++/11/ext/new_allocator.h:162:4:   required from ‘void __gnu_cxx::new_allocator<_Tp>::construct(_Up*, _Args&& ...) [with _Up = std::pair<const std::__cxx11::basic_string<char>, DataBlock>; _Args = {const std::piecewise_construct_t&, std::tuple<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&>, std::tuple<>}; _Tp = std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, DataBlock>, true>]’
-/usr/include/c++/11/bits/alloc_traits.h:516:17:   required from ‘static void std::allocator_traits<std::allocator<_CharT> >::construct(std::allocator_traits<std::allocator<_CharT> >::allocator_type&, _Up*, _Args&& ...) [with _Up = std::pair<const std::__cxx11::basic_string<char>, DataBlock>; _Args = {const std::piecewise_construct_t&, std::tuple<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&>, std::tuple<>}; _Tp = std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, DataBlock>, true>; std::allocator_traits<std::allocator<_CharT> >::allocator_type = std::allocator<std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, DataBlock>, true> >]’
-/usr/include/c++/11/bits/hashtable_policy.h:1878:36:   required from ‘std::__detail::_Hashtable_alloc<_NodeAlloc>::__node_type* std::__detail::_Hashtable_alloc<_NodeAlloc>::_M_allocate_node(_Args&& ...) [with _Args = {const std::piecewise_construct_t&, std::tuple<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&>, std::tuple<>}; _NodeAlloc = std::allocator<std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, DataBlock>, true> >; std::__detail::_Hashtable_alloc<_NodeAlloc>::__node_ptr = std::allocator<std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, DataBlock>, true> >::value_type*]’
-/usr/include/c++/11/bits/hashtable.h:304:35:   required from ‘std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::_Scoped_node::_Scoped_node(std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::__hashtable_alloc*, _Args&& ...) [with _Args = {const std::piecewise_construct_t&, std::tuple<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&>, std::tuple<>}; _Key = std::__cxx11::basic_string<char>; _Value = std::pair<const std::__cxx11::basic_string<char>, DataBlock>; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, DataBlock> >; _ExtractKey = std::__detail::_Select1st; _Equal = std::equal_to<std::__cxx11::basic_string<char> >; _Hash = std::hash<std::__cxx11::basic_string<char> >; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, false, true>; std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::__hashtable_alloc = std::_Hashtable<std::__cxx11::basic_string<char>, std::pair<const std::__cxx11::basic_string<char>, DataBlock>, std::allocator<std::pair<const std::__cxx11::basic_string<char>, DataBlock> >, std::__detail::_Select1st, std::equal_to<std::__cxx11::basic_string<char> >, std::hash<std::__cxx11::basic_string<char> >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::__hashtable_alloc]’
-/usr/include/c++/11/bits/hashtable_policy.h:734:42:   required from ‘std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::mapped_type& std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::operator[](std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::key_type&&) [with _Key = std::__cxx11::basic_string<char>; _Pair = std::pair<const std::__cxx11::basic_string<char>, DataBlock>; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, DataBlock> >; _Equal = std::equal_to<std::__cxx11::basic_string<char> >; _Hash = std::hash<std::__cxx11::basic_string<char> >; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, false, true>; std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::mapped_type = DataBlock; std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::key_type = std::__cxx11::basic_string<char>]’
-/usr/include/c++/11/bits/unordered_map.h:984:20:   required from ‘std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = std::__cxx11::basic_string<char>; _Tp = DataBlock; _Hash = std::hash<std::__cxx11::basic_string<char> >; _Pred = std::equal_to<std::__cxx11::basic_string<char> >; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, DataBlock> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = DataBlock; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = std::__cxx11::basic_string<char>]’
-include/Readers/EntityParser.hpp:25:71:   required from here
-/usr/include/c++/11/tuple:1820:9: error: no matching function for call to ‘DataBlock::DataBlock()’
- 1820 |         second(std::forward<_Args2>(std::get<_Indexes2>(__tuple2))...)
-      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from include/Readers/EntityParser.hpp:9,
-                 from src/main.cpp:4:
-include/Readers/DataBlock.hpp:31:5: note: candidate: ‘DataBlock::DataBlock(const std::vector<unsigned char>&)’
-   31 |     DataBlock(const std::vector<uint8_t>& bytes) : data(bytes) {}
-      |     ^~~~~~~~~
-include/Readers/DataBlock.hpp:31:5: note:   candidate expects 1 argument, 0 provided
-include/Readers/DataBlock.hpp:17:5: note: candidate: ‘DataBlock::DataBlock(const string&)’
-   17 |     DataBlock(const std::string& path) {
-      |     ^~~~~~~~~
-include/Readers/DataBlock.hpp:17:5: note:   candidate expects 1 argument, 0 provided
-include/Readers/DataBlock.hpp:12:7: note: candidate: ‘DataBlock::DataBlock(const DataBlock&)’
-   12 | class DataBlock {
-      |       ^~~~~~~~~
-include/Readers/DataBlock.hpp:12:7: note:   candidate expects 1 argument, 0 provided
-include/Readers/DataBlock.hpp:12:7: note: candidate: ‘DataBlock::DataBlock(DataBlock&&)’
-include/Readers/DataBlock.hpp:12:7: note:   candidate expects 1 argument, 0 provided
-In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
-                 from /usr/include/c++/11/bits/locale_conv.h:41,
-                 from /usr/include/c++/11/locale:43,
-                 from /usr/include/c++/11/bits/fs_path.h:37,
-                 from /usr/include/c++/11/filesystem:45,
-                 from src/main.cpp:2:
-/usr/include/c++/11/tuple: In instantiation of ‘std::pair<_T1, _T2>::pair(std::tuple<_Args1 ...>&, std::tuple<_Args2 ...>&, std::_Index_tuple<_Indexes1 ...>, std::_Index_tuple<_Indexes2 ...>) [with _Args1 = {const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&}; long unsigned int ..._Indexes1 = {0}; _Args2 = {}; long unsigned int ..._Indexes2 = {}; _T1 = const std::__cxx11::basic_string<char>; _T2 = DataBlock]’:
-/usr/include/c++/11/tuple:1809:63:   required from ‘std::pair<_T1, _T2>::pair(std::piecewise_construct_t, std::tuple<_Args1 ...>, std::tuple<_Args2 ...>) [with _Args1 = {const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&}; _Args2 = {}; _T1 = const std::__cxx11::basic_string<char>; _T2 = DataBlock]’
-/usr/include/c++/11/ext/new_allocator.h:162:4:   required from ‘void __gnu_cxx::new_allocator<_Tp>::construct(_Up*, _Args&& ...) [with _Up = std::pair<const std::__cxx11::basic_string<char>, DataBlock>; _Args = {const std::piecewise_construct_t&, std::tuple<const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>, std::tuple<>}; _Tp = std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, DataBlock>, true>]’
-/usr/include/c++/11/bits/alloc_traits.h:516:17:   required from ‘static void std::allocator_traits<std::allocator<_CharT> >::construct(std::allocator_traits<std::allocator<_CharT> >::allocator_type&, _Up*, _Args&& ...) [with _Up = std::pair<const std::__cxx11::basic_string<char>, DataBlock>; _Args = {const std::piecewise_construct_t&, std::tuple<const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>, std::tuple<>}; _Tp = std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, DataBlock>, true>; std::allocator_traits<std::allocator<_CharT> >::allocator_type = std::allocator<std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, DataBlock>, true> >]’
-/usr/include/c++/11/bits/hashtable_policy.h:1878:36:   required from ‘std::__detail::_Hashtable_alloc<_NodeAlloc>::__node_type* std::__detail::_Hashtable_alloc<_NodeAlloc>::_M_allocate_node(_Args&& ...) [with _Args = {const std::piecewise_construct_t&, std::tuple<const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>, std::tuple<>}; _NodeAlloc = std::allocator<std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, DataBlock>, true> >; std::__detail::_Hashtable_alloc<_NodeAlloc>::__node_ptr = std::allocator<std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, DataBlock>, true> >::value_type*]’
-/usr/include/c++/11/bits/hashtable.h:304:35:   required from ‘std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::_Scoped_node::_Scoped_node(std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::__hashtable_alloc*, _Args&& ...) [with _Args = {const std::piecewise_construct_t&, std::tuple<const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>, std::tuple<>}; _Key = std::__cxx11::basic_string<char>; _Value = std::pair<const std::__cxx11::basic_string<char>, DataBlock>; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, DataBlock> >; _ExtractKey = std::__detail::_Select1st; _Equal = std::equal_to<std::__cxx11::basic_string<char> >; _Hash = std::hash<std::__cxx11::basic_string<char> >; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, false, true>; std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::__hashtable_alloc = std::_Hashtable<std::__cxx11::basic_string<char>, std::pair<const std::__cxx11::basic_string<char>, DataBlock>, std::allocator<std::pair<const std::__cxx11::basic_string<char>, DataBlock> >, std::__detail::_Select1st, std::equal_to<std::__cxx11::basic_string<char> >, std::hash<std::__cxx11::basic_string<char> >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::__hashtable_alloc]’
-/usr/include/c++/11/bits/hashtable_policy.h:707:42:   required from ‘std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::mapped_type& std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::operator[](const key_type&) [with _Key = std::__cxx11::basic_string<char>; _Pair = std::pair<const std::__cxx11::basic_string<char>, DataBlock>; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, DataBlock> >; _Equal = std::equal_to<std::__cxx11::basic_string<char> >; _Hash = std::hash<std::__cxx11::basic_string<char> >; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, false, true>; std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::mapped_type = DataBlock; std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::key_type = std::__cxx11::basic_string<char>]’
-/usr/include/c++/11/bits/unordered_map.h:980:20:   required from ‘std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = std::__cxx11::basic_string<char>; _Tp = DataBlock; _Hash = std::hash<std::__cxx11::basic_string<char> >; _Pred = std::equal_to<std::__cxx11::basic_string<char> >; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, DataBlock> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = DataBlock; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = std::__cxx11::basic_string<char>]’
-include/Readers/EntityParser.hpp:139:64:   required from here
-/usr/include/c++/11/tuple:1820:9: error: no matching function for call to ‘DataBlock::DataBlock()’
- 1820 |         second(std::forward<_Args2>(std::get<_Indexes2>(__tuple2))...)
-      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from include/Readers/EntityParser.hpp:9,
-                 from src/main.cpp:4:
-include/Readers/DataBlock.hpp:31:5: note: candidate: ‘DataBlock::DataBlock(const std::vector<unsigned char>&)’
-   31 |     DataBlock(const std::vector<uint8_t>& bytes) : data(bytes) {}
-      |     ^~~~~~~~~
-include/Readers/DataBlock.hpp:31:5: note:   candidate expects 1 argument, 0 provided
-include/Readers/DataBlock.hpp:17:5: note: candidate: ‘DataBlock::DataBlock(const string&)’
-   17 |     DataBlock(const std::string& path) {
-      |     ^~~~~~~~~
-include/Readers/DataBlock.hpp:17:5: note:   candidate expects 1 argument, 0 provided
-include/Readers/DataBlock.hpp:12:7: note: candidate: ‘DataBlock::DataBlock(const DataBlock&)’
-   12 | class DataBlock {
-      |       ^~~~~~~~~
-include/Readers/DataBlock.hpp:12:7: note:   candidate expects 1 argument, 0 provided
-include/Readers/DataBlock.hpp:12:7: note: candidate: ‘DataBlock::DataBlock(DataBlock&&)’
-include/Readers/DataBlock.hpp:12:7: note:   candidate expects 1 argument, 0 provided
 make: *** [Makefile:16: obj/main.o] Error 1
