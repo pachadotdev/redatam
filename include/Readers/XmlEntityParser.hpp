@@ -1,5 +1,5 @@
-#ifndef XMLENTITYPARSER_H
-#define XMLENTITYPARSER_H
+#ifndef REDATAMLIB_XMLENTITYPARSER_H
+#define REDATAMLIB_XMLENTITYPARSER_H
 
 #include <string>
 #include <vector>
@@ -136,4 +136,4 @@ const std::vector<std::string> XmlEntityParser::validTypes = {
 
 } // namespace RedatamLib
 
-#endif // XMLENTITYPARSER_H
+#endif // REDATAMLIB_XMLENTITYPARSER_H

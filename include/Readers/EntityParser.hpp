@@ -1,5 +1,5 @@
-#ifndef ENTITYPARSER_HPP
-#define ENTITYPARSER_HPP
+#ifndef REDATAMLIB_ENTITYPARSER_HPP
+#define REDATAMLIB_ENTITYPARSER_HPP
 
 #include <filesystem>
 #include <memory>
@@ -197,4 +197,4 @@ private:
 
 } // namespace RedatamLib
 
-#endif // ENTITYPARSER_HPP
+#endif // REDATAMLIB_ENTITYPARSER_HPP

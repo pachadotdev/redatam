@@ -1,5 +1,5 @@
-#ifndef READINI_HPP
-#define READINI_HPP
+#ifndef REDATAMLIB_READINI_HPP
+#define REDATAMLIB_READINI_HPP
 
 #include <string>
 #include <vector>
@@ -48,4 +48,4 @@ private:
 
 } // namespace RedatamLib
 
-#endif // READINI_HPP
+#endif // REDATAMLIB_READINI_HPP

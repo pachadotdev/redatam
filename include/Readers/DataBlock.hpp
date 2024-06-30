@@ -1,5 +1,5 @@
-#ifndef DATABLOCK_HPP
-#define DATABLOCK_HPP
+#ifndef REDATAMLIB_DATABLOCK_HPP
+#define REDATAMLIB_DATABLOCK_HPP
 
 #include <vector>
 #include <string>
@@ -188,4 +188,4 @@ private:
 
 } // namespace RedatamLib
 
-#endif // DATABLOCK_HPP
+#endif // REDATAMLIB_DATABLOCK_HPP

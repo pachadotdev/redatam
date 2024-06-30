@@ -1,5 +1,5 @@
-#ifndef REDATAMDATABASE_HPP
-#define REDATAMDATABASE_HPP
+#ifndef REDATAMLIB_REDATAMDATABASE_HPP
+#define REDATAMLIB_REDATAMDATABASE_HPP
 
 #include <memory>
 #include <vector>
@@ -94,4 +94,4 @@ private:
 
 } // namespace RedatamLib
 
-#endif // REDATAMDATABASE_HPP
+#endif // REDATAMLIB_REDATAMDATABASE_HPP

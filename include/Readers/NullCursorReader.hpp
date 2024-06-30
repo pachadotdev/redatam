@@ -1,5 +1,5 @@
-#ifndef NULLCURSORREADER_HPP
-#define NULLCURSORREADER_HPP
+#ifndef REDATAMLIB_NULLCURSORREADER_HPP
+#define REDATAMLIB_NULLCURSORREADER_HPP
 
 #include "ICursorReader.hpp"
 #include <stdexcept>
@@ -34,4 +34,4 @@ public:
 
 } // namespace RedatamLib
 
-#endif // NULLCURSORREADER_HPP
+#endif // REDATAMLIB_NULLCURSORREADER_HPP

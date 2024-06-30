@@ -1,5 +1,5 @@
-#ifndef VARIABLEPARSER_HPP
-#define VARIABLEPARSER_HPP
+#ifndef REDATAMLIB_VARIABLEPARSER_HPP
+#define REDATAMLIB_VARIABLEPARSER_HPP
 
 #include <string>
 #include <vector>
@@ -131,4 +131,4 @@ private:
 
 } // namespace RedatamLib
 
-#endif // VARIABLEPARSER_HPP
+#endif // REDATAMLIB_VARIABLEPARSER_HPP

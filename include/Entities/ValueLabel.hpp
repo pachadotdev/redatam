@@ -1,5 +1,5 @@
-#ifndef VALUELABEL_HPP
-#define VALUELABEL_HPP
+#ifndef REDATAMLIB_VALUELABEL_HPP
+#define REDATAMLIB_VALUELABEL_HPP
 
 #include <string>
 
@@ -16,4 +16,4 @@ public:
 
 } // namespace RedatamLib
 
-#endif // VALUELABEL_HPP
+#endif // REDATAMLIB_VALUELABEL_HPP

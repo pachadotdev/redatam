@@ -1,5 +1,5 @@
-#ifndef XMLVARIABLEPARSER_HPP
-#define XMLVARIABLEPARSER_HPP
+#ifndef REDATAMLIB_XMLVARIABLEPARSER_HPP
+#define REDATAMLIB_XMLVARIABLEPARSER_HPP
 
 #include <vector>
 #include <string>
@@ -90,4 +90,4 @@ public:
 
 } // namespace RedatamLib
 
-#endif // XMLVARIABLEPARSER_HPP
+#endif // REDATAMLIB_XMLVARIABLEPARSER_HPP

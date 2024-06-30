@@ -1,5 +1,5 @@
-#ifndef DATABASEENTRY_HPP
-#define DATABASEENTRY_HPP
+#ifndef REDATAMLIB_DATABASEENTRY_HPP
+#define REDATAMLIB_DATABASEENTRY_HPP
 
 #include <string>
 #include <vector>
@@ -25,4 +25,4 @@ public:
 
 } // namespace RedatamLib
 
-#endif // DATABASEENTRY_HPP
+#endif // REDATAMLIB_DATABASEENTRY_HPP

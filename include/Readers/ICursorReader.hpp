@@ -1,5 +1,5 @@
-#ifndef ICURSORREADER_HPP
-#define ICURSORREADER_HPP
+#ifndef REDATAMLIB_ICURSORREADER_HPP
+#define REDATAMLIB_ICURSORREADER_HPP
 
 #include <string>
 
@@ -25,4 +25,4 @@ public:
 
 } // namespace RedatamLib
 
-#endif // ICURSORREADER_HPP
+#endif // REDATAMLIB_ICURSORREADER_HPP

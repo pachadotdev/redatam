@@ -1,5 +1,5 @@
-#ifndef CURSORREADER_HPP
-#define CURSORREADER_HPP
+#ifndef REDATAMLIB_CURSORREADER_HPP
+#define REDATAMLIB_CURSORREADER_HPP
 
 #include <fstream>
 #include <vector>
@@ -8,6 +8,12 @@
 #include <stdexcept>
 #include <cstring>
 #include <algorithm>
+#include "ICursorReader.hpp"
+
+// forward declaration(s)
+// namespace RedatamLib {
+//   class ICursorReader;
+// }
 
 namespace RedatamLib {
 
@@ -15,8 +21,8 @@ class CursorReader : public ICursorReader {
 public:
   CursorReader(const std::string &file, bool isString, bool isBin, int size)
       : Filename(file), IsString(isString), IsBinaryDataSet(isBin),
-        BlockSize(size), fileSize(0), bytesPos(0), trailingBits(0),
-        trailingBitsCount(0) {}
+        BlockSize(size), fileSize(0), trailingBits(0), trailingBitsCount(0),
+        bytesPos(0) {}
 
   void Open() {
     fileSize = std::filesystem::file_size(Filename);
@@ -61,7 +67,7 @@ public:
 
   void Close() { stream.close(); }
 
-  bool IsLastPos() const { return bytesPos >= fileSize; }
+  bool IsLastPos() const { return static_cast<uint64_t>(bytesPos) >= fileSize; }
 
   int64_t Length() const { return stream.tellg(); }
 
@@ -83,7 +89,7 @@ public:
 
   uint32_t ReadInt32() { return ReadInt16() + ReadInt16() * 0x10000; }
 
-  uint32_t ReadInt16() { return ReadByte() + ReadByte() * 0x100; }
+  uint16_t ReadInt16() { return ReadByte() + ReadByte() * 0x100; }
 
   uint32_t Read4Bytes() { return Read2Bytes() * 0x10000 + Read2Bytes(); }
 
@@ -97,7 +103,7 @@ public:
   }
 
 private:
-  std::ifstream stream;
+  mutable std::ifstream stream;
   std::string Filename;
   bool IsString;
   bool IsBinaryDataSet;
@@ -122,4 +128,4 @@ private:
 
 } // namespace RedatamLib
 
-#endif // CURSORREADER_HPP
+#endif // REDATAMLIB_CURSORREADER_HPP

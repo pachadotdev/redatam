@@ -1,5 +1,5 @@
-#ifndef FUZZYENTITYPARSER_HPP
-#define FUZZYENTITYPARSER_HPP
+#ifndef REDATAMLIB_FUZZYENTITYPARSER_HPP
+#define REDATAMLIB_FUZZYENTITYPARSER_HPP
 
 #include <vector>
 #include <string>
@@ -128,4 +128,4 @@ public:
 
 } // namespace RedatamLib
 
-#endif // FUZZYENTITYPARSER_HPP
+#endif // REDATAMLIB_FUZZYENTITYPARSER_HPP

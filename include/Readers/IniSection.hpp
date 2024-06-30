@@ -1,5 +1,5 @@
-#ifndef INISECTION_HPP
-#define INISECTION_HPP
+#ifndef REDATAMLIB_INISECTION_HPP
+#define REDATAMLIB_INISECTION_HPP
 
 #include <string>
 #include <unordered_map>
@@ -26,4 +26,4 @@ public:
 
 } // namespace RedatamLib
 
-#endif // INISECTION_HPP
+#endif // REDATAMLIB_INISECTION_HPP

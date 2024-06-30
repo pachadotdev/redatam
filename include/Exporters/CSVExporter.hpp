@@ -1,5 +1,5 @@
-#ifndef CSVEXPORTER_HPP
-#define CSVEXPORTER_HPP
+#ifndef REDATAMLIB_CSVEXPORTER_HPP
+#define REDATAMLIB_CSVEXPORTER_HPP
 
 #include <memory>
 #include <vector>
@@ -70,4 +70,4 @@ private:
 
 } // namespace RedatamLib
 
-#endif // CSVEXPORTER_HPP
+#endif // REDATAMLIB_CSVEXPORTER_HPP

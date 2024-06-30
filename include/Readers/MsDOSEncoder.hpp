@@ -1,5 +1,5 @@
-#ifndef DOSENCODER_HPP
-#define DOSENCODER_HPP
+#ifndef REDATAMLIB_DOSENCODER_HPP
+#define REDATAMLIB_DOSENCODER_HPP
 
 #include <vector>
 #include <unordered_map>
@@ -96,4 +96,4 @@ public:
 
 } // namespace RedatamLib
 
-#endif // DOSENCODER_HPP
+#endif // REDATAMLIB_DOSENCODER_HPP
