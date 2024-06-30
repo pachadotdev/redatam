@@ -9,6 +9,7 @@
 #include <cstring>
 #include <cctype>
 #include <sstream>
+#include <iterator>
 
 namespace RedatamLib {
 
@@ -46,7 +47,7 @@ public:
 
   std::string toString() const { return std::string(data.begin(), data.end()); }
 
-  std::vector<uint8_t> makeStringBlock(const std::string &str) {
+  std::vector<uint8_t> makeStringBlock(const std::string &str) const {
     std::vector<uint8_t> block;
     auto intSize = calcSize16(str);
     auto text = makeString(str);
@@ -72,56 +73,19 @@ public:
     return eatChars(length);
   }
 
-  int eat16int() {
-    int result = data[n] | (data[n + 1] << 8);
-    n += 2;
-    return result;
+  std::string eatChars(int length) {
+    std::string cad(data.begin() + n, data.begin() + n + length);
+    n += length;
+    return cad;
   }
 
-  int eat32int() {
-    int result = data[n] | (data[n + 1] << 8) | (data[n + 2] << 16) |
-                 (data[n + 3] << 24);
-    n += 4;
-    return result;
-  }
+  int eat32intInv() { return eat16int() + 0x10000 * eat16int(); }
+
+  int eat32int() { return 0x10000 * eat16int() + eat16int(); }
+
+  int eat16int() { return 0x1 * eatByte() + 0x100 * eatByte(); }
 
   uint8_t eatByte() { return data[n++]; }
-
-  std::vector<uint8_t> addArrays(const std::vector<uint8_t> &a,
-                                 const std::vector<uint8_t> &b,
-                                 const std::vector<uint8_t> &c) {
-    std::vector<uint8_t> result = a;
-    result.insert(result.end(), b.begin(), b.end());
-    result.insert(result.end(), c.begin(), c.end());
-    return result;
-  }
-
-  std::vector<uint8_t> addArrays(const std::vector<uint8_t> &a,
-                                 const std::vector<uint8_t> &b) {
-    std::vector<uint8_t> result = a;
-    result.insert(result.end(), b.begin(), b.end());
-    return result;
-  }
-
-  void move(int i) { n += i; }
-
-  int moveBackString(int maxLenght = 65536) {
-    move(-2);
-    int offset = 0;
-    while (offset < n) {
-      auto bytes = calcSize16(offset);
-      if (matches(data, bytes, n - offset)) {
-        n -= offset;
-        return offset;
-      }
-      offset++;
-      if (offset > maxLenght)
-        break;
-    }
-    return -1;
-  }
-
-  bool moveTo(const std::string &item) { return moveTo(makeString(item)); }
 
   std::vector<int> GetAllMatches(const std::vector<uint8_t> &block) {
     std::vector<int> ret;
@@ -134,68 +98,7 @@ public:
     return ret;
   }
 
-  bool PlausibleString(std::string &cad, bool filterByContent = true) {
-    int keepN = n;
-    cad = "";
-    if (n + 2 >= static_cast<int>(data.size())) // Fix here
-      return false;
-    int length = eat16int();
-    if (length < 0 || length > 128 ||
-        n + length > static_cast<int>(data.size())) { // Fix here
-      n = keepN;
-      return false;
-    }
-    move(-2);
-    cad = eatShortString();
-    n = keepN;
-
-    if (filterByContent && !IsText(cad))
-      return false;
-    return true;
-  }
-
-  bool eatPlausibleString(std::string &cad, bool filterByContent = true) {
-    if (!PlausibleString(cad, filterByContent))
-      return false;
-
-    cad = eatShortString();
-    return true;
-  }
-
-  std::string eatChars(int length) { // Move to public section
-    std::string cad(data.begin() + n, data.begin() + n + length);
-    n += length;
-    return cad;
-  }
-
-private:
-  std::vector<uint8_t> calcSize16(int n) {
-    uint8_t n1 = static_cast<uint8_t>(n % 256);
-    uint8_t n2 = static_cast<uint8_t>(n / 256);
-    return {n1, n2};
-  }
-
-  std::vector<uint8_t> calcSize16(const std::string &cad) {
-    return calcSize16(cad.size());
-  }
-
-  std::vector<uint8_t> calcSize(const std::string &cad) {
-    int i = cad.size();
-    return addArrays(calcSize16(i / 65536), calcSize16(i % 65536));
-  }
-
-  std::vector<uint8_t> makeString(const std::string &entity) {
-    return std::vector<uint8_t>(entity.begin(), entity.end());
-  }
-
-  std::string eatString() {
-    int length = eat32intInv();
-    return eatChars(length);
-  }
-
-  int eat32intInv() { return eat16int() + 0x10000 * eat16int(); }
-
-  bool IsText(const std::string &cad) {
+  bool IsText(const std::string &cad) const {
     for (char c : cad) {
       if ((c < 'a' || c > 'z') && c != ' ' && c != '-' && c != '_' &&
           (c < '0' || c > '9'))
@@ -204,13 +107,109 @@ private:
     return true;
   }
 
+  bool PlausibleString(std::string &cad, bool filterByContent = true) {
+    int keepN = n;
+    cad = "";
+    if (n + 2 >= static_cast<int>(data.size()))
+      return false;
+    int length = eat16int();
+    if (length < 0 || length > 128 || n + length > static_cast<int>(data.size())) {
+      n = keepN;
+      return false;
+    }
+    move(-2);
+    cad = eatShortString();
+    n = keepN;
+
+    if (filterByContent == true && IsText(cad) == false)
+      return false;
+    return true;
+  }
+
+  bool eatPlausibleString(std::string &cad, bool filterByContent = true) {
+    if (PlausibleString(cad, filterByContent) == false)
+      return false;
+
+    cad = eatShortString();
+    return true;
+  }
+
+  void move(int i) { n += i; }
+
+  int moveBackString(int maxLength = 65536) {
+    move(-2);
+    int offset = 0;
+    while (offset < n) {
+      std::vector<uint8_t> bytes(offset + 2);
+      std::copy(data.begin() + n - offset,
+                data.begin() + n - offset + offset + 2, bytes.begin());
+      std::string text = std::string(bytes.begin(), bytes.end());
+      if (static_cast<int>(text.length()) > maxLength)
+        return -1;
+      if (IsText(text))
+        return offset;
+      offset++;
+    }
+    return -1;
+  }
+
+  std::vector<uint8_t> addArrays(const std::vector<uint8_t> &a,
+                                 const std::vector<uint8_t> &b) const {
+    std::vector<uint8_t> result(a);
+    result.insert(result.end(), b.begin(), b.end());
+    return result;
+  }
+
+  std::vector<uint8_t> addArrays(const std::vector<uint8_t> &a,
+                                 const std::vector<uint8_t> &b,
+                                 const std::vector<uint8_t> &c) const {
+    std::vector<uint8_t> result(a);
+    result.insert(result.end(), b.begin(), b.end());
+    result.insert(result.end(), c.begin(), c.end());
+    return result;
+  }
+
+private:
+  std::vector<uint8_t> calcSize16(int n) const {
+    uint8_t n1 = static_cast<uint8_t>(n % 256);
+    uint8_t n2 = static_cast<uint8_t>(n / 256);
+    return {n1, n2};
+  }
+
+  std::vector<uint8_t> calcSize16(const std::string &cad) const {
+    return calcSize16(cad.size());
+  }
+
+  std::vector<uint8_t> calcSize(const std::string &cad) const {
+    int i = cad.size();
+    return addArrays(calcSize16(i / 65536), calcSize16(i % 65536));
+  }
+
+  std::vector<uint8_t> makeString(const std::string &entity) const {
+    return std::vector<uint8_t>(entity.begin(), entity.end());
+  }
+
+  std::string eatString() {
+    int length = eat32intInv();
+    return eatChars(length);
+  }
+
   bool matches(const std::vector<uint8_t> &haystack,
-               const std::vector<uint8_t> &needle, int offset) {
+               const std::vector<uint8_t> &needle, int offset) const {
     for (size_t i = 0; i < needle.size(); ++i) {
       if (needle[i] != haystack[offset + i])
         return false;
     }
     return true;
+  }
+
+  int FindPattern(const std::vector<uint8_t> &data,
+                  const std::vector<uint8_t> &pattern, int start) const {
+    for (size_t i = start; i <= data.size() - pattern.size(); ++i) {
+      if (matches(data, pattern, i))
+        return i;
+    }
+    return -1;
   }
 };
 
