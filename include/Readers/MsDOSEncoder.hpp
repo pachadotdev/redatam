@@ -19,12 +19,11 @@ private:
   int sumMatches;
   bool testing;
 
-  void Process(const std::string &value) {
-    std::string mutableValue = value;
+  void Process(std::string &value) {
     if (testing) {
-      CountMsDOSChars(mutableValue);
+      CountMsDOSChars(value);
     } else {
-      ReencodeMsDOSChars(mutableValue);
+      value = ReplaceMsDOSChars(value);
     }
   }
 
@@ -37,26 +36,28 @@ private:
     }
   }
 
-  void ReencodeMsDOSChars(std::string &value) {
-    for (auto &ch : value) {
+  std::string ReplaceMsDOSChars(const std::string &value) {
+    std::string result = value;
+    for (auto &ch : result) {
       if (std::find(oldChars.begin(), oldChars.end(), ch) != oldChars.end()) {
         ch = ReencodeChar(ch);
       }
     }
+    return result;
   }
 
-  char ReencodeChar(unsigned char ch) { // Use unsigned char for extended ASCII
+  char ReencodeChar(unsigned char ch) {
     switch (ch) {
     case 160:
-      return static_cast<char>(225); // ASCII value for 'á'
+      return static_cast<char>(225);
     case 130:
-      return static_cast<char>(233); // ASCII value for 'é'
+      return static_cast<char>(233);
     case 162:
-      return static_cast<char>(243); // ASCII value for 'ó'
+      return static_cast<char>(243);
     case 163:
-      return static_cast<char>(250); // ASCII value for 'ú'
+      return static_cast<char>(250);
     case 164:
-      return static_cast<char>(241); // ASCII value for 'ñ'
+      return static_cast<char>(241);
     default:
       return ch;
     }
@@ -67,20 +68,37 @@ public:
       : db(database), matches(), sumMatches(0), testing(testingInit) {}
 
   void ReencodeLabels() {
-    for (auto &entity : db->Entities) {
-      for (auto &variable : entity->getVariables()) {
-        if (!variable->ValueLabels.empty()) {
-          for (auto &label : variable->ValueLabels) {
-            Process(label.Value);
-          }
-        }
-        Process(variable->Label);
-      }
-      Process(entity->getLabel());
-    }
+    testing = false;
+    ProcessEntities(db->Entities);
   }
 
-  bool RequiresProcessing() const { return sumMatches > 3; }
+  bool RequiresProcessing() {
+    testing = true;
+    matches.clear();
+    sumMatches = 0;
+    return ProcessEntities(db->Entities);
+  }
+
+  bool ProcessEntities(const std::vector<std::shared_ptr<Entity>> &entities) {
+    for (const auto &entity : entities) {
+      for (const auto &variable : entity->getVariables()) {
+        std::string label = variable->Label;
+        Process(label);
+        variable->Label = label;
+
+        for (auto &valueLabel : variable->ValueLabels) {
+          std::string value = valueLabel.Value;
+          Process(value);
+          valueLabel.Value = value;
+        }
+      }
+      if (ProcessEntities(entity->getChildren())) {
+        if (testing)
+          return true;
+      }
+    }
+    return (matches.size() >= 3 && sumMatches >= 6);
+  }
 };
 
 } // namespace RedatamLib
