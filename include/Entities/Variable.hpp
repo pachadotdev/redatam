@@ -9,9 +9,12 @@
 #include <memory>
 #include "CursorReader.hpp"
 #include "Entity.hpp"
+#include "NullCursorReader.hpp"
 #include "ValueLabel.hpp"
 
 namespace RedatamLib {
+
+// class Entity;
 
 class Variable {
 public:
@@ -19,7 +22,7 @@ public:
 
   Variable(const std::string &name, const std::string &type,
            const std::string &label)
-      : Name(name), Label(label), Type(type), reader(nullptr) {}
+      : Name(name), Type(type), Label(label), reader(nullptr) {}
 
   std::string GetData() const {
     if (Type == "STRING") {

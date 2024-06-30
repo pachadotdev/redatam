@@ -2,26 +2,26 @@ g++ -std=c++17 -Wall -Iinclude/Entities -Iinclude/Readers -Iinclude/Exporters -I
 In file included from include/Entities/Entity.hpp:13,
                  from include/Entities/RedatamDatabase.hpp:10,
                  from src/main.cpp:3:
-include/Entities/Variable.hpp:18:18: error: expected ‘)’ before ‘*’ token
-   18 |   Variable(Entity *entity) : entity(entity), reader(nullptr) {}
+include/Entities/Variable.hpp:21:18: error: expected ‘)’ before ‘*’ token
+   21 |   Variable(Entity *entity) : entity(entity), reader(nullptr) {}
       |           ~      ^~
       |                  )
-include/Entities/Variable.hpp:69:3: error: ‘Entity’ does not name a type
-   69 |   Entity *entity;
+include/Entities/Variable.hpp:72:3: error: ‘Entity’ does not name a type
+   72 |   Entity *entity;
       |   ^~~~~~
 include/Entities/Variable.hpp: In constructor ‘RedatamLib::Variable::Variable(const string&, const string&, const string&)’:
-include/Entities/Variable.hpp:55:15: warning: ‘RedatamLib::Variable::Type’ will be initialized after [-Wreorder]
-   55 |   std::string Type;
+include/Entities/Variable.hpp:58:15: warning: ‘RedatamLib::Variable::Type’ will be initialized after [-Wreorder]
+   58 |   std::string Type;
       |               ^~~~
-include/Entities/Variable.hpp:54:15: warning:   ‘std::string RedatamLib::Variable::Label’ [-Wreorder]
-   54 |   std::string Label;
+include/Entities/Variable.hpp:57:15: warning:   ‘std::string RedatamLib::Variable::Label’ [-Wreorder]
+   57 |   std::string Label;
       |               ^~~~~
-include/Entities/Variable.hpp:20:3: warning:   when initialized here [-Wreorder]
-   20 |   Variable(const std::string &name, const std::string &type,
+include/Entities/Variable.hpp:23:3: warning:   when initialized here [-Wreorder]
+   23 |   Variable(const std::string &name, const std::string &type,
       |   ^~~~~~~~
 include/Entities/Variable.hpp: In member function ‘void RedatamLib::Variable::OpenData()’:
-include/Entities/Variable.hpp:42:51: error: no match for ‘operator=’ (operand types are ‘std::unique_ptr<RedatamLib::CursorReader>’ and ‘std::_MakeUniq<RedatamLib::NullCursorReader>::__single_object’ {aka ‘std::unique_ptr<RedatamLib::NullCursorReader, std::default_delete<RedatamLib::NullCursorReader> >’})
-   42 |       reader = std::make_unique<NullCursorReader>();
+include/Entities/Variable.hpp:45:51: error: no match for ‘operator=’ (operand types are ‘std::unique_ptr<RedatamLib::CursorReader>’ and ‘std::_MakeUniq<RedatamLib::NullCursorReader>::__single_object’ {aka ‘std::unique_ptr<RedatamLib::NullCursorReader, std::default_delete<RedatamLib::NullCursorReader> >’})
+   45 |       reader = std::make_unique<NullCursorReader>();
       |                                                   ^
 In file included from /usr/include/c++/11/bits/locale_conv.h:41,
                  from /usr/include/c++/11/locale:43,
@@ -33,7 +33,7 @@ In file included from /usr/include/c++/11/bits/locale_conv.h:41,
       |         ^~~~~~~~
 /usr/include/c++/11/bits/unique_ptr.h:386:9: note:   template argument deduction/substitution failed:
 /usr/include/c++/11/bits/unique_ptr.h: In substitution of ‘template<class _Up, class _Ep> typename std::enable_if<std::__and_<std::__and_<std::is_convertible<typename std::unique_ptr<_Tp, _Dp>::pointer, RedatamLib::CursorReader*>, std::__not_<std::is_array<_Tp> > >, std::is_assignable<std::default_delete<RedatamLib::CursorReader>&, _U2&&> >::value, std::unique_ptr<RedatamLib::CursorReader>&>::type std::unique_ptr<RedatamLib::CursorReader>::operator=<_Up, _Ep>(std::unique_ptr<_Tp, _Dp>&&) [with _Up = RedatamLib::NullCursorReader; _Ep = std::default_delete<RedatamLib::NullCursorReader>]’:
-include/Entities/Variable.hpp:42:51:   required from here
+include/Entities/Variable.hpp:45:51:   required from here
 /usr/include/c++/11/bits/unique_ptr.h:386:9: error: no type named ‘type’ in ‘struct std::enable_if<false, std::unique_ptr<RedatamLib::CursorReader>&>’
 /usr/include/c++/11/bits/unique_ptr.h:371:19: note: candidate: ‘std::unique_ptr<_Tp, _Dp>& std::unique_ptr<_Tp, _Dp>::operator=(std::unique_ptr<_Tp, _Dp>&&) [with _Tp = RedatamLib::CursorReader; _Dp = std::default_delete<RedatamLib::CursorReader>]’
   371 |       unique_ptr& operator=(unique_ptr&&) = default;
@@ -51,8 +51,8 @@ In file included from include/Entities/Entity.hpp:13,
                  from include/Entities/RedatamDatabase.hpp:10,
                  from src/main.cpp:3:
 include/Entities/Variable.hpp: In member function ‘long int RedatamLib::Variable::CalculateCharSize() const’:
-include/Entities/Variable.hpp:73:29: error: ‘const class RedatamLib::Variable’ has no member named ‘entity’
-   73 |     long entityRows = this->entity->RowsCount;
+include/Entities/Variable.hpp:76:29: error: ‘const class RedatamLib::Variable’ has no member named ‘entity’
+   76 |     long entityRows = this->entity->RowsCount;
       |                             ^~~~~~
 In file included from include/Readers/FuzzyEntityParser.hpp:8,
                  from include/Entities/RedatamDatabase.hpp:11,
@@ -459,7 +459,7 @@ In file included from /usr/include/c++/11/bits/locale_conv.h:41,
                  from /usr/include/c++/11/filesystem:45,
                  from src/main.cpp:2:
 /usr/include/c++/11/bits/unique_ptr.h: In instantiation of ‘typename std::_MakeUniq<_Tp>::__single_object std::make_unique(_Args&& ...) [with _Tp = RedatamLib::CursorReader; _Args = {std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >}; typename std::_MakeUniq<_Tp>::__single_object = std::unique_ptr<RedatamLib::CursorReader>]’:
-include/Entities/Variable.hpp:40:46:   required from here
+include/Entities/Variable.hpp:43:46:   required from here
 /usr/include/c++/11/bits/unique_ptr.h:962:30: error: no matching function for call to ‘RedatamLib::CursorReader::CursorReader(std::__cxx11::basic_string<char>)’
   962 |     { return unique_ptr<_Tp>(new _Tp(std::forward<_Args>(__args)...)); }
       |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -559,12 +559,12 @@ include/Readers/XmlEntityParser.hpp:100:42:   required from here
 In file included from include/Entities/Entity.hpp:13,
                  from include/Entities/RedatamDatabase.hpp:10,
                  from src/main.cpp:3:
-include/Entities/Variable.hpp:20:3: note: candidate: ‘RedatamLib::Variable::Variable(const string&, const string&, const string&)’
-   20 |   Variable(const std::string &name, const std::string &type,
+include/Entities/Variable.hpp:23:3: note: candidate: ‘RedatamLib::Variable::Variable(const string&, const string&, const string&)’
+   23 |   Variable(const std::string &name, const std::string &type,
       |   ^~~~~~~~
-include/Entities/Variable.hpp:20:3: note:   candidate expects 3 arguments, 1 provided
-include/Entities/Variable.hpp:16:7: note: candidate: ‘RedatamLib::Variable::Variable(RedatamLib::Variable&&)’
-   16 | class Variable {
+include/Entities/Variable.hpp:23:3: note:   candidate expects 3 arguments, 1 provided
+include/Entities/Variable.hpp:19:7: note: candidate: ‘RedatamLib::Variable::Variable(RedatamLib::Variable&&)’
+   19 | class Variable {
       |       ^~~~~~~~
-include/Entities/Variable.hpp:16:7: note:   no known conversion for argument 1 from ‘std::shared_ptr<RedatamLib::Entity>’ to ‘RedatamLib::Variable&&’
+include/Entities/Variable.hpp:19:7: note:   no known conversion for argument 1 from ‘std::shared_ptr<RedatamLib::Entity>’ to ‘RedatamLib::Variable&&’
 make: *** [Makefile:16: obj/main.o] Error 1
