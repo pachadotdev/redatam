@@ -114,7 +114,7 @@ public:
       return nullptr;
     }
 
-    auto v = std::make_shared<Variable>(entity);
+    auto v = std::make_shared<Variable>();
     v->setName(dataBlock.eatShortString());
     v->Declaration = dataBlock.eatShortString();
     v->Filter = dataBlock.eatShortString();
@@ -172,8 +172,8 @@ public:
     int iStart = 0;
     auto linealEntityParentNames = Entity::Linealize(nullptr, entitiesNames);
     for (size_t i = 0; i < linealEntityParentNames.size(); ++i) {
-      const auto &entity = linealEntityParentNames[i].second;
-      iStart = ParseBeginning(dataBlock, linealEntityParentNames[i].second,
+      iStart = ParseBeginning(const_cast<DataBlock &>(dataBlock),
+                              linealEntityParentNames[i].second,
                               linealEntityParentNames[i].first);
       if (prevStart != -1) {
         dataParts[linealEntityParentNames[i - 1].second] =
