@@ -132,7 +132,8 @@ public:
   }
 
   bool JumptToDataSet(DataBlock &dataBlock) {
-    if (!dataBlock.moveTo("DATASET")) {
+    std::vector<uint8_t> datasetPattern = {'D', 'A', 'T', 'A', 'S', 'E', 'T'};
+    if (!dataBlock.moveTo(datasetPattern)) {
       return false;
     }
 
@@ -151,7 +152,7 @@ public:
 
   bool checkDataType(DataBlock &dataBlock) {
     dataBlock.move(8); // "DATASET "
-    if (dataBlock.n + 3 > dataBlock.data.size()) {
+    if (dataBlock.n + 3 > static_cast<int>(dataBlock.data.size())) {
       return false;
     }
     std::string type = dataBlock.eatChars(3); // "DBL", "LNG", etc
@@ -186,7 +187,7 @@ public:
     return dataParts;
   }
 
-  int ParseBeginning(const DataBlock &dataBlock, const std::string &entity,
+  int ParseBeginning(DataBlock &dataBlock, const std::string &entity,
                      const std::string &parent) {
     auto block = dataBlock.makeStringBlock(entity);
     auto blockParent = dataBlock.makeStringBlock(parent);

@@ -37,7 +37,9 @@ public:
     int GetPointerData() const;
     void ClosePointer();
     int64_t CalculateRowCount(std::shared_ptr<Entity> parentEntity);
-    std::vector<std::pair<std::string, std::string>> Linealize(std::shared_ptr<Entity> parent, const std::vector<std::shared_ptr<Entity>>& entitiesNames);
+    // std::vector<std::pair<std::string, std::string>> Linealize(std::shared_ptr<Entity> parent, const std::vector<std::shared_ptr<Entity>>& entitiesNames);
+    static std::vector<std::pair<std::string, std::string>> Linealize(std::shared_ptr<Entity> parent, const std::vector<std::shared_ptr<Entity>> &entitiesNames);
+
     bool DataFileExists() const;
 
     std::vector<std::shared_ptr<Entity>> SubEntities;
