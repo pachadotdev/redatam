@@ -6,88 +6,50 @@
 #include <fstream>
 #include <stdexcept>
 #include <filesystem>
+#include <memory>
+#include "CursorReader.hpp"
+#include "Entity.hpp"
+#include "ValueLabel.hpp"
 
 namespace RedatamLib {
 
 class Variable {
 public:
-  Variable(Entity *entity) : entity(entity) {}
+  Variable(Entity *entity) : entity(entity), reader(nullptr) {}
 
   Variable(const std::string &name, const std::string &type,
            const std::string &label)
-      : Name(name), Type(type), Label(label) {}
+      : Name(name), Type(type), Label(label), reader(nullptr) {}
 
-  std::string ToString() const { return Name; }
-
-  auto GetData() const {
+  std::string GetData() const {
     if (Type == "STRING") {
-      return reader.ReadString();
+      return reader->ReadString();
     } else if (Type == "INTEGER") {
-      return reader.ReadNumber();
+      return std::to_string(reader->ReadNumber());
     } else if (Type == "INT16") {
-      return reader.ReadInt16();
+      return std::to_string(reader->ReadInt16());
     } else if (Type == "REAL") {
-      return reader.ReadDouble();
+      return std::to_string(reader->ReadDouble());
     } else {
       throw std::runtime_error("Unsupported data type: " + Type);
     }
-  }
-
-  long CalculateCharSize() const {
-    long entityRows = entity->RowsCount();
-    long bytes = Size * entityRows;
-    return bytes;
-  }
-
-  long CalculateBitsSize() const {
-    long entityRows = entity->RowsCount();
-    long bits = Size * entityRows;
-    long bytes = bits / 8;
-    if (bits % 8 > 0)
-      bytes++;
-    return bytes;
-  }
-
-  long GetExpectedFileSize() const {
-    if (Type == "STRING") {
-      return CalculateCharSize();
-    } else if (Type == "INTEGER" || Type == "INT16" || Type == "REAL") {
-      return CalculateBitsSize();
-    } else {
-      throw std::runtime_error("Unsupported data type: " + Type);
-    }
-  }
-
-  bool FileSizeFails(long &expectedSize, long &actual) const {
-    expectedSize = GetExpectedFileSize();
-    actual = reader.Length();
-    return expectedSize > actual;
   }
 
   void OpenData() {
-    if (DataFileExists()) {
-      std::string file = ResolveDataFilename();
-      reader.Open(file, Type == "STRING", BinaryDataSet, Size);
+    if (BinaryDataSet) {
+      reader = std::make_unique<CursorReader>(ResolveDataFilename());
     } else {
-      reader = NullCursorReader();
+      reader = std::make_unique<NullCursorReader>();
     }
   }
 
-  bool DataFileExists() const {
-    std::string file = ResolveDataFilename();
-    return std::filesystem::exists(file);
-  }
-
   std::string ResolveDataFilename() const {
-    return RedatamDatabase::OptimisticCombine(entity->rootPath, Filename);
+    if (!std::filesystem::exists(Filename)) {
+      throw std::runtime_error("File not found: " + Filename);
+    }
+    return Filename;
   }
 
-  void CloseData() {
-    reader.Close();
-  }
-
-private:
-  Entity *entity;
   std::string Name;
   std::string Label;
   std::string Type;
@@ -96,13 +58,22 @@ private:
   std::string Declaration;
   std::string Group;
   std::string ValuesLabelsRaw;
-  std::vector<std::string> ValueLabels;
+  std::vector<ValueLabel> ValueLabels;
   std::string Filter;
   int Size;
   std::string Filename;
   bool BinaryDataSet = false;
   bool Selected = true;
-  CursorReader reader;
+
+private:
+  Entity *entity;
+  std::unique_ptr<CursorReader> reader;
+
+  long CalculateCharSize() const {
+    long entityRows = this->entity->RowsCount;
+    long bytes = this->Size * entityRows;
+    return bytes;
+  }
 };
 
 } // namespace RedatamLib

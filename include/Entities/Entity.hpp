@@ -6,22 +6,26 @@
 #include <memory>
 #include <fstream>
 #include <tuple>
+#include "CursorReader.hpp"
+#include "ICursorReader.hpp"
+#include "NullCursorReader.hpp"
+#include "RedatamDatabase.hpp"
+#include "Variable.hpp"
 
 namespace RedatamLib {
 
 class Entity {
 public:
-  Entity() : reader(nullptr), RowsCount(0), VariableCount(0) {}
+  Entity() : RowsCount(0), VariableCount(0), reader(nullptr) {}
+  // Entity() : reader(nullptr), RowsCount(0), VariableCount(0) {}
 
   std::string ToString() const { return Name; }
 
   void OpenPointer() {
     if (!IndexFilename.empty()) {
       std::string file = ResolveDataFilename();
-      // Assuming CursorReader is properly defined to handle file operations
       reader = std::make_unique<CursorReader>(file, 16);
     } else {
-      // Assuming NullCursorReader is a type of CursorReader that does nothing
       reader = std::make_unique<NullCursorReader>();
     }
     reader->Open();
@@ -100,15 +104,11 @@ public:
   std::vector<std::shared_ptr<Variable>> Variables;
 
 private:
-  std::unique_ptr<ICursorReader>
-      reader; // Assuming ICursorReader is an interface for CursorReader and
-              // NullCursorReader
+  std::unique_ptr<ICursorReader> reader;
 
   std::string ResolveDataFilename() const {
     if (!IndexFilename.empty()) {
-      // OptimisticCombine simulates the behavior of Path.Combine in C#
-      return rootPath + "/" +
-             IndexFilename; // Simple implementation, consider special cases
+      return rootPath + "/" + IndexFilename;
     }
     return "";
   }

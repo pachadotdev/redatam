@@ -58,8 +58,7 @@ public:
       variable->Size = std::stoi(size);
     } else {
       throw std::runtime_error(
-          "Data type '" + type +
-          "' is not supported. Contact idiscontinuos for support.");
+          "Data type '" + type + "' is not supported.");
     }
 
     auto *fileNode = XmlVariableParser::getChildByName(node, "filename");
