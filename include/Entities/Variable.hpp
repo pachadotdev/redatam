@@ -73,7 +73,7 @@ private:
   Entity *entity;
   std::unique_ptr<ICursorReader> reader;
 
-  long CalculateCharSize() const {
+  long Variable::CalculateCharSize() const {
     long entityRows = this->entity->RowsCount;
     long bytes = this->Size * entityRows;
     return bytes;

@@ -1,4 +1,11 @@
 g++ -std=c++17 -Wall -Iinclude/Entities -Iinclude/Readers -Iinclude/Exporters -Ivendor -c -o obj/main.o src/main.cpp
+In file included from include/Entities/Variable.hpp:10,
+                 from include/Entities/Entity.hpp:7,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Readers/CursorReader.hpp:86:12: error: ‘uint32_t RedatamLib::CursorReader::ReadByte()’ marked ‘override’, but does not override
+   86 |   uint32_t ReadByte() override {
+      |            ^~~~~~~~
 In file included from include/Entities/Entity.hpp:7,
                  from include/Entities/RedatamDatabase.hpp:10,
                  from src/main.cpp:3:
@@ -11,18 +18,6 @@ include/Entities/Variable.hpp:17:7: note: forward declaration of ‘class Redata
       |       ^~~~~~
 In file included from include/Entities/RedatamDatabase.hpp:10,
                  from src/main.cpp:3:
-include/Entities/Entity.hpp: In static member function ‘static std::vector<std::tuple<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > RedatamLib::Entity::Linealize(std::shared_ptr<RedatamLib::Entity>, const std::vector<std::shared_ptr<RedatamLib::Entity> >&)’:
-include/Entities/Entity.hpp:70:11: error: no match for ‘operator!’ (operand type is ‘std::vector<std::tuple<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >’)
-   70 |       if (!children empty()) {
-      |           ^~~~~~~~~
-include/Entities/Entity.hpp:70:11: note: candidate: ‘operator!(bool)’ (built-in)
-include/Entities/Entity.hpp:70:11: note:   no known conversion for argument 1 from ‘std::vector<std::tuple<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >’ to ‘bool’
-include/Entities/Entity.hpp:70:21: error: expected ‘)’ before ‘empty’
-   70 |       if (!children empty()) {
-      |                     ^~~~~
-include/Entities/Entity.hpp:70:10: note: to match this ‘(’
-   70 |       if (!children empty()) {
-      |          ^
 include/Entities/Entity.hpp: In member function ‘std::string RedatamLib::Entity::ResolveDataFilename() const’:
 include/Entities/Entity.hpp:98:14: error: ‘rootPath’ was not declared in this scope
    98 |       return rootPath + "/" + IndexFilename;
@@ -420,6 +415,31 @@ include/Exporters/CSVExporter.hpp:14:7: note: candidate: ‘RedatamLib::CSVExpor
 include/Exporters/CSVExporter.hpp:14:7: note:   no known conversion for argument 1 from ‘std::__shared_ptr<RedatamLib::RedatamDatabase, __gnu_cxx::_S_atomic>::element_type*’ {aka ‘RedatamLib::RedatamDatabase*’} to ‘const RedatamLib::CSVExporter&’
 include/Exporters/CSVExporter.hpp:14:7: note: candidate: ‘RedatamLib::CSVExporter::CSVExporter(RedatamLib::CSVExporter&&)’
 include/Exporters/CSVExporter.hpp:14:7: note:   no known conversion for argument 1 from ‘std::__shared_ptr<RedatamLib::RedatamDatabase, __gnu_cxx::_S_atomic>::element_type*’ {aka ‘RedatamLib::RedatamDatabase*’} to ‘RedatamLib::CSVExporter&&’
+In file included from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from /usr/include/c++/11/bits/fs_path.h:37,
+                 from /usr/include/c++/11/filesystem:45,
+                 from src/main.cpp:2:
+/usr/include/c++/11/bits/unique_ptr.h: In instantiation of ‘typename std::_MakeUniq<_Tp>::__single_object std::make_unique(_Args&& ...) [with _Tp = RedatamLib::CursorReader; _Args = {std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, bool, int}; typename std::_MakeUniq<_Tp>::__single_object = std::unique_ptr<RedatamLib::CursorReader, std::default_delete<RedatamLib::CursorReader> >]’:
+include/Entities/Variable.hpp:44:41:   required from here
+/usr/include/c++/11/bits/unique_ptr.h:962:30: error: invalid new-expression of abstract class type ‘RedatamLib::CursorReader’
+  962 |     { return unique_ptr<_Tp>(new _Tp(std::forward<_Args>(__args)...)); }
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from include/Entities/Variable.hpp:10,
+                 from include/Entities/Entity.hpp:7,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Readers/CursorReader.hpp:15:7: note:   because the following virtual functions are pure within ‘RedatamLib::CursorReader’:
+   15 | class CursorReader : public ICursorReader {
+      |       ^~~~~~~~~~~~
+In file included from include/Readers/CursorReader.hpp:11,
+                 from include/Entities/Variable.hpp:10,
+                 from include/Entities/Entity.hpp:7,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Readers/ICursorReader.hpp:18:20: note:     ‘virtual uint32_t RedatamLib::ICursorReader::ReadLastInt32()’
+   18 |   virtual uint32_t ReadLastInt32() = 0;
+      |                    ^~~~~~~~~~~~~
 In file included from /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h:33,
                  from /usr/include/c++/11/bits/allocator.h:46,
                  from /usr/include/c++/11/string:41,

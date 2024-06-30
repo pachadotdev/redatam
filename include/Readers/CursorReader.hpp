@@ -14,14 +14,12 @@ namespace RedatamLib {
 
 class CursorReader : public ICursorReader {
 public:
-  virtual ~CursorReader() = default;
-
   CursorReader(const std::string &file, bool isString, bool isBin, int size)
       : Filename(file), IsString(isString), IsBinaryDataSet(isBin),
         BlockSize(size), fileSize(0), trailingBits(0), trailingBitsCount(0),
         bytesPos(0) {}
 
-  void Open() {
+  void Open() override {
     fileSize = std::filesystem::file_size(Filename);
     stream.open(Filename, std::ios::binary);
     if (!stream)
@@ -29,7 +27,7 @@ public:
     bytesPos = 0;
   }
 
-  std::string ReadString() {
+  std::string ReadString() override {
     std::vector<char> bytes(BlockSize);
     stream.read(bytes.data(), BlockSize);
     std::string str(bytes.begin(), bytes.end());
@@ -37,7 +35,7 @@ public:
     return str;
   }
 
-  double ReadDouble() {
+  double ReadDouble() override {
     std::vector<char> bytes(8);
     stream.read(bytes.data(), 8);
     double ret;
@@ -45,7 +43,7 @@ public:
     return ret;
   }
 
-  uint64_t ReadNumber() {
+  uint64_t ReadNumber() override {
     int bitsRead = 0;
     uint64_t data = 0;
     data = feedBits(data, bitsRead);
@@ -61,37 +59,31 @@ public:
     return data;
   }
 
-  void Close() { stream.close(); }
+  void Close() override { stream.close(); }
 
-  bool IsLastPos() const { return static_cast<uint64_t>(bytesPos) >= fileSize; }
+  bool IsLastPos() const override {
+    return static_cast<uint64_t>(bytesPos) >= fileSize;
+  }
 
-  int64_t Length() const { return stream.tellg(); }
+  int64_t Length() const override { return stream.tellg(); }
 
-  uint32_t ReadInt32At(int64_t pos) {
+  uint32_t ReadInt32At(int64_t pos) override {
     auto keepPos = stream.tellg();
-    stream.seekg(pos * 4, std::ios::beg);
-    uint32_t ret = this->ReadInt32();
-    stream.seekg(keepPos);
+    stream.seekg(pos, std::ios::beg);
+    uint32_t ret = ReadInt32();
+    stream.seekg(keepPos, std::ios::beg);
     return ret;
   }
 
-  uint32_t ReadLastInt32() {
-    auto keepPos = stream.tellg();
-    stream.seekg(-4, std::ios::end);
-    uint32_t ret = this->ReadInt32();
-    stream.seekg(keepPos);
-    return ret;
-  }
+  uint32_t ReadInt32() override { return ReadInt16() + ReadInt16() * 0x10000; }
 
-  uint32_t ReadInt32() { return ReadInt16() + ReadInt16() * 0x10000; }
-
-  uint16_t ReadInt16() { return ReadByte() + ReadByte() * 0x100; }
+  uint16_t ReadInt16() override { return ReadByte() + ReadByte() * 0x100; }
 
   uint32_t Read4Bytes() { return Read2Bytes() * 0x10000 + Read2Bytes(); }
 
   uint32_t Read2Bytes() { return ReadByte() * 0x100 + ReadByte(); }
 
-  uint32_t ReadByte() {
+  uint32_t ReadByte() override {
     char ret;
     if (!stream.get(ret))
       throw std::runtime_error("Cannot read byte from file: " + Filename);

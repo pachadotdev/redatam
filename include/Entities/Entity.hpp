@@ -67,7 +67,7 @@ public:
         ret.emplace_back(parent->Name, e->Name);
       }
       auto children = Linealize(e, e->Children);
-      if (!children empty()) {
+      if (!children.empty()) {
         ret.insert(ret.end(), children.begin(), children.end());
       }
     }
@@ -92,6 +92,7 @@ public:
 
 private:
   std::unique_ptr<ICursorReader> reader;
+  std::string rootPath;
 
   std::string ResolveDataFilename() const {
     if (!IndexFilename.empty()) {
