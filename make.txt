@@ -1,50 +1,925 @@
 g++ -std=c++17 -Wall -Iinclude/Entities -Iinclude/Readers -Iinclude/Exporters -Ivendor -c -o obj/main.o src/main.cpp
-In file included from include/Entities/RedatamDatabase.hpp:8,
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
                  from src/main.cpp:3:
-include/Readers/FuzzyEntityParser.hpp:16:5: error: ‘RedatamDatabase’ does not name a type
-   16 |     RedatamDatabase* db;
-      |     ^~~~~~~~~~~~~~~
-In file included from include/Entities/RedatamDatabase.hpp:8,
+include/Entities/Variable.hpp:41:11: error: redeclaration of ‘RedatamLib::Entity* RedatamLib::Variable::entity’
+   41 |   Entity* entity;
+      |           ^~~~~~
+include/Entities/Variable.hpp:25:27: note: previous declaration ‘std::shared_ptr<RedatamLib::Entity> RedatamLib::Variable::entity’
+   25 |   std::shared_ptr<Entity> entity;
+      |                           ^~~~~~
+include/Entities/Variable.hpp: In member function ‘std::string RedatamLib::Variable::ResolveDataFilename()’:
+include/Entities/Variable.hpp:44:20: error: incomplete type ‘RedatamLib::Entity’ used in nested name specifier
+   44 |     return Entity::OptimisticCombine(
+      |                    ^~~~~~~~~~~~~~~~~
+include/Entities/Variable.hpp:45:15: error: invalid use of incomplete type ‘using element_type = class RedatamLib::Entity’ {aka ‘class RedatamLib::Entity’}
+   45 |         entity->GetRootPath(),
+      |               ^~
+include/Entities/Variable.hpp:20:7: note: forward declaration of ‘using element_type = class RedatamLib::Entity’ {aka ‘class RedatamLib::Entity’}
+   20 | class Entity;
+      |       ^~~~~~
+include/Entities/Variable.hpp: In member function ‘long int RedatamLib::Variable::CalculateCharSize()’:
+include/Entities/Variable.hpp:51:29: error: invalid use of incomplete type ‘using element_type = class RedatamLib::Entity’ {aka ‘class RedatamLib::Entity’}
+   51 |     long entityRows = entity->RowsCount();
+      |                             ^~
+include/Entities/Variable.hpp:20:7: note: forward declaration of ‘using element_type = class RedatamLib::Entity’ {aka ‘class RedatamLib::Entity’}
+   20 | class Entity;
+      |       ^~~~~~
+include/Entities/Variable.hpp: In member function ‘long int RedatamLib::Variable::CalculateBitsSize()’:
+include/Entities/Variable.hpp:57:29: error: invalid use of incomplete type ‘using element_type = class RedatamLib::Entity’ {aka ‘class RedatamLib::Entity’}
+   57 |     long entityRows = entity->RowsCount();
+      |                             ^~
+include/Entities/Variable.hpp:20:7: note: forward declaration of ‘using element_type = class RedatamLib::Entity’ {aka ‘class RedatamLib::Entity’}
+   20 | class Entity;
+      |       ^~~~~~
+include/Entities/Variable.hpp: In constructor ‘RedatamLib::Variable::Variable(const string&, const string&, const string&)’:
+include/Entities/Variable.hpp:28:15: warning: ‘RedatamLib::Variable::Type’ will be initialized after [-Wreorder]
+   28 |   std::string Type;
+      |               ^~~~
+include/Entities/Variable.hpp:27:15: warning:   ‘std::string RedatamLib::Variable::Label’ [-Wreorder]
+   27 |   std::string Label;
+      |               ^~~~~
+include/Entities/Variable.hpp:78:3: warning:   when initialized here [-Wreorder]
+   78 |   Variable(const std::string &name, const std::string &type,
+      |   ^~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:10,
                  from src/main.cpp:3:
-include/Readers/FuzzyEntityParser.hpp:100:38: error: expected ‘)’ before ‘*’ token
-  100 |     FuzzyEntityParser(RedatamDatabase* db) : db(db) {}
-      |                      ~               ^
-      |                                      )
-include/Readers/FuzzyEntityParser.hpp: In member function ‘void RedatamLib::FuzzyEntityParser::ParseEntities(const string&)’:
-include/Readers/FuzzyEntityParser.hpp:114:9: error: ‘db’ was not declared in this scope
-  114 |         db->entityNames = GetBest(candidates);
-      |         ^~
-In file included from /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h:33,
-                 from /usr/include/c++/11/bits/allocator.h:46,
-                 from /usr/include/c++/11/string:41,
-                 from /usr/include/c++/11/bits/locale_classes.h:40,
-                 from /usr/include/c++/11/bits/ios_base.h:41,
-                 from /usr/include/c++/11/ios:42,
-                 from /usr/include/c++/11/ostream:38,
-                 from /usr/include/c++/11/iostream:39,
-                 from src/main.cpp:1:
-/usr/include/c++/11/ext/new_allocator.h: In instantiation of ‘void __gnu_cxx::new_allocator<_Tp>::construct(_Up*, _Args&& ...) [with _Up = RedatamLib::Variable; _Args = {std::shared_ptr<RedatamLib::Entity>&}; _Tp = RedatamLib::Variable]’:
-/usr/include/c++/11/bits/alloc_traits.h:516:17:   required from ‘static void std::allocator_traits<std::allocator<_CharT> >::construct(std::allocator_traits<std::allocator<_CharT> >::allocator_type&, _Up*, _Args&& ...) [with _Up = RedatamLib::Variable; _Args = {std::shared_ptr<RedatamLib::Entity>&}; _Tp = RedatamLib::Variable; std::allocator_traits<std::allocator<_CharT> >::allocator_type = std::allocator<RedatamLib::Variable>]’
-/usr/include/c++/11/bits/shared_ptr_base.h:519:39:   required from ‘std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::_Sp_counted_ptr_inplace(_Alloc, _Args&& ...) [with _Args = {std::shared_ptr<RedatamLib::Entity>&}; _Tp = RedatamLib::Variable; _Alloc = std::allocator<RedatamLib::Variable>; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_atomic]’
-/usr/include/c++/11/bits/shared_ptr_base.h:650:16:   required from ‘std::__shared_count<_Lp>::__shared_count(_Tp*&, std::_Sp_alloc_shared_tag<_Alloc>, _Args&& ...) [with _Tp = RedatamLib::Variable; _Alloc = std::allocator<RedatamLib::Variable>; _Args = {std::shared_ptr<RedatamLib::Entity>&}; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_atomic]’
-/usr/include/c++/11/bits/shared_ptr_base.h:1342:14:   required from ‘std::__shared_ptr<_Tp, _Lp>::__shared_ptr(std::_Sp_alloc_shared_tag<_Tp>, _Args&& ...) [with _Alloc = std::allocator<RedatamLib::Variable>; _Args = {std::shared_ptr<RedatamLib::Entity>&}; _Tp = RedatamLib::Variable; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_atomic]’
-/usr/include/c++/11/bits/shared_ptr.h:409:59:   required from ‘std::shared_ptr<_Tp>::shared_ptr(std::_Sp_alloc_shared_tag<_Tp>, _Args&& ...) [with _Alloc = std::allocator<RedatamLib::Variable>; _Args = {std::shared_ptr<RedatamLib::Entity>&}; _Tp = RedatamLib::Variable]’
-/usr/include/c++/11/bits/shared_ptr.h:862:14:   required from ‘std::shared_ptr<_Tp> std::allocate_shared(const _Alloc&, _Args&& ...) [with _Tp = RedatamLib::Variable; _Alloc = std::allocator<RedatamLib::Variable>; _Args = {std::shared_ptr<RedatamLib::Entity>&}]’
-/usr/include/c++/11/bits/shared_ptr.h:878:39:   required from ‘std::shared_ptr<_Tp> std::make_shared(_Args&& ...) [with _Tp = RedatamLib::Variable; _Args = {std::shared_ptr<RedatamLib::Entity>&}]’
-include/Readers/XmlEntityParser.hpp:100:42:   required from here
-/usr/include/c++/11/ext/new_allocator.h:162:11: error: call of overloaded ‘Variable(std::shared_ptr<RedatamLib::Entity>&)’ is ambiguous
-  162 |         { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
-      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from include/Entities/Entity.hpp:7,
-                 from include/Entities/RedatamDatabase.hpp:7,
+include/Entities/Entity.hpp: In lambda function:
+include/Entities/Entity.hpp:73:60: error: ‘using element_type = class RedatamLib::Variable’ {aka ‘class RedatamLib::Variable’} has no member named ‘isSelected’; did you mean ‘bool RedatamLib::Variable::Selected’? (not accessible from this context)
+   73 |         [](const std::shared_ptr<Variable> &v) { return v->isSelected(); });
+      |                                                            ^~~~~~~~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
                  from src/main.cpp:3:
-include/Entities/Variable.hpp:99:5: note: candidate: ‘RedatamLib::Variable::Variable(std::shared_ptr<RedatamLib::Entity>)’
-   99 |     Variable(std::shared_ptr<Entity> parent) : parentEntity(parent) {}
-      |     ^~~~~~~~
-include/Entities/Variable.hpp:47:14: note: candidate: ‘RedatamLib::Variable::Variable(const std::shared_ptr<RedatamLib::Entity>&)’
-   47 |     explicit Variable(const std::shared_ptr<Entity>& entity)
-      |              ^~~~~~~~
-include/Entities/Variable.hpp:20:7: note: candidate: ‘RedatamLib::Variable::Variable(const RedatamLib::Variable&)’ (deleted)
-   20 | class Variable {
+include/Entities/Variable.hpp:39:8: note: declared private here
+   39 |   bool Selected = true;
+      |        ^~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp: In member function ‘void RedatamLib::Entity::OpenPointer()’:
+include/Entities/Entity.hpp:82:51: error: no match for ‘operator=’ (operand types are ‘std::unique_ptr<RedatamLib::CursorReader, std::default_delete<RedatamLib::CursorReader> >’ and ‘std::_MakeUniq<RedatamLib::NullCursorReader>::__single_object’ {aka ‘std::unique_ptr<RedatamLib::NullCursorReader, std::default_delete<RedatamLib::NullCursorReader> >’})
+   82 |       reader = std::make_unique<NullCursorReader>();
+      |                                                   ^
+In file included from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from /usr/include/c++/11/bits/fs_path.h:37,
+                 from /usr/include/c++/11/filesystem:45,
+                 from src/main.cpp:2:
+/usr/include/c++/11/bits/unique_ptr.h:386:9: note: candidate: ‘template<class _Up, class _Ep> typename std::enable_if<std::__and_<std::__and_<std::is_convertible<typename std::unique_ptr<_Up, _Ep>::pointer, typename std::__uniq_ptr_impl<_Tp, _Dp>::pointer>, std::__not_<std::is_array<_Up> > >, std::is_assignable<_T2&, _U2&&> >::value, std::unique_ptr<_Tp, _Dp>&>::type std::unique_ptr<_Tp, _Dp>::operator=(std::unique_ptr<_Up, _Ep>&&) [with _Up = _Up; _Ep = _Ep; _Tp = RedatamLib::CursorReader; _Dp = std::default_delete<RedatamLib::CursorReader>]’
+  386 |         operator=(unique_ptr<_Up, _Ep>&& __u) noexcept
+      |         ^~~~~~~~
+/usr/include/c++/11/bits/unique_ptr.h:386:9: note:   template argument deduction/substitution failed:
+/usr/include/c++/11/bits/unique_ptr.h: In substitution of ‘template<class _Up, class _Ep> typename std::enable_if<std::__and_<std::__and_<std::is_convertible<typename std::unique_ptr<_Tp, _Dp>::pointer, RedatamLib::CursorReader*>, std::__not_<std::is_array<_Tp> > >, std::is_assignable<std::default_delete<RedatamLib::CursorReader>&, _U2&&> >::value, std::unique_ptr<RedatamLib::CursorReader, std::default_delete<RedatamLib::CursorReader> >&>::type std::unique_ptr<RedatamLib::CursorReader, std::default_delete<RedatamLib::CursorReader> >::operator=<_Up, _Ep>(std::unique_ptr<_Tp, _Dp>&&) [with _Up = RedatamLib::NullCursorReader; _Ep = std::default_delete<RedatamLib::NullCursorReader>]’:
+include/Entities/Entity.hpp:82:51:   required from here
+/usr/include/c++/11/bits/unique_ptr.h:386:9: error: no type named ‘type’ in ‘struct std::enable_if<false, std::unique_ptr<RedatamLib::CursorReader, std::default_delete<RedatamLib::CursorReader> >&>’
+/usr/include/c++/11/bits/unique_ptr.h:371:19: note: candidate: ‘std::unique_ptr<_Tp, _Dp>& std::unique_ptr<_Tp, _Dp>::operator=(std::unique_ptr<_Tp, _Dp>&&) [with _Tp = RedatamLib::CursorReader; _Dp = std::default_delete<RedatamLib::CursorReader>]’
+  371 |       unique_ptr& operator=(unique_ptr&&) = default;
+      |                   ^~~~~~~~
+/usr/include/c++/11/bits/unique_ptr.h:371:29: note:   no known conversion for argument 1 from ‘std::_MakeUniq<RedatamLib::NullCursorReader>::__single_object’ {aka ‘std::unique_ptr<RedatamLib::NullCursorReader, std::default_delete<RedatamLib::NullCursorReader> >’} to ‘std::unique_ptr<RedatamLib::CursorReader, std::default_delete<RedatamLib::CursorReader> >&&’
+  371 |       unique_ptr& operator=(unique_ptr&&) = default;
+      |                             ^~~~~~~~~~~~
+/usr/include/c++/11/bits/unique_ptr.h:395:7: note: candidate: ‘std::unique_ptr<_Tp, _Dp>& std::unique_ptr<_Tp, _Dp>::operator=(std::nullptr_t) [with _Tp = RedatamLib::CursorReader; _Dp = std::default_delete<RedatamLib::CursorReader>; std::nullptr_t = std::nullptr_t]’
+  395 |       operator=(nullptr_t) noexcept
       |       ^~~~~~~~
+/usr/include/c++/11/bits/unique_ptr.h:395:17: note:   no known conversion for argument 1 from ‘std::_MakeUniq<RedatamLib::NullCursorReader>::__single_object’ {aka ‘std::unique_ptr<RedatamLib::NullCursorReader, std::default_delete<RedatamLib::NullCursorReader> >’} to ‘std::nullptr_t’
+  395 |       operator=(nullptr_t) noexcept
+      |                 ^~~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp: In member function ‘std::string RedatamLib::Entity::ResolveDataFilename()’:
+include/Entities/Entity.hpp:89:14: error: ‘RedatamDatabase’ has not been declared
+   89 |       return RedatamDatabase::OptimisticCombine(rootPath, IndexFilename);
+      |              ^~~~~~~~~~~~~~~
+include/Entities/Entity.hpp: In member function ‘bool RedatamLib::Entity::DataFileExists() const’:
+include/Entities/Entity.hpp:129:43: error: passing ‘const RedatamLib::Entity’ as ‘this’ argument discards qualifiers [-fpermissive]
+  129 |     std::string file = ResolveDataFilename();
+      |                        ~~~~~~~~~~~~~~~~~~~^~
+include/Entities/Entity.hpp:87:15: note:   in call to ‘std::string RedatamLib::Entity::ResolveDataFilename()’
+   87 |   std::string ResolveDataFilename() {
+      |               ^~~~~~~~~~~~~~~~~~~
+In file included from include/Readers/FuzzyEntityParser.hpp:8,
+                 from include/Entities/RedatamDatabase.hpp:11,
+                 from src/main.cpp:3:
+include/Readers/DataBlock.hpp: In member function ‘int RedatamLib::DataBlock::moveBackString(int)’:
+include/Readers/DataBlock.hpp:76:19: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+   76 |     while (offset < n) {
+      |            ~~~~~~~^~~
+In file included from include/Entities/RedatamDatabase.hpp:11,
+                 from src/main.cpp:3:
+include/Readers/FuzzyEntityParser.hpp: At global scope:
+include/Readers/FuzzyEntityParser.hpp:16:3: error: ‘RedatamDatabase’ does not name a type
+   16 |   RedatamDatabase *db;
+      |   ^~~~~~~~~~~~~~~
+include/Readers/FuzzyEntityParser.hpp:111:36: error: expected ‘)’ before ‘*’ token
+  111 |   FuzzyEntityParser(RedatamDatabase *db) : db(db) {}
+      |                    ~               ^~
+      |                                    )
+include/Readers/FuzzyEntityParser.hpp: In member function ‘void RedatamLib::FuzzyEntityParser::TryEntities(RedatamLib::DataBlock&, const string&, std::vector<std::shared_ptr<RedatamLib::Entity> >&)’:
+include/Readers/FuzzyEntityParser.hpp:45:42: error: ‘class RedatamLib::DataBlock’ has no member named ‘GetAllMatches’
+   45 |     auto allBlockOccurrences = dataBlock.GetAllMatches(block);
+      |                                          ^~~~~~~~~~~~~
+include/Readers/FuzzyEntityParser.hpp: In member function ‘void RedatamLib::FuzzyEntityParser::ParseEntities(const string&)’:
+include/Readers/FuzzyEntityParser.hpp:125:5: error: ‘db’ was not declared in this scope
+  125 |     db->entityNames = GetBest(candidates);
+      |     ^~
+In file included from include/Readers/XmlEntityParser.hpp:10,
+                 from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlVariableParser.hpp: In member function ‘void RedatamLib::XmlVariableParser::ParseValueLabels(tinyxml2::XMLElement*)’:
+include/Readers/XmlVariableParser.hpp:22:15: error: ‘std::vector<RedatamLib::ValueLabel> RedatamLib::Variable::ValueLabels’ is private within this context
+   22 |     variable->ValueLabels.clear();
+      |               ^~~~~~~~~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:34:27: note: declared private here
+   34 |   std::vector<ValueLabel> ValueLabels;
+      |                           ^~~~~~~~~~~
+In file included from include/Readers/XmlEntityParser.hpp:10,
+                 from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlVariableParser.hpp:30:19: error: ‘std::vector<RedatamLib::ValueLabel> RedatamLib::Variable::ValueLabels’ is private within this context
+   30 |         variable->ValueLabels.emplace_back(value->GetText(), label->GetText());
+      |                   ^~~~~~~~~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:34:27: note: declared private here
+   34 |   std::vector<ValueLabel> ValueLabels;
+      |                           ^~~~~~~~~~~
+In file included from include/Readers/XmlEntityParser.hpp:10,
+                 from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlVariableParser.hpp: In member function ‘void RedatamLib::XmlVariableParser::ParseDeclaration(tinyxml2::XMLElement*)’:
+include/Readers/XmlVariableParser.hpp:42:19: error: ‘std::string RedatamLib::Variable::Type’ is private within this context
+   42 |     if (variable->Type == "STRING" && type != "CHR")
+      |                   ^~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:28:15: note: declared private here
+   28 |   std::string Type;
+      |               ^~~~
+In file included from include/Readers/XmlEntityParser.hpp:10,
+                 from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlVariableParser.hpp:44:19: error: ‘std::string RedatamLib::Variable::Type’ is private within this context
+   44 |     if (variable->Type == "REAL" && type != "DBL")
+      |                   ^~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:28:15: note: declared private here
+   28 |   std::string Type;
+      |               ^~~~
+In file included from include/Readers/XmlEntityParser.hpp:10,
+                 from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlVariableParser.hpp:48:17: error: ‘int RedatamLib::Variable::Size’ is private within this context
+   48 |       variable->Size = 64;
+      |                 ^~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:36:7: note: declared private here
+   36 |   int Size = 0;
+      |       ^~~~
+In file included from include/Readers/XmlEntityParser.hpp:10,
+                 from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlVariableParser.hpp:50:17: error: ‘int RedatamLib::Variable::Size’ is private within this context
+   50 |       variable->Size = 32;
+      |                 ^~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:36:7: note: declared private here
+   36 |   int Size = 0;
+      |       ^~~~
+In file included from include/Readers/XmlEntityParser.hpp:10,
+                 from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlVariableParser.hpp:52:17: error: ‘int RedatamLib::Variable::Size’ is private within this context
+   52 |       variable->Size = 16;
+      |                 ^~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:36:7: note: declared private here
+   36 |   int Size = 0;
+      |       ^~~~
+In file included from include/Readers/XmlEntityParser.hpp:10,
+                 from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlVariableParser.hpp:53:17: error: ‘std::string RedatamLib::Variable::Type’ is private within this context
+   53 |       variable->Type = "INT16";
+      |                 ^~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:28:15: note: declared private here
+   28 |   std::string Type;
+      |               ^~~~
+In file included from include/Readers/XmlEntityParser.hpp:10,
+                 from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlVariableParser.hpp:55:17: error: ‘int RedatamLib::Variable::Size’ is private within this context
+   55 |       variable->Size = std::stoi(size);
+      |                 ^~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:36:7: note: declared private here
+   36 |   int Size = 0;
+      |       ^~~~
+In file included from include/Readers/XmlEntityParser.hpp:10,
+                 from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlVariableParser.hpp:56:17: error: ‘bool RedatamLib::Variable::BinaryDataSet’ is private within this context
+   56 |       variable->BinaryDataSet = true;
+      |                 ^~~~~~~~~~~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:38:8: note: declared private here
+   38 |   bool BinaryDataSet = false;
+      |        ^~~~~~~~~~~~~
+In file included from include/Readers/XmlEntityParser.hpp:10,
+                 from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlVariableParser.hpp:58:17: error: ‘int RedatamLib::Variable::Size’ is private within this context
+   58 |       variable->Size = std::stoi(size);
+      |                 ^~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:36:7: note: declared private here
+   36 |   int Size = 0;
+      |       ^~~~
+In file included from include/Readers/XmlEntityParser.hpp:10,
+                 from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlVariableParser.hpp:66:15: error: ‘std::string RedatamLib::Variable::Filename’ is private within this context
+   66 |     variable->Filename = fileNode->GetText();
+      |               ^~~~~~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:37:15: note: declared private here
+   37 |   std::string Filename;
+      |               ^~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlEntityParser.hpp: At global scope:
+include/Readers/XmlEntityParser.hpp:16:3: error: ‘RedatamDatabase’ does not name a type
+   16 |   RedatamDatabase *db; // Assuming RedatamDatabase is defined elsewhere
+      |   ^~~~~~~~~~~~~~~
+include/Readers/XmlEntityParser.hpp:21:34: error: expected ‘)’ before ‘*’ token
+   21 |   XmlEntityParser(RedatamDatabase *db) : db(db) {}
+      |                  ~               ^~
+      |                                  )
+include/Readers/XmlEntityParser.hpp: In member function ‘void RedatamLib::XmlEntityParser::Parse(const string&)’:
+include/Readers/XmlEntityParser.hpp:28:5: error: ‘db’ was not declared in this scope
+   28 |     db->Entities.insert(db->Entities.end(), entities.begin(), entities.end());
+      |     ^~
+include/Readers/XmlEntityParser.hpp: In member function ‘void RedatamLib::XmlEntityParser::ReadVariables(tinyxml2::XMLElement*, std::shared_ptr<RedatamLib::Entity>)’:
+include/Readers/XmlEntityParser.hpp:102:10: error: ‘std::string RedatamLib::Variable::Name’ is private within this context
+  102 |       v->Name = getChildByName(variable, "name")->GetText();
+      |          ^~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:26:15: note: declared private here
+   26 |   std::string Name;
+      |               ^~~~
+In file included from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlEntityParser.hpp:104:12: error: ‘std::string RedatamLib::Variable::Filter’ is private within this context
+  104 |         v->Filter = getChildByName(variable, "filter")->GetText();
+      |            ^~~~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:35:15: note: declared private here
+   35 |   std::string Filter;
+      |               ^~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlEntityParser.hpp:105:10: error: ‘std::string RedatamLib::Variable::Range’ is private within this context
+  105 |       v->Range = readRange(variable);
+      |          ^~~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:29:15: note: declared private here
+   29 |   std::string Range;
+      |               ^~~~~
+In file included from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlEntityParser.hpp:107:12: error: ‘std::string RedatamLib::Variable::Type’ is private within this context
+  107 |         v->Type = getChildByName(variable, "varType")->GetText();
+      |            ^~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:28:15: note: declared private here
+   28 |   std::string Type;
+      |               ^~~~
+In file included from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlEntityParser.hpp:109:12: error: ‘std::string RedatamLib::Variable::Type’ is private within this context
+  109 |         v->Type = "INTEGER";
+      |            ^~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:28:15: note: declared private here
+   28 |   std::string Type;
+      |               ^~~~
+In file included from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlEntityParser.hpp:110:10: error: ‘std::string RedatamLib::Variable::Label’ is private within this context
+  110 |       v->Label = getChildByName(variable, "label")->GetText();
+      |          ^~~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:27:15: note: declared private here
+   27 |   std::string Label;
+      |               ^~~~~
+In file included from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlEntityParser.hpp:112:12: error: ‘std::string RedatamLib::Variable::Group’ is private within this context
+  112 |         v->Group = getChildByName(variable, "group")->GetText();
+      |            ^~~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:32:15: note: declared private here
+   32 |   std::string Group;
+      |               ^~~~~
+In file included from src/main.cpp:3:
+include/Entities/RedatamDatabase.hpp: In member function ‘void RedatamLib::RedatamDatabase::OpenDictionary(const string&)’:
+include/Entities/RedatamDatabase.hpp:36:9: error: ‘EntityParser’ was not declared in this scope; did you mean ‘XmlEntityParser’?
+   36 |         EntityParser parser(this);
+      |         ^~~~~~~~~~~~
+      |         XmlEntityParser
+include/Entities/RedatamDatabase.hpp:37:9: error: ‘parser’ was not declared in this scope
+   37 |         parser.Parse(file);
+      |         ^~~~~~
+include/Entities/RedatamDatabase.hpp: In member function ‘long int RedatamLib::RedatamDatabase::GetEntitiesTotalDataItems(const std::vector<std::shared_ptr<RedatamLib::Entity> >&, std::shared_ptr<RedatamLib::Entity>)’:
+include/Entities/RedatamDatabase.hpp:67:23: error: invalid use of member function ‘std::vector<std::shared_ptr<RedatamLib::Variable> > RedatamLib::Entity::SelectedVariables() const’ (did you forget the ‘()’ ?)
+   67 |       ret += (entity->SelectedVariables.size() + 2) * entity->RowsCount;
+      |               ~~~~~~~~^~~~~~~~~~~~~~~~~
+      |                                        ()
+include/Entities/RedatamDatabase.hpp:67:41: error: expected ‘)’ before ‘size’
+   67 |       ret += (entity->SelectedVariables.size() + 2) * entity->RowsCount;
+      |                                         ^~~~
+include/Entities/RedatamDatabase.hpp:67:14: note: to match this ‘(’
+   67 |       ret += (entity->SelectedVariables.size() + 2) * entity->RowsCount;
+      |              ^
+include/Entities/RedatamDatabase.hpp:68:48: error: ‘std::vector<std::shared_ptr<RedatamLib::Entity> > RedatamLib::Entity::Children’ is private within this context
+   68 |       ret += GetEntitiesTotalDataItems(entity->Children, entity);
+      |                                                ^~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp:21:40: note: declared private here
+   21 |   std::vector<std::shared_ptr<Entity>> Children;
+      |                                        ^~~~~~~~
+In file included from src/main.cpp:3:
+include/Entities/RedatamDatabase.hpp:68:48: note: field ‘std::vector<std::shared_ptr<RedatamLib::Entity> > RedatamLib::Entity::Children’ can be accessed via ‘std::vector<std::shared_ptr<RedatamLib::Entity> >& RedatamLib::Entity::getChildren()’
+   68 |       ret += GetEntitiesTotalDataItems(entity->Children, entity);
+      |                                                ^~~~~~~~
+      |                                                getChildren()
+include/Entities/RedatamDatabase.hpp: In member function ‘long int RedatamLib::RedatamDatabase::GetEntitiesRowsSize(const std::vector<std::shared_ptr<RedatamLib::Entity> >&, std::shared_ptr<RedatamLib::Entity>)’:
+include/Entities/RedatamDatabase.hpp:81:42: error: ‘std::vector<std::shared_ptr<RedatamLib::Entity> > RedatamLib::Entity::Children’ is private within this context
+   81 |       ret += GetEntitiesRowsSize(entity->Children, entity);
+      |                                          ^~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp:21:40: note: declared private here
+   21 |   std::vector<std::shared_ptr<Entity>> Children;
+      |                                        ^~~~~~~~
+In file included from src/main.cpp:3:
+include/Entities/RedatamDatabase.hpp:81:42: note: field ‘std::vector<std::shared_ptr<RedatamLib::Entity> > RedatamLib::Entity::Children’ can be accessed via ‘std::vector<std::shared_ptr<RedatamLib::Entity> >& RedatamLib::Entity::getChildren()’
+   81 |       ret += GetEntitiesRowsSize(entity->Children, entity);
+      |                                          ^~~~~~~~
+      |                                          getChildren()
+include/Entities/RedatamDatabase.hpp: In member function ‘void RedatamLib::RedatamDatabase::doGetEntitiesList(std::vector<std::shared_ptr<RedatamLib::Entity> >&, const std::vector<std::shared_ptr<RedatamLib::Entity> >&)’:
+include/Entities/RedatamDatabase.hpp:90:33: error: ‘std::vector<std::shared_ptr<RedatamLib::Entity> > RedatamLib::Entity::Children’ is private within this context
+   90 |       doGetEntitiesList(ret, e->Children);
+      |                                 ^~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp:21:40: note: declared private here
+   21 |   std::vector<std::shared_ptr<Entity>> Children;
+      |                                        ^~~~~~~~
+In file included from src/main.cpp:3:
+include/Entities/RedatamDatabase.hpp:90:33: note: field ‘std::vector<std::shared_ptr<RedatamLib::Entity> > RedatamLib::Entity::Children’ can be accessed via ‘std::vector<std::shared_ptr<RedatamLib::Entity> >& RedatamLib::Entity::getChildren()’
+   90 |       doGetEntitiesList(ret, e->Children);
+      |                                 ^~~~~~~~
+      |                                 getChildren()
+In file included from include/Readers/EntityParser.hpp:11,
+                 from src/main.cpp:5:
+include/Readers/MsDOSEncoder.hpp: In member function ‘bool RedatamLib::MsDOSEncoder::ProcessEntities(const std::vector<std::shared_ptr<RedatamLib::Entity> >&)’:
+include/Readers/MsDOSEncoder.hpp:68:27: error: ‘std::string RedatamLib::Variable::Label’ is private within this context
+   68 |         Process(variable->Label);
+      |                           ^~~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:27:15: note: declared private here
+   27 |   std::string Label;
+      |               ^~~~~
+In file included from include/Readers/EntityParser.hpp:11,
+                 from src/main.cpp:5:
+include/Readers/MsDOSEncoder.hpp:69:43: error: ‘std::vector<RedatamLib::ValueLabel> RedatamLib::Variable::ValueLabels’ is private within this context
+   69 |         for (auto &valueLabel : variable->ValueLabels) {
+      |                                           ^~~~~~~~~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:34:27: note: declared private here
+   34 |   std::vector<ValueLabel> ValueLabels;
+      |                           ^~~~~~~~~~~
+In file included from include/Readers/EntityParser.hpp:11,
+                 from src/main.cpp:5:
+include/Readers/MsDOSEncoder.hpp: In member function ‘void RedatamLib::MsDOSEncoder::ReencodeLabels()’:
+include/Readers/MsDOSEncoder.hpp:86:25: error: ‘std::vector<std::shared_ptr<RedatamLib::Entity> > RedatamLib::RedatamDatabase::Entities’ is private within this context
+   86 |     ProcessEntities(db->Entities);
+      |                         ^~~~~~~~
+In file included from src/main.cpp:3:
+include/Entities/RedatamDatabase.hpp:57:40: note: declared private here
+   57 |   std::vector<std::shared_ptr<Entity>> Entities;
+      |                                        ^~~~~~~~
+In file included from include/Readers/EntityParser.hpp:11,
+                 from src/main.cpp:5:
+include/Readers/MsDOSEncoder.hpp: In member function ‘bool RedatamLib::MsDOSEncoder::RequiresProcessing()’:
+include/Readers/MsDOSEncoder.hpp:93:32: error: ‘std::vector<std::shared_ptr<RedatamLib::Entity> > RedatamLib::RedatamDatabase::Entities’ is private within this context
+   93 |     return ProcessEntities(db->Entities);
+      |                                ^~~~~~~~
+In file included from src/main.cpp:3:
+include/Entities/RedatamDatabase.hpp:57:40: note: declared private here
+   57 |   std::vector<std::shared_ptr<Entity>> Entities;
+      |                                        ^~~~~~~~
+In file included from src/main.cpp:5:
+include/Readers/EntityParser.hpp: In member function ‘void RedatamLib::EntityParser::Parse(const string&)’:
+include/Readers/EntityParser.hpp:23:53: error: ‘using element_type = class RedatamLib::RedatamDatabase’ {aka ‘class RedatamLib::RedatamDatabase’} has no member named ‘entityNames’
+   23 |     auto dataParts = SplitDataBlocks(dataBlock, db->entityNames);
+      |                                                     ^~~~~~~~~~~
+include/Readers/EntityParser.hpp:25:54: error: ‘using element_type = class RedatamLib::RedatamDatabase’ {aka ‘class RedatamLib::RedatamDatabase’} has no member named ‘entityNames’
+   25 |     auto parsedEntities = ParseEntities(nullptr, db->entityNames, dataParts);
+      |                                                      ^~~~~~~~~~~
+include/Readers/EntityParser.hpp:26:9: error: ‘std::vector<std::shared_ptr<RedatamLib::Entity> > RedatamLib::RedatamDatabase::Entities’ is private within this context
+   26 |     db->Entities.insert(db->Entities.end(), parsedEntities.begin(),
+      |         ^~~~~~~~
+In file included from src/main.cpp:3:
+include/Entities/RedatamDatabase.hpp:57:40: note: declared private here
+   57 |   std::vector<std::shared_ptr<Entity>> Entities;
+      |                                        ^~~~~~~~
+In file included from src/main.cpp:5:
+include/Readers/EntityParser.hpp:26:29: error: ‘std::vector<std::shared_ptr<RedatamLib::Entity> > RedatamLib::RedatamDatabase::Entities’ is private within this context
+   26 |     db->Entities.insert(db->Entities.end(), parsedEntities.begin(),
+      |                             ^~~~~~~~
+In file included from src/main.cpp:3:
+include/Entities/RedatamDatabase.hpp:57:40: note: declared private here
+   57 |   std::vector<std::shared_ptr<Entity>> Entities;
+      |                                        ^~~~~~~~
+In file included from src/main.cpp:5:
+include/Readers/EntityParser.hpp:29:24: error: no matching function for call to ‘RedatamLib::MsDOSEncoder::MsDOSEncoder(std::shared_ptr<RedatamLib::RedatamDatabase>&)’
+   29 |     MsDOSEncoder enc(db);
+      |                        ^
+In file included from include/Readers/EntityParser.hpp:11,
+                 from src/main.cpp:5:
+include/Readers/MsDOSEncoder.hpp:81:3: note: candidate: ‘RedatamLib::MsDOSEncoder::MsDOSEncoder(RedatamLib::RedatamDatabase*, bool)’
+   81 |   MsDOSEncoder(RedatamDatabase *database, bool testingInit = false)
+      |   ^~~~~~~~~~~~
+include/Readers/MsDOSEncoder.hpp:81:33: note:   no known conversion for argument 1 from ‘std::shared_ptr<RedatamLib::RedatamDatabase>’ to ‘RedatamLib::RedatamDatabase*’
+   81 |   MsDOSEncoder(RedatamDatabase *database, bool testingInit = false)
+      |                ~~~~~~~~~~~~~~~~~^~~~~~~~
+include/Readers/MsDOSEncoder.hpp:14:7: note: candidate: ‘RedatamLib::MsDOSEncoder::MsDOSEncoder(const RedatamLib::MsDOSEncoder&)’
+   14 | class MsDOSEncoder {
+      |       ^~~~~~~~~~~~
+include/Readers/MsDOSEncoder.hpp:14:7: note:   no known conversion for argument 1 from ‘std::shared_ptr<RedatamLib::RedatamDatabase>’ to ‘const RedatamLib::MsDOSEncoder&’
+include/Readers/MsDOSEncoder.hpp:14:7: note: candidate: ‘RedatamLib::MsDOSEncoder::MsDOSEncoder(RedatamLib::MsDOSEncoder&&)’
+include/Readers/MsDOSEncoder.hpp:14:7: note:   no known conversion for argument 1 from ‘std::shared_ptr<RedatamLib::RedatamDatabase>’ to ‘RedatamLib::MsDOSEncoder&&’
+In file included from src/main.cpp:5:
+include/Readers/EntityParser.hpp: In member function ‘std::shared_ptr<RedatamLib::Entity> RedatamLib::EntityParser::ParseEntity(RedatamLib::DataBlock&, const string&, const string&)’:
+include/Readers/EntityParser.hpp:69:33: error: no matching function for call to ‘RedatamLib::DataBlock::addArrays(std::vector<unsigned char>&, std::vector<unsigned char>&, std::vector<unsigned char>&)’
+   69 |       full = dataBlock.addArrays(block, block, blockParent);
+      |              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from include/Readers/FuzzyEntityParser.hpp:8,
+                 from include/Entities/RedatamDatabase.hpp:11,
+                 from src/main.cpp:3:
+include/Readers/DataBlock.hpp:150:24: note: candidate: ‘std::vector<unsigned char> RedatamLib::DataBlock::addArrays(const std::vector<unsigned char>&, const std::vector<unsigned char>&)’
+  150 |   std::vector<uint8_t> addArrays(const std::vector<uint8_t> &a,
+      |                        ^~~~~~~~~
+include/Readers/DataBlock.hpp:150:24: note:   candidate expects 2 arguments, 3 provided
+In file included from src/main.cpp:5:
+include/Readers/EntityParser.hpp:78:8: error: ‘std::string RedatamLib::Entity::Name’ is private within this context
+   78 |     e->Name = dataBlock.eatShortString();
+      |        ^~~~
+In file included from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp:16:15: note: declared private here
+   16 |   std::string Name;
+      |               ^~~~
+In file included from src/main.cpp:5:
+include/Readers/EntityParser.hpp:84:8: error: ‘std::string RedatamLib::Entity::IndexFilename’ is private within this context
+   84 |     e->IndexFilename = dataBlock.eatShortString();
+      |        ^~~~~~~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp:18:15: note: declared private here
+   18 |   std::string IndexFilename;
+      |               ^~~~~~~~~~~~~
+In file included from src/main.cpp:5:
+include/Readers/EntityParser.hpp:86:13: error: ‘std::string RedatamLib::Entity::IndexFilename’ is private within this context
+   86 |     if (!e->IndexFilename.empty()) {
+      |             ^~~~~~~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp:18:15: note: declared private here
+   18 |   std::string IndexFilename;
+      |               ^~~~~~~~~~~~~
+In file included from src/main.cpp:5:
+include/Readers/EntityParser.hpp:94:14: error: ‘std::vector<std::shared_ptr<RedatamLib::Variable> > RedatamLib::Entity::Variables’ is private within this context
+   94 |           e->Variables.push_back(v);
+      |              ^~~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp:17:42: note: declared private here
+   17 |   std::vector<std::shared_ptr<Variable>> Variables;
+      |                                          ^~~~~~~~~
+In file included from src/main.cpp:5:
+include/Readers/EntityParser.hpp:100:27: error: ‘std::vector<std::shared_ptr<RedatamLib::Variable> > RedatamLib::Entity::Variables’ is private within this context
+  100 |     e->VariableCount = e->Variables.size();
+      |                           ^~~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Entity.hpp:17:42: note: declared private here
+   17 |   std::vector<std::shared_ptr<Variable>> Variables;
+      |                                          ^~~~~~~~~
+In file included from src/main.cpp:5:
+include/Readers/EntityParser.hpp: In member function ‘std::shared_ptr<RedatamLib::Variable> RedatamLib::EntityParser::ParseVariable(RedatamLib::DataBlock&, std::shared_ptr<RedatamLib::Entity>)’:
+include/Readers/EntityParser.hpp:110:8: error: ‘std::string RedatamLib::Variable::Name’ is private within this context
+  110 |     v->Name = dataBlock.eatShortString();
+      |        ^~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:26:15: note: declared private here
+   26 |   std::string Name;
+      |               ^~~~
+In file included from src/main.cpp:5:
+include/Readers/EntityParser.hpp:111:8: error: ‘std::string RedatamLib::Variable::Declaration’ is private within this context
+  111 |     v->Declaration = dataBlock.eatShortString();
+      |        ^~~~~~~~~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:31:15: note: declared private here
+   31 |   std::string Declaration;
+      |               ^~~~~~~~~~~
+In file included from src/main.cpp:5:
+include/Readers/EntityParser.hpp:112:8: error: ‘std::string RedatamLib::Variable::Filter’ is private within this context
+  112 |     v->Filter = dataBlock.eatShortString();
+      |        ^~~~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:35:15: note: declared private here
+   35 |   std::string Filter;
+      |               ^~~~~~
+In file included from src/main.cpp:5:
+include/Readers/EntityParser.hpp:113:8: error: ‘std::string RedatamLib::Variable::Range’ is private within this context
+  113 |     v->Range = dataBlock.eatShortString();
+      |        ^~~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:29:15: note: declared private here
+   29 |   std::string Range;
+      |               ^~~~~
+In file included from src/main.cpp:5:
+include/Readers/EntityParser.hpp:114:8: error: ‘std::string RedatamLib::Variable::Type’ is private within this context
+  114 |     v->Type = dataBlock.eatShortString();
+      |        ^~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:28:15: note: declared private here
+   28 |   std::string Type;
+      |               ^~~~
+In file included from src/main.cpp:5:
+include/Readers/EntityParser.hpp:115:8: error: ‘std::string RedatamLib::Variable::ValuesLabelsRaw’ is private within this context
+  115 |     v->ValuesLabelsRaw = dataBlock.eatShortString();
+      |        ^~~~~~~~~~~~~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:33:15: note: declared private here
+   33 |   std::string ValuesLabelsRaw;
+      |               ^~~~~~~~~~~~~~~
+In file included from src/main.cpp:5:
+include/Readers/EntityParser.hpp:116:8: error: ‘std::string RedatamLib::Variable::Label’ is private within this context
+  116 |     v->Label = dataBlock.eatShortString();
+      |        ^~~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:27:15: note: declared private here
+   27 |   std::string Label;
+      |               ^~~~~
+In file included from src/main.cpp:5:
+include/Readers/EntityParser.hpp:117:8: error: ‘std::string RedatamLib::Variable::Group’ is private within this context
+  117 |     v->Group = dataBlock.eatShortString();
+      |        ^~~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:32:15: note: declared private here
+   32 |   std::string Group;
+      |               ^~~~~
+In file included from src/main.cpp:5:
+include/Readers/EntityParser.hpp:119:5: error: ‘VariableParser’ was not declared in this scope; did you mean ‘XmlVariableParser’?
+  119 |     VariableParser parser(v);
+      |     ^~~~~~~~~~~~~~
+      |     XmlVariableParser
+include/Readers/EntityParser.hpp:120:5: error: ‘parser’ was not declared in this scope; did you mean ‘Parse’?
+  120 |     parser.ParseDeclaration();
+      |     ^~~~~~
+      |     Parse
+include/Readers/EntityParser.hpp: In member function ‘bool RedatamLib::EntityParser::JumptToDataSet(RedatamLib::DataBlock&)’:
+include/Readers/EntityParser.hpp:127:27: error: cannot convert ‘const char [8]’ to ‘const std::vector<unsigned char>&’
+  127 |     if (!dataBlock.moveTo("DATASET")) {
+      |                           ^~~~~~~~~
+      |                           |
+      |                           const char [8]
+In file included from include/Readers/FuzzyEntityParser.hpp:8,
+                 from include/Entities/RedatamDatabase.hpp:11,
+                 from src/main.cpp:3:
+include/Readers/DataBlock.hpp:158:43: note:   initializing argument 1 of ‘bool RedatamLib::DataBlock::moveTo(const std::vector<unsigned char>&)’
+  158 |   bool moveTo(const std::vector<uint8_t> &item) {
+      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+In file included from src/main.cpp:5:
+include/Readers/EntityParser.hpp: In member function ‘int RedatamLib::EntityParser::ParseBeginning(RedatamLib::DataBlock&, const string&, const string&)’:
+include/Readers/EntityParser.hpp:186:33: error: no matching function for call to ‘RedatamLib::DataBlock::addArrays(std::vector<unsigned char>&, std::vector<unsigned char>&, std::vector<unsigned char>&)’
+  186 |       full = dataBlock.addArrays(block, block, blockParent);
+      |              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from include/Readers/FuzzyEntityParser.hpp:8,
+                 from include/Entities/RedatamDatabase.hpp:11,
+                 from src/main.cpp:3:
+include/Readers/DataBlock.hpp:150:24: note: candidate: ‘std::vector<unsigned char> RedatamLib::DataBlock::addArrays(const std::vector<unsigned char>&, const std::vector<unsigned char>&)’
+  150 |   std::vector<uint8_t> addArrays(const std::vector<uint8_t> &a,
+      |                        ^~~~~~~~~
+include/Readers/DataBlock.hpp:150:24: note:   candidate expects 2 arguments, 3 provided
+In file included from src/main.cpp:7:
+include/Exporters/CSVExporter.hpp: In member function ‘void RedatamLib::CSVExporter::Export(const string&)’:
+include/Exporters/CSVExporter.hpp:24:49: error: ‘using element_type = class RedatamLib::Entity’ {aka ‘class RedatamLib::Entity’} has no member named ‘getDescription’; did you mean ‘Description’?
+   24 |       doc.WriteLine({entity->getName(), entity->getDescription(),
+      |                                                 ^~~~~~~~~~~~~~
+      |                                                 Description
+include/Exporters/CSVExporter.hpp:25:45: error: ‘using element_type = class RedatamLib::Entity’ {aka ‘class RedatamLib::Entity’} has no member named ‘getLevel’; did you mean ‘Level’?
+   25 |                      std::to_string(entity->getLevel())});
+      |                                             ^~~~~~~~
+      |                                             Level
+include/Exporters/CSVExporter.hpp:24:20: error: no matching function for call to ‘RedatamLib::CSVDoc::WriteLine(<brace-enclosed initializer list>)’
+   24 |       doc.WriteLine({entity->getName(), entity->getDescription(),
+      |       ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   25 |                      std::to_string(entity->getLevel())});
+      |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from include/Exporters/CSVExporter.hpp:8,
+                 from src/main.cpp:7:
+include/Exporters/CSVDoc.hpp:45:8: note: candidate: ‘void RedatamLib::CSVDoc::WriteLine(const std::vector<std::__cxx11::basic_string<char> >&)’
+   45 |   void WriteLine(const std::vector<std::string> &values) {
+      |        ^~~~~~~~~
+include/Exporters/CSVDoc.hpp:45:50: note:   no known conversion for argument 1 from ‘<brace-enclosed initializer list>’ to ‘const std::vector<std::__cxx11::basic_string<char> >&’
+   45 |   void WriteLine(const std::vector<std::string> &values) {
+      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+include/Exporters/CSVDoc.hpp:66:8: note: candidate: ‘void RedatamLib::CSVDoc::WriteLine(const std::unordered_map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> >&)’
+   66 |   void WriteLine(const std::unordered_map<std::string, std::string> &data) {
+      |        ^~~~~~~~~
+include/Exporters/CSVDoc.hpp:66:70: note:   no known conversion for argument 1 from ‘<brace-enclosed initializer list>’ to ‘const std::unordered_map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> >&’
+   66 |   void WriteLine(const std::unordered_map<std::string, std::string> &data) {
+      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+In file included from src/main.cpp:7:
+include/Exporters/CSVExporter.hpp: In member function ‘void RedatamLib::CSVExporter::CreateVariable(RedatamLib::CSVDoc&, const std::shared_ptr<RedatamLib::Variable>&)’:
+include/Exporters/CSVExporter.hpp:47:37: error: ‘using element_type = class RedatamLib::Variable’ {aka ‘class RedatamLib::Variable’} has no member named ‘getName’; did you mean ‘std::string RedatamLib::Variable::Name’? (not accessible from this context)
+   47 |     doc.Columns.push_back(variable->getName());
+      |                                     ^~~~~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:26:15: note: declared private here
+   26 |   std::string Name;
+      |               ^~~~
+In file included from src/main.cpp:7:
+include/Exporters/CSVExporter.hpp:48:36: error: ‘using element_type = class RedatamLib::Variable’ {aka ‘class RedatamLib::Variable’} has no member named ‘getLabel’; did you mean ‘std::string RedatamLib::Variable::Label’? (not accessible from this context)
+   48 |     doc.Labels.push_back(variable->getLabel());
+      |                                    ^~~~~~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:27:15: note: declared private here
+   27 |   std::string Label;
+      |               ^~~~~
+In file included from src/main.cpp:7:
+include/Exporters/CSVExporter.hpp:49:20: error: ‘using element_type = class RedatamLib::Variable’ {aka ‘class RedatamLib::Variable’} has no member named ‘getValueLabels’; did you mean ‘std::vector<RedatamLib::ValueLabel> RedatamLib::Variable::ValueLabels’? (not accessible from this context)
+   49 |     if (!variable->getValueLabels().empty()) {
+      |                    ^~~~~~~~~~~~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:34:27: note: declared private here
+   34 |   std::vector<ValueLabel> ValueLabels;
+      |                           ^~~~~~~~~~~
+In file included from src/main.cpp:7:
+include/Exporters/CSVExporter.hpp: In member function ‘void RedatamLib::CSVExporter::WriteVariableValueLabels(RedatamLib::CSVDoc&, const std::shared_ptr<RedatamLib::Variable>&)’:
+include/Exporters/CSVExporter.hpp:60:41: error: ‘using element_type = class RedatamLib::Variable’ {aka ‘class RedatamLib::Variable’} has no member named ‘getName’; did you mean ‘std::string RedatamLib::Variable::Name’? (not accessible from this context)
+   60 |         path.string() + "/" + variable->getName() + "-LABELS.csv";
+      |                                         ^~~~~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:26:15: note: declared private here
+   26 |   std::string Name;
+      |               ^~~~
+In file included from src/main.cpp:7:
+include/Exporters/CSVExporter.hpp:62:33: error: ‘using element_type = class RedatamLib::Variable’ {aka ‘class RedatamLib::Variable’} has no member named ‘getName’; did you mean ‘std::string RedatamLib::Variable::Name’? (not accessible from this context)
+   62 |     labels.Columns = {variable->getName(), "label"};
+      |                                 ^~~~~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:26:15: note: declared private here
+   26 |   std::string Name;
+      |               ^~~~
+In file included from src/main.cpp:7:
+include/Exporters/CSVExporter.hpp:62:51: error: no match for ‘operator=’ (operand types are ‘std::vector<std::__cxx11::basic_string<char> >’ and ‘<brace-enclosed initializer list>’)
+   62 |     labels.Columns = {variable->getName(), "label"};
+      |                                                   ^
+In file included from /usr/include/c++/11/vector:72,
+                 from include/Entities/RedatamDatabase.hpp:5,
+                 from src/main.cpp:3:
+/usr/include/c++/11/bits/vector.tcc:198:5: note: candidate: ‘std::vector<_Tp, _Alloc>& std::vector<_Tp, _Alloc>::operator=(const std::vector<_Tp, _Alloc>&) [with _Tp = std::__cxx11::basic_string<char>; _Alloc = std::allocator<std::__cxx11::basic_string<char> >]’
+  198 |     vector<_Tp, _Alloc>::
+      |     ^~~~~~~~~~~~~~~~~~~
+/usr/include/c++/11/bits/vector.tcc:199:42: note:   no known conversion for argument 1 from ‘<brace-enclosed initializer list>’ to ‘const std::vector<std::__cxx11::basic_string<char> >&’
+  199 |     operator=(const vector<_Tp, _Alloc>& __x)
+      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/vector:67,
+                 from include/Entities/RedatamDatabase.hpp:5,
+                 from src/main.cpp:3:
+/usr/include/c++/11/bits/stl_vector.h:709:7: note: candidate: ‘std::vector<_Tp, _Alloc>& std::vector<_Tp, _Alloc>::operator=(std::vector<_Tp, _Alloc>&&) [with _Tp = std::__cxx11::basic_string<char>; _Alloc = std::allocator<std::__cxx11::basic_string<char> >]’
+  709 |       operator=(vector&& __x) noexcept(_Alloc_traits::_S_nothrow_move())
+      |       ^~~~~~~~
+/usr/include/c++/11/bits/stl_vector.h:709:26: note:   no known conversion for argument 1 from ‘<brace-enclosed initializer list>’ to ‘std::vector<std::__cxx11::basic_string<char> >&&’
+  709 |       operator=(vector&& __x) noexcept(_Alloc_traits::_S_nothrow_move())
+      |                 ~~~~~~~~~^~~
+/usr/include/c++/11/bits/stl_vector.h:730:7: note: candidate: ‘std::vector<_Tp, _Alloc>& std::vector<_Tp, _Alloc>::operator=(std::initializer_list<_Tp>) [with _Tp = std::__cxx11::basic_string<char>; _Alloc = std::allocator<std::__cxx11::basic_string<char> >]’
+  730 |       operator=(initializer_list<value_type> __l)
+      |       ^~~~~~~~
+/usr/include/c++/11/bits/stl_vector.h:730:46: note:   no known conversion for argument 1 from ‘<brace-enclosed initializer list>’ to ‘std::initializer_list<std::__cxx11::basic_string<char> >’
+  730 |       operator=(initializer_list<value_type> __l)
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+In file included from src/main.cpp:7:
+include/Exporters/CSVExporter.hpp:64:39: error: ‘using element_type = class RedatamLib::Variable’ {aka ‘class RedatamLib::Variable’} has no member named ‘getValueLabels’; did you mean ‘std::vector<RedatamLib::ValueLabel> RedatamLib::Variable::ValueLabels’? (not accessible from this context)
+   64 |     for (const auto &item : variable->getValueLabels()) {
+      |                                       ^~~~~~~~~~~~~~
+In file included from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Entities/Variable.hpp:34:27: note: declared private here
+   34 |   std::vector<ValueLabel> ValueLabels;
+      |                           ^~~~~~~~~~~
+In file included from src/main.cpp:7:
+include/Exporters/CSVExporter.hpp:65:23: error: no matching function for call to ‘RedatamLib::CSVDoc::WriteLine(<brace-enclosed initializer list>)’
+   65 |       labels.WriteLine({item.first, item.second});
+      |       ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from include/Exporters/CSVExporter.hpp:8,
+                 from src/main.cpp:7:
+include/Exporters/CSVDoc.hpp:45:8: note: candidate: ‘void RedatamLib::CSVDoc::WriteLine(const std::vector<std::__cxx11::basic_string<char> >&)’
+   45 |   void WriteLine(const std::vector<std::string> &values) {
+      |        ^~~~~~~~~
+include/Exporters/CSVDoc.hpp:45:50: note:   no known conversion for argument 1 from ‘<brace-enclosed initializer list>’ to ‘const std::vector<std::__cxx11::basic_string<char> >&’
+   45 |   void WriteLine(const std::vector<std::string> &values) {
+      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+include/Exporters/CSVDoc.hpp:66:8: note: candidate: ‘void RedatamLib::CSVDoc::WriteLine(const std::unordered_map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> >&)’
+   66 |   void WriteLine(const std::unordered_map<std::string, std::string> &data) {
+      |        ^~~~~~~~~
+include/Exporters/CSVDoc.hpp:66:70: note:   no known conversion for argument 1 from ‘<brace-enclosed initializer list>’ to ‘const std::unordered_map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> >&’
+   66 |   void WriteLine(const std::unordered_map<std::string, std::string> &data) {
+      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+src/main.cpp: In function ‘void convertDicToCsv(const string&, const string&)’:
+src/main.cpp:14:40: error: no matching function for call to ‘RedatamLib::XmlEntityParser::XmlEntityParser(std::shared_ptr<RedatamLib::RedatamDatabase>&)’
+   14 |   RedatamLib::XmlEntityParser parser(db);
+      |                                        ^
+In file included from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlEntityParser.hpp:14:7: note: candidate: ‘RedatamLib::XmlEntityParser::XmlEntityParser()’
+   14 | class XmlEntityParser {
+      |       ^~~~~~~~~~~~~~~
+include/Readers/XmlEntityParser.hpp:14:7: note:   candidate expects 0 arguments, 1 provided
+include/Readers/XmlEntityParser.hpp:14:7: note: candidate: ‘RedatamLib::XmlEntityParser::XmlEntityParser(const RedatamLib::XmlEntityParser&)’
+include/Readers/XmlEntityParser.hpp:14:7: note:   no known conversion for argument 1 from ‘std::shared_ptr<RedatamLib::RedatamDatabase>’ to ‘const RedatamLib::XmlEntityParser&’
+include/Readers/XmlEntityParser.hpp:14:7: note: candidate: ‘RedatamLib::XmlEntityParser::XmlEntityParser(RedatamLib::XmlEntityParser&&)’
+include/Readers/XmlEntityParser.hpp:14:7: note:   no known conversion for argument 1 from ‘std::shared_ptr<RedatamLib::RedatamDatabase>’ to ‘RedatamLib::XmlEntityParser&&’
+In file included from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from /usr/include/c++/11/bits/fs_path.h:37,
+                 from /usr/include/c++/11/filesystem:45,
+                 from src/main.cpp:2:
+/usr/include/c++/11/bits/unique_ptr.h: In instantiation of ‘typename std::_MakeUniq<_Tp>::__single_object std::make_unique(_Args&& ...) [with _Tp = RedatamLib::CursorReader; _Args = {std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, int}; typename std::_MakeUniq<_Tp>::__single_object = std::unique_ptr<RedatamLib::CursorReader, std::default_delete<RedatamLib::CursorReader> >]’:
+include/Entities/Entity.hpp:80:46:   required from here
+/usr/include/c++/11/bits/unique_ptr.h:962:30: error: no matching function for call to ‘RedatamLib::CursorReader::CursorReader(std::__cxx11::basic_string<char>&, int)’
+  962 |     { return unique_ptr<_Tp>(new _Tp(std::forward<_Args>(__args)...)); }
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from include/Entities/Variable.hpp:13,
+                 from include/Entities/Entity.hpp:9,
+                 from include/Entities/RedatamDatabase.hpp:10,
+                 from src/main.cpp:3:
+include/Readers/CursorReader.hpp:16:3: note: candidate: ‘RedatamLib::CursorReader::CursorReader(const string&, bool, bool, int)’
+   16 |   CursorReader(const std::string &file, bool isString, bool isBin, int size)
+      |   ^~~~~~~~~~~~
+include/Readers/CursorReader.hpp:16:3: note:   candidate expects 4 arguments, 2 provided
+include/Readers/CursorReader.hpp:14:7: note: candidate: ‘RedatamLib::CursorReader::CursorReader(RedatamLib::CursorReader&&)’
+   14 | class CursorReader : public ICursorReader {
+      |       ^~~~~~~~~~~~
+include/Readers/CursorReader.hpp:14:7: note:   candidate expects 1 argument, 2 provided
+In file included from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from /usr/include/c++/11/bits/fs_path.h:37,
+                 from /usr/include/c++/11/filesystem:45,
+                 from src/main.cpp:2:
+/usr/include/c++/11/bits/unique_ptr.h: In instantiation of ‘typename std::_MakeUniq<_Tp>::__single_object std::make_unique(_Args&& ...) [with _Tp = RedatamLib::FuzzyEntityParser; _Args = {RedatamLib::RedatamDatabase*}; typename std::_MakeUniq<_Tp>::__single_object = std::unique_ptr<RedatamLib::FuzzyEntityParser>]’:
+include/Entities/RedatamDatabase.hpp:19:68:   required from here
+/usr/include/c++/11/bits/unique_ptr.h:962:30: error: no matching function for call to ‘RedatamLib::FuzzyEntityParser::FuzzyEntityParser(RedatamLib::RedatamDatabase*)’
+  962 |     { return unique_ptr<_Tp>(new _Tp(std::forward<_Args>(__args)...)); }
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:11,
+                 from src/main.cpp:3:
+include/Readers/FuzzyEntityParser.hpp:14:7: note: candidate: ‘constexpr RedatamLib::FuzzyEntityParser::FuzzyEntityParser()’
+   14 | class FuzzyEntityParser {
+      |       ^~~~~~~~~~~~~~~~~
+include/Readers/FuzzyEntityParser.hpp:14:7: note:   candidate expects 0 arguments, 1 provided
+include/Readers/FuzzyEntityParser.hpp:14:7: note: candidate: ‘constexpr RedatamLib::FuzzyEntityParser::FuzzyEntityParser(const RedatamLib::FuzzyEntityParser&)’
+include/Readers/FuzzyEntityParser.hpp:14:7: note:   no known conversion for argument 1 from ‘RedatamLib::RedatamDatabase*’ to ‘const RedatamLib::FuzzyEntityParser&’
+include/Readers/FuzzyEntityParser.hpp:14:7: note: candidate: ‘constexpr RedatamLib::FuzzyEntityParser::FuzzyEntityParser(RedatamLib::FuzzyEntityParser&&)’
+include/Readers/FuzzyEntityParser.hpp:14:7: note:   no known conversion for argument 1 from ‘RedatamLib::RedatamDatabase*’ to ‘RedatamLib::FuzzyEntityParser&&’
+In file included from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from /usr/include/c++/11/bits/fs_path.h:37,
+                 from /usr/include/c++/11/filesystem:45,
+                 from src/main.cpp:2:
+/usr/include/c++/11/bits/unique_ptr.h: In instantiation of ‘typename std::_MakeUniq<_Tp>::__single_object std::make_unique(_Args&& ...) [with _Tp = RedatamLib::XmlEntityParser; _Args = {RedatamLib::RedatamDatabase*}; typename std::_MakeUniq<_Tp>::__single_object = std::unique_ptr<RedatamLib::XmlEntityParser>]’:
+include/Entities/RedatamDatabase.hpp:20:64:   required from here
+/usr/include/c++/11/bits/unique_ptr.h:962:30: error: no matching function for call to ‘RedatamLib::XmlEntityParser::XmlEntityParser(RedatamLib::RedatamDatabase*)’
+  962 |     { return unique_ptr<_Tp>(new _Tp(std::forward<_Args>(__args)...)); }
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:12,
+                 from src/main.cpp:3:
+include/Readers/XmlEntityParser.hpp:14:7: note: candidate: ‘RedatamLib::XmlEntityParser::XmlEntityParser()’
+   14 | class XmlEntityParser {
+      |       ^~~~~~~~~~~~~~~
+include/Readers/XmlEntityParser.hpp:14:7: note:   candidate expects 0 arguments, 1 provided
+include/Readers/XmlEntityParser.hpp:14:7: note: candidate: ‘RedatamLib::XmlEntityParser::XmlEntityParser(const RedatamLib::XmlEntityParser&)’
+include/Readers/XmlEntityParser.hpp:14:7: note:   no known conversion for argument 1 from ‘RedatamLib::RedatamDatabase*’ to ‘const RedatamLib::XmlEntityParser&’
+include/Readers/XmlEntityParser.hpp:14:7: note: candidate: ‘RedatamLib::XmlEntityParser::XmlEntityParser(RedatamLib::XmlEntityParser&&)’
+include/Readers/XmlEntityParser.hpp:14:7: note:   no known conversion for argument 1 from ‘RedatamLib::RedatamDatabase*’ to ‘RedatamLib::XmlEntityParser&&’
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from /usr/include/c++/11/bits/fs_path.h:37,
+                 from /usr/include/c++/11/filesystem:45,
+                 from src/main.cpp:2:
+/usr/include/c++/11/tuple: In instantiation of ‘std::pair<_T1, _T2>::pair(std::tuple<_Args1 ...>&, std::tuple<_Args2 ...>&, std::_Index_tuple<_Indexes1 ...>, std::_Index_tuple<_Indexes2 ...>) [with _Args1 = {const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&}; long unsigned int ..._Indexes1 = {0}; _Args2 = {}; long unsigned int ..._Indexes2 = {}; _T1 = const std::__cxx11::basic_string<char>; _T2 = RedatamLib::DataBlock]’:
+/usr/include/c++/11/tuple:1809:63:   required from ‘std::pair<_T1, _T2>::pair(std::piecewise_construct_t, std::tuple<_Args1 ...>, std::tuple<_Args2 ...>) [with _Args1 = {const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&}; _Args2 = {}; _T1 = const std::__cxx11::basic_string<char>; _T2 = RedatamLib::DataBlock]’
+/usr/include/c++/11/ext/new_allocator.h:162:4:   required from ‘void __gnu_cxx::new_allocator<_Tp>::construct(_Up*, _Args&& ...) [with _Up = std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>; _Args = {const std::piecewise_construct_t&, std::tuple<const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>, std::tuple<>}; _Tp = std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, true>]’
+/usr/include/c++/11/bits/alloc_traits.h:516:17:   required from ‘static void std::allocator_traits<std::allocator<_CharT> >::construct(std::allocator_traits<std::allocator<_CharT> >::allocator_type&, _Up*, _Args&& ...) [with _Up = std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>; _Args = {const std::piecewise_construct_t&, std::tuple<const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>, std::tuple<>}; _Tp = std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, true>; std::allocator_traits<std::allocator<_CharT> >::allocator_type = std::allocator<std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, true> >]’
+/usr/include/c++/11/bits/hashtable_policy.h:1878:36:   required from ‘std::__detail::_Hashtable_alloc<_NodeAlloc>::__node_type* std::__detail::_Hashtable_alloc<_NodeAlloc>::_M_allocate_node(_Args&& ...) [with _Args = {const std::piecewise_construct_t&, std::tuple<const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>, std::tuple<>}; _NodeAlloc = std::allocator<std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, true> >; std::__detail::_Hashtable_alloc<_NodeAlloc>::__node_ptr = std::allocator<std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, true> >::value_type*]’
+/usr/include/c++/11/bits/hashtable.h:304:35:   required from ‘std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::_Scoped_node::_Scoped_node(std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::__hashtable_alloc*, _Args&& ...) [with _Args = {const std::piecewise_construct_t&, std::tuple<const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>, std::tuple<>}; _Key = std::__cxx11::basic_string<char>; _Value = std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock> >; _ExtractKey = std::__detail::_Select1st; _Equal = std::equal_to<std::__cxx11::basic_string<char> >; _Hash = std::hash<std::__cxx11::basic_string<char> >; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, false, true>; std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::__hashtable_alloc = std::_Hashtable<std::__cxx11::basic_string<char>, std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, std::allocator<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock> >, std::__detail::_Select1st, std::equal_to<std::__cxx11::basic_string<char> >, std::hash<std::__cxx11::basic_string<char> >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::__hashtable_alloc]’
+/usr/include/c++/11/bits/hashtable_policy.h:707:42:   required from ‘std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::mapped_type& std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::operator[](const key_type&) [with _Key = std::__cxx11::basic_string<char>; _Pair = std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock> >; _Equal = std::equal_to<std::__cxx11::basic_string<char> >; _Hash = std::hash<std::__cxx11::basic_string<char> >; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, false, true>; std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::mapped_type = RedatamLib::DataBlock; std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::key_type = std::__cxx11::basic_string<char>]’
+/usr/include/c++/11/bits/unordered_map.h:980:20:   required from ‘std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = std::__cxx11::basic_string<char>; _Tp = RedatamLib::DataBlock; _Hash = std::hash<std::__cxx11::basic_string<char> >; _Pred = std::equal_to<std::__cxx11::basic_string<char> >; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = RedatamLib::DataBlock; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = std::__cxx11::basic_string<char>]’
+include/Readers/EntityParser.hpp:169:56:   required from here
+/usr/include/c++/11/tuple:1820:9: error: no matching function for call to ‘RedatamLib::DataBlock::DataBlock()’
+ 1820 |         second(std::forward<_Args2>(std::get<_Indexes2>(__tuple2))...)
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from include/Readers/FuzzyEntityParser.hpp:8,
+                 from include/Entities/RedatamDatabase.hpp:11,
+                 from src/main.cpp:3:
+include/Readers/DataBlock.hpp:25:3: note: candidate: ‘RedatamLib::DataBlock::DataBlock(const std::vector<unsigned char>&)’
+   25 |   DataBlock(const std::vector<uint8_t> &bytes) : data(bytes) {}
+      |   ^~~~~~~~~
+include/Readers/DataBlock.hpp:25:3: note:   candidate expects 1 argument, 0 provided
+include/Readers/DataBlock.hpp:19:3: note: candidate: ‘RedatamLib::DataBlock::DataBlock(const string&)’
+   19 |   DataBlock(const std::string &path) {
+      |   ^~~~~~~~~
+include/Readers/DataBlock.hpp:19:3: note:   candidate expects 1 argument, 0 provided
+include/Readers/DataBlock.hpp:13:7: note: candidate: ‘RedatamLib::DataBlock::DataBlock(const RedatamLib::DataBlock&)’
+   13 | class DataBlock {
+      |       ^~~~~~~~~
+include/Readers/DataBlock.hpp:13:7: note:   candidate expects 1 argument, 0 provided
+include/Readers/DataBlock.hpp:13:7: note: candidate: ‘RedatamLib::DataBlock::DataBlock(RedatamLib::DataBlock&&)’
+include/Readers/DataBlock.hpp:13:7: note:   candidate expects 1 argument, 0 provided
 make: *** [Makefile:16: obj/main.o] Error 1
