@@ -1,57 +1,119 @@
-#pragma once
+#ifndef REDATAMLIB_ENTITY_HPP
+#define REDATAMLIB_ENTITY_HPP
 
 #include <string>
 #include <vector>
 #include <memory>
-#include <algorithm>
 #include <fstream>
-#include "Variable.hpp"
-#include "CursorReader.hpp"
+#include <tuple>
 
 namespace RedatamLib {
-class Entity {
-private:
-  std::string Name;
-  std::vector<std::shared_ptr<Variable>> Variables;
-  std::string IndexFilename;
-  std::unique_ptr<CursorReader> reader;
-  int64_t RowsCount;
-  std::vector<std::shared_ptr<Entity>> Children;
 
+class Entity {
 public:
+  Entity() : reader(nullptr), RowsCount(0), VariableCount(0) {}
+
+  std::string ToString() const { return Name; }
+
+  void OpenPointer() {
+    if (!IndexFilename.empty()) {
+      std::string file = ResolveDataFilename();
+      // Assuming CursorReader is properly defined to handle file operations
+      reader = std::make_unique<CursorReader>(file, 16);
+    } else {
+      // Assuming NullCursorReader is a type of CursorReader that does nothing
+      reader = std::make_unique<NullCursorReader>();
+    }
+    reader->Open();
+  }
+
+  void ClosePointer() { reader->Close(); }
+
+  bool HasData() const { return !reader->IsLastPos(); }
+
+  int GetPointerData() { return static_cast<int>(reader->ReadInt32()); }
+
+  long CalculateRowCount(std::shared_ptr<Entity> parentEntity) {
+    long ret = 0;
+    if (reader->Length() > 0) {
+      long pos = 1;
+      if (parentEntity && parentEntity->RowsCount > 0) {
+        pos = parentEntity->RowsCount;
+      }
+      ret = reader->ReadInt32At(pos);
+    }
+    RowsCount = ret;
+    return ret;
+  }
+
+  static std::vector<std::tuple<std::string, std::string>>
+  Linealize(std::shared_ptr<Entity> parent,
+            const std::vector<std::shared_ptr<Entity>> &entitiesNames) {
+    std::vector<std::tuple<std::string, std::string>> ret;
+    for (const auto &e : entitiesNames) {
+      if (!parent) {
+        ret.emplace_back("", e->Name);
+      } else {
+        ret.emplace_back(parent->Name, e->Name);
+      }
+      auto children = Linealize(e, e->Children);
+      if (!children.empty()) {
+        ret.insert(ret.end(), children.begin(), children.end());
+      }
+    }
+    return ret;
+  }
+
+  bool DataFileExists() const {
+    std::string file = ResolveDataFilename();
+    std::ifstream infile(file);
+    return infile.good();
+  }
+
+  std::vector<std::shared_ptr<Variable>> SelectedVariables() const {
+    std::vector<std::shared_ptr<Variable>> selected;
+    for (const auto &v : Variables) {
+      if (v->Selected) {
+        selected.push_back(v);
+      }
+    }
+    return selected;
+  }
+
   std::string rootPath;
+  std::string Name;
+  std::vector<std::shared_ptr<Entity>> Children;
   std::string Description;
+  std::string IndexFilename;
+  int i1;
+  std::string Alias;
+  int s1;
+  unsigned char b1;
   std::string RelationChild;
   std::string RelationParent;
   std::string CodesVariable;
   std::string LabelVariable;
   int Level;
-  uint8_t b1;
-  int s1;
+  long RowsCount;
   int VariableCount;
+  std::string c1;
+  std::vector<std::shared_ptr<Variable>> Variables;
 
-  Entity();
-  void setName(const std::string &name);
-  std::string getName() const;
-  void setIndexFilename(const std::string &indexFilename);
-  const std::string &getIndexFilename() const;
-  std::vector<std::shared_ptr<Entity>> &getChildren();
-  void setChildren(const std::vector<std::shared_ptr<Entity>> &children);
-  std::vector<std::shared_ptr<Variable>> &getVariables();
-  const std::vector<std::shared_ptr<Variable>> &getVariables() const;
-  void setVariables(const std::vector<std::shared_ptr<Variable>> &variables);
-  void addVariable(const std::shared_ptr<Variable> &variable);
-  std::string ToString() const;
-  std::vector<std::shared_ptr<Variable>> SelectedVariables() const;
-  void OpenPointer();
-  std::string ResolveDataFilename();
-  bool HasData() const;
-  int GetPointerData() const;
-  void ClosePointer();
-  int64_t CalculateRowCount(std::shared_ptr<Entity> parentEntity);
-  static std::vector<std::pair<std::string, std::string>>
-  Linealize(std::shared_ptr<Entity> parent,
-            const std::vector<std::shared_ptr<Entity>> &entitiesNames);
-  bool DataFileExists() const;
+private:
+  std::unique_ptr<ICursorReader>
+      reader; // Assuming ICursorReader is an interface for CursorReader and
+              // NullCursorReader
+
+  std::string ResolveDataFilename() const {
+    if (!IndexFilename.empty()) {
+      // OptimisticCombine simulates the behavior of Path.Combine in C#
+      return rootPath + "/" +
+             IndexFilename; // Simple implementation, consider special cases
+    }
+    return "";
+  }
 };
+
 } // namespace RedatamLib
+
+#endif // REDATAMLIB_ENTITY_HPP
