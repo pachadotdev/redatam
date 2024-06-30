@@ -1,31 +1,22 @@
 #ifndef CURSORREADER_HPP
 #define CURSORREADER_HPP
 
-#include <string>
 #include <fstream>
-#include <stdexcept>
-#include <filesystem>
 #include <vector>
+#include <string>
+#include <filesystem>
+#include <stdexcept>
 #include <cstring>
-#include "ICursorReader.hpp"
+#include <algorithm>
 
 namespace RedatamLib {
 
 class CursorReader : public ICursorReader {
-private:
-  std::ifstream stream;
-  std::streampos fileSize;
-  unsigned int trailingBits = 0;
-  int trailingBitsCount = 0;
-  int bytesPos = 0;
-
 public:
-  CursorReader(const std::string &file, int size)
-      : CursorReader(file, false, false, size) {}
-
   CursorReader(const std::string &file, bool isString, bool isBin, int size)
-      : BlockSize(size), Filename(file), IsString(isString),
-        IsBinaryDataSet(isBin) {}
+      : Filename(file), IsString(isString), IsBinaryDataSet(isBin),
+        BlockSize(size), fileSize(0), bytesPos(0), trailingBits(0),
+        trailingBitsCount(0) {}
 
   void Open() {
     fileSize = std::filesystem::file_size(Filename);
@@ -38,13 +29,15 @@ public:
   std::string ReadString() {
     std::vector<char> bytes(BlockSize);
     stream.read(bytes.data(), BlockSize);
-    return std::string(bytes.begin(), bytes.end());
+    std::string str(bytes.begin(), bytes.end());
+    // Convert to lowercase to match C# behavior
+    std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+    return str;
   }
 
   double ReadDouble() {
     std::vector<char> bytes(8);
-    for (int i = 0; i < 8; i++)
-      bytes[i] = static_cast<char>(ReadByte());
+    stream.read(bytes.data(), 8);
     double ret;
     std::memcpy(&ret, bytes.data(), sizeof(ret));
     return ret;
@@ -70,7 +63,7 @@ public:
 
   bool IsLastPos() const { return bytesPos >= fileSize; }
 
-  int64_t Length() const { return const_cast<std::ifstream &>(stream).tellg(); }
+  int64_t Length() const { return stream.tellg(); }
 
   uint32_t ReadInt32At(int64_t pos) {
     auto keepPos = stream.tellg();
@@ -88,12 +81,6 @@ public:
     return ret;
   }
 
-private:
-  int BlockSize;
-  std::string Filename;
-  bool IsString;
-  bool IsBinaryDataSet;
-
   uint32_t ReadInt32() { return ReadInt16() + ReadInt16() * 0x10000; }
 
   uint32_t ReadInt16() { return ReadByte() + ReadByte() * 0x100; }
@@ -101,6 +88,24 @@ private:
   uint32_t Read4Bytes() { return Read2Bytes() * 0x10000 + Read2Bytes(); }
 
   uint32_t Read2Bytes() { return ReadByte() * 0x100 + ReadByte(); }
+
+  uint32_t ReadByte() {
+    char ret;
+    if (!stream.get(ret))
+      throw std::runtime_error("Cannot read byte from file: " + Filename);
+    return static_cast<unsigned char>(ret);
+  }
+
+private:
+  std::ifstream stream;
+  std::string Filename;
+  bool IsString;
+  bool IsBinaryDataSet;
+  int BlockSize;
+  uint64_t fileSize;
+  uint32_t trailingBits = 0;
+  int trailingBitsCount = 0;
+  int bytesPos = 0;
 
   uint64_t feedBits(uint64_t data, int &bitsRead) {
     while (bitsRead < BlockSize && trailingBitsCount > 0) {
@@ -113,18 +118,8 @@ private:
     }
     return data;
   }
-
-  uint32_t ReadByte() {
-    char byte;
-    stream.read(&byte, 1);
-    if (stream.eof())
-      return 0;
-    if (!stream)
-      throw std::runtime_error("Unable to read byte from stream.");
-    return static_cast<uint32_t>(static_cast<unsigned char>(byte));
-  }
 };
 
-}
+} // namespace RedatamLib
 
 #endif // CURSORREADER_HPP

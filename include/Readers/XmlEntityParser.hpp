@@ -1,33 +1,31 @@
-#ifndef XMLENTITYPARSER_HPP
-#define XMLENTITYPARSER_HPP
+#ifndef XMLENTITYPARSER_H
+#define XMLENTITYPARSER_H
 
-#include <vector>
 #include <string>
+#include <vector>
 #include <memory>
 #include <stdexcept>
-#include "tinyxml2.h"
+#include <tinyxml2.h>
 #include "Entity.hpp"
-#include "Variable.hpp"
-#include "RedatamDatabase.hpp"
 #include "XmlVariableParser.hpp"
 
 namespace RedatamLib {
 
 class XmlEntityParser {
 private:
-  std::shared_ptr<RedatamDatabase> db;
+  RedatamDatabase *db; // Assuming RedatamDatabase is defined elsewhere
   std::string rootPath;
-  std::vector<std::string> validTypes = {"DBL", "LNG", "INT",
-                                         "BIN", "PCK", "CHR"};
+  static const std::vector<std::string> validTypes;
 
 public:
-  XmlEntityParser(const std::shared_ptr<RedatamDatabase> &db) : db(db) {}
+  XmlEntityParser(RedatamDatabase *db) : db(db) {}
 
   void Parse(const std::string &path) {
     rootPath = path.substr(0, path.find_last_of('/'));
     tinyxml2::XMLDocument xmldoc;
     xmldoc.LoadFile(path.c_str());
-    db->Entities = ParseEntities(xmldoc);
+    auto entities = ParseEntities(xmldoc);
+    db->Entities.insert(db->Entities.end(), entities.begin(), entities.end());
   }
 
   std::vector<std::shared_ptr<Entity>>
@@ -78,7 +76,9 @@ public:
     e->setName(getChildByName(node, "name")->GetText());
     if (hasChildByName(node, "label"))
       e->Description = getChildByName(node, "label")->GetText();
-    e->setIndexFilename(getChildByName(node, "indexFile")->GetText());
+    e->setIndexFilename(
+        getChildByName(node, "filename")
+            ->GetText()); // Corrected from "indexFile" to "filename"
     e->RelationChild = getChildByName(node, "relationChild")->GetText();
     e->RelationParent = getChildByName(node, "relationParent")->GetText();
     e->CodesVariable = getChildByName(node, "refCode")->GetText();
@@ -131,6 +131,9 @@ public:
   }
 };
 
+const std::vector<std::string> XmlEntityParser::validTypes = {
+    "DBL", "LNG", "INT", "BIN", "PCK", "CHR"};
+
 } // namespace RedatamLib
 
-#endif // XMLENTITYPARSER_HPP
+#endif // XMLENTITYPARSER_H

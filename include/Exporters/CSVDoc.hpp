@@ -1,5 +1,5 @@
-#ifndef CSV_DOC_HPP
-#define CSV_DOC_HPP
+#ifndef CSVDOC_HPP
+#define CSVDOC_HPP
 
 #include <string>
 #include <vector>
@@ -111,4 +111,4 @@ private:
 
 } // namespace RedatamLib
 
-#endif // CSV_DOC_HPP
+#endif // CSVDOC_HPP

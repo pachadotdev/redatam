@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <string>
 #include <algorithm>
-#include <sstream>
+#include <memory>
 #include "RedatamDatabase.hpp"
 #include "Entity.hpp"
 
@@ -16,8 +16,8 @@ private:
   std::vector<int> oldChars = {160, 130, 162, 163, 164};
   RedatamDatabase *db;
   std::unordered_map<char, int> matches;
-  int sumMatches;
-  bool testing;
+  int sumMatches = 0;
+  bool testing = false;
 
   void Process(std::string &value) {
     if (testing) {
@@ -29,7 +29,8 @@ private:
 
   void CountMsDOSChars(const std::string &value) {
     for (auto ch : value) {
-      if (std::find(oldChars.begin(), oldChars.end(), ch) != oldChars.end()) {
+      if (std::find(oldChars.begin(), oldChars.end(), static_cast<int>(ch)) !=
+          oldChars.end()) {
         matches[ch]++;
         sumMatches++;
       }
@@ -37,11 +38,9 @@ private:
   }
 
   std::string ReplaceMsDOSChars(const std::string &value) {
-    std::string result = value;
-    for (auto &ch : result) {
-      if (std::find(oldChars.begin(), oldChars.end(), ch) != oldChars.end()) {
-        ch = ReencodeChar(ch);
-      }
+    std::string result;
+    for (auto ch : value) {
+      result += ReencodeChar(ch);
     }
     return result;
   }
@@ -63,9 +62,24 @@ private:
     }
   }
 
+  bool ProcessEntities(const std::vector<std::shared_ptr<Entity>> &entities) {
+    for (const auto &entity : entities) {
+      for (auto &variable : entity->getVariables()) {
+        Process(variable->Label);
+        for (auto &valueLabel : variable->ValueLabels) {
+          Process(valueLabel.Value);
+        }
+      }
+      if (ProcessEntities(entity->getChildren()) && testing) {
+        return true;
+      }
+    }
+    return (matches.size() >= 3 && sumMatches >= 6);
+  }
+
 public:
-  MsDOSEncoder(RedatamDatabase *database, bool testingInit)
-      : db(database), matches(), sumMatches(0), testing(testingInit) {}
+  MsDOSEncoder(RedatamDatabase *database, bool testingInit = false)
+      : db(database), testing(testingInit) {}
 
   void ReencodeLabels() {
     testing = false;
@@ -77,27 +91,6 @@ public:
     matches.clear();
     sumMatches = 0;
     return ProcessEntities(db->Entities);
-  }
-
-  bool ProcessEntities(const std::vector<std::shared_ptr<Entity>> &entities) {
-    for (const auto &entity : entities) {
-      for (const auto &variable : entity->getVariables()) {
-        std::string label = variable->Label;
-        Process(label);
-        variable->Label = label;
-
-        for (auto &valueLabel : variable->ValueLabels) {
-          std::string value = valueLabel.Value;
-          Process(value);
-          valueLabel.Value = value;
-        }
-      }
-      if (ProcessEntities(entity->getChildren())) {
-        if (testing)
-          return true;
-      }
-    }
-    return (matches.size() >= 3 && sumMatches >= 6);
   }
 };
 
