@@ -44,8 +44,8 @@ private:
   }
 
   void CreateVariable(CSVDoc &doc, const std::shared_ptr<Variable> &variable) {
-    doc.Columns.push_back(variable->getName());
-    doc.Labels.push_back(variable->getLabel());
+    doc.Columns.push_back(variable->Name());
+    doc.Labels.push_back(variable->Label());
     if (!variable->getValueLabels().empty()) {
       WriteVariableValueLabels(doc, variable);
     }

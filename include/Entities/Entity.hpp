@@ -4,40 +4,46 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <fstream>
-#include <tuple>
-#include "CursorReader.hpp"
-#include "ICursorReader.hpp"
-#include "NullCursorReader.hpp"
-#include "RedatamDatabase.hpp"
 #include "Variable.hpp"
+#include "ICursorReader.hpp"
 
 namespace RedatamLib {
 
 class Entity {
 public:
-  Entity() : RowsCount(0), VariableCount(0), reader(nullptr) {}
-  // Entity() : reader(nullptr), RowsCount(0), VariableCount(0) {}
+  // Public members
+  std::string Name;
+  std::vector<std::shared_ptr<Entity>> Children;
+  std::string Description;
+  std::string IndexFilename;
+  int i1;
+  std::string Alias;
+  int s1;
+  unsigned char b1;
+  std::string RelationChild;
+  std::string RelationParent;
+  std::string CodesVariable;
+  std::string LabelVariable;
+  int Level;
+  long RowsCount;
+  int VariableCount;
+  std::string c1;
+  std::vector<std::shared_ptr<Variable>> Variables;
 
-  std::string ToString() const { return Name; }
+  // Constructor
+  Entity() : reader(nullptr) {}
 
-  void OpenPointer() {
+  // Methods
+  void OpenReader() {
     if (!IndexFilename.empty()) {
-      std::string file = ResolveDataFilename();
-      reader = std::make_unique<CursorReader>(file, 16);
+      reader =
+          std::make_unique<CursorReader>(ResolveDataFilename(), false, true, 0);
     } else {
       reader = std::make_unique<NullCursorReader>();
     }
-    reader->Open();
   }
 
-  void ClosePointer() { reader->Close(); }
-
-  bool HasData() const { return !reader->IsLastPos(); }
-
-  int GetPointerData() { return static_cast<int>(reader->ReadInt32()); }
-
-  long CalculateRowCount(std::shared_ptr<Entity> parentEntity) {
+  long GetRowsCount() {
     long ret = 0;
     if (reader->Length() > 0) {
       long pos = 1;
@@ -61,7 +67,7 @@ public:
         ret.emplace_back(parent->Name, e->Name);
       }
       auto children = Linealize(e, e->Children);
-      if (!children.empty()) {
+      if (!children empty()) {
         ret.insert(ret.end(), children.begin(), children.end());
       }
     }
@@ -84,25 +90,6 @@ public:
     return selected;
   }
 
-  std::string rootPath;
-  std::string Name;
-  std::vector<std::shared_ptr<Entity>> Children;
-  std::string Description;
-  std::string IndexFilename;
-  int i1;
-  std::string Alias;
-  int s1;
-  unsigned char b1;
-  std::string RelationChild;
-  std::string RelationParent;
-  std::string CodesVariable;
-  std::string LabelVariable;
-  int Level;
-  long RowsCount;
-  int VariableCount;
-  std::string c1;
-  std::vector<std::shared_ptr<Variable>> Variables;
-
 private:
   std::unique_ptr<ICursorReader> reader;
 
@@ -112,6 +99,8 @@ private:
     }
     return "";
   }
+
+  Entity *parentEntity = nullptr;
 };
 
 } // namespace RedatamLib

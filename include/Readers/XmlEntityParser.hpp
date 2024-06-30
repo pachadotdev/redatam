@@ -13,7 +13,7 @@ namespace RedatamLib {
 
 class XmlEntityParser {
 private:
-  RedatamDatabase *db; // Assuming RedatamDatabase is defined elsewhere
+  RedatamDatabase *db;
   std::string rootPath;
   static const std::vector<std::string> validTypes;
 
@@ -72,13 +72,9 @@ public:
 
   std::shared_ptr<Entity> ReadEntity(tinyxml2::XMLElement *node) {
     auto e = std::make_shared<Entity>();
-    e->rootPath = rootPath;
-    e->setName(getChildByName(node, "name")->GetText());
-    if (hasChildByName(node, "label"))
-      e->Description = getChildByName(node, "label")->GetText();
-    e->setIndexFilename(
-        getChildByName(node, "filename")
-            ->GetText()); // Corrected from "indexFile" to "filename"
+    e->Name = getChildByName(node, "name")->GetText();
+    e->IndexFilename = getChildByName(node, "indexFile")->GetText();
+    e->Description = getChildByName(node, "description")->GetText();
     e->RelationChild = getChildByName(node, "relationChild")->GetText();
     e->RelationParent = getChildByName(node, "relationParent")->GetText();
     e->CodesVariable = getChildByName(node, "refCode")->GetText();
@@ -86,18 +82,18 @@ public:
       e->LabelVariable = getChildByName(node, "refLabel")->GetText();
 
     ReadVariables(node, e);
-    e->VariableCount = e->getVariables().size();
+    e->VariableCount = e->Variables.size();
 
     for (auto *childXml : getChildrenByName(node, "entity")) {
       auto child = ReadEntity(childXml);
-      e->getChildren().push_back(child);
+      e->Children.push_back(child);
     }
     return e;
   }
 
   void ReadVariables(tinyxml2::XMLElement *node, std::shared_ptr<Entity> e) {
     for (auto *variable : getChildrenByName(node, "variable")) {
-      auto v = std::make_shared<Variable>(e);
+      auto v = std::make_shared<Variable>(e.get());
 
       v->Name = getChildByName(variable, "name")->GetText();
       if (hasChildByName(variable, "filter"))
@@ -115,7 +111,7 @@ public:
       parser.ParseDeclaration(variable);
       parser.ParseValueLabels(variable);
 
-      e->getVariables().push_back(v);
+      e->Variables.push_back(v);
     }
   }
 

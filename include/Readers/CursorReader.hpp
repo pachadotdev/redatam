@@ -10,15 +10,12 @@
 #include <algorithm>
 #include "ICursorReader.hpp"
 
-// forward declaration(s)
-// namespace RedatamLib {
-//   class ICursorReader;
-// }
-
 namespace RedatamLib {
 
 class CursorReader : public ICursorReader {
 public:
+  virtual ~CursorReader() = default;
+
   CursorReader(const std::string &file, bool isString, bool isBin, int size)
       : Filename(file), IsString(isString), IsBinaryDataSet(isBin),
         BlockSize(size), fileSize(0), trailingBits(0), trailingBitsCount(0),
@@ -36,7 +33,6 @@ public:
     std::vector<char> bytes(BlockSize);
     stream.read(bytes.data(), BlockSize);
     std::string str(bytes.begin(), bytes.end());
-    // Convert to lowercase to match C# behavior
     std::transform(str.begin(), str.end(), str.begin(), ::tolower);
     return str;
   }

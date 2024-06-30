@@ -11,7 +11,27 @@
 
 namespace RedatamLib {
 
+class RedatamDatabase;
+
 class FuzzyEntityParser {
+public:
+  FuzzyEntityParser(RedatamDatabase *db) : db(db) {}
+
+  void ParseEntities(const std::string &path) {
+    std::vector<std::vector<std::shared_ptr<Entity>>> candidates;
+
+    DataBlock dataBlock(path);
+
+    for (size_t i = 0; i < dataBlock.data.size(); i++) {
+      dataBlock.n = i;
+      std::vector<std::shared_ptr<Entity>> entitiesNames;
+      TryEntities(dataBlock, "", entitiesNames);
+      if (!entitiesNames.empty())
+        candidates.push_back(entitiesNames);
+    }
+    db->entityNames = GetBest(candidates);
+  }
+
 private:
   RedatamDatabase *db;
 
@@ -105,24 +125,6 @@ private:
       ret += CalculateTreeSize(entity->getChildren());
     }
     return ret;
-  }
-
-public:
-  FuzzyEntityParser(RedatamDatabase *db) : db(db) {}
-
-  void ParseEntities(const std::string &path) {
-    std::vector<std::vector<std::shared_ptr<Entity>>> candidates;
-
-    DataBlock dataBlock(path);
-
-    for (size_t i = 0; i < dataBlock.data.size(); i++) {
-      dataBlock.n = i;
-      std::vector<std::shared_ptr<Entity>> entitiesNames;
-      TryEntities(dataBlock, "", entitiesNames);
-      if (!entitiesNames.empty())
-        candidates.push_back(entitiesNames);
-    }
-    db->entityNames = GetBest(candidates);
   }
 };
 

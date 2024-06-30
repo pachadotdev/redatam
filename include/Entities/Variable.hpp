@@ -14,7 +14,7 @@
 
 namespace RedatamLib {
 
-// class Entity;
+class Entity;
 
 class Variable {
 public:
@@ -22,7 +22,7 @@ public:
 
   Variable(const std::string &name, const std::string &type,
            const std::string &label)
-      : Name(name), Type(type), Label(label), reader(nullptr) {}
+      : Name(name), Label(label), Type(type), reader(nullptr) {}
 
   std::string GetData() const {
     if (Type == "STRING") {
@@ -40,7 +40,8 @@ public:
 
   void OpenData() {
     if (BinaryDataSet) {
-      reader = std::make_unique<CursorReader>(ResolveDataFilename());
+      reader =
+          std::make_unique<CursorReader>(ResolveDataFilename(), false, true, 0);
     } else {
       reader = std::make_unique<NullCursorReader>();
     }
@@ -70,7 +71,7 @@ public:
 
 private:
   Entity *entity;
-  std::unique_ptr<CursorReader> reader;
+  std::unique_ptr<ICursorReader> reader;
 
   long CalculateCharSize() const {
     long entityRows = this->entity->RowsCount;
