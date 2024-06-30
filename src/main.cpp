@@ -11,7 +11,7 @@ namespace fs = std::filesystem;
 void convertDicToCsv(const std::string &dicFilePath,
                      const std::string &outputDirPath) {
   auto db = std::make_shared<RedatamLib::RedatamDatabase>();
-  RedatamLib::XmlEntityParser parser(db.get());
+  RedatamLib::XmlEntityParser parser(db);
   parser.Parse(dicFilePath);
 
   RedatamLib::CSVExporter exporter(db);
