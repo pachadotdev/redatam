@@ -19,7 +19,7 @@ public:
 
   Variable(const std::string &name, const std::string &type,
            const std::string &label)
-      : Name(name), Type(type), Label(label), reader(nullptr) {}
+      : Name(name), Label(label), Type(type), reader(nullptr) {}
 
   std::string GetData() const {
     if (Type == "STRING") {
