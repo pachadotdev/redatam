@@ -10,10 +10,10 @@
 
 class VariableParser {
 private:
-    std::shared_ptr<Variable> variable;
+    std::shared_ptr<RedatamLib::Variable> variable;
 
 public:
-    VariableParser(const std::shared_ptr<Variable>& var) : variable(var) {}
+    VariableParser(const std::shared_ptr<RedatamLib::Variable>& var) : variable(var) {}
 
     void ParseValueLabels() {
         std::vector<std::string> items = split(variable->ValuesLabelsRaw, '\t');

@@ -9,6 +9,10 @@
 #include "DataBlock.hpp"
 #include "VariableParser.hpp"
 
+namespace RedatamLib {
+
+class Entity;
+
 class EntityParser {
 private:
     std::string rootPath;
@@ -75,11 +79,11 @@ public:
         return e;
     }
 
-    std::shared_ptr<Variable> ParseVariable(DataBlock& dataBlock, std::shared_ptr<Entity> e) {
+    std::shared_ptr<RedatamLib::Variable> ParseVariable(DataBlock& dataBlock, std::shared_ptr<Entity> e) {
         if (!JumptToDataSet(dataBlock)) {
             return nullptr;
         }
-        auto v = std::make_shared<Variable>(e);
+        auto v = std::make_shared<RedatamLib::Variable>(e);
         v->Name = dataBlock.eatShortString();
         v->Declaration = dataBlock.eatShortString();
         v->Filter = dataBlock.eatShortString();
@@ -162,5 +166,7 @@ public:
         return dataBlock.n;
     }
 };
+
+}
 
 #endif // ENTITYPARSER_HPP

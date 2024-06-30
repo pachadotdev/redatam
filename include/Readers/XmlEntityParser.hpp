@@ -68,10 +68,10 @@ public:
     std::shared_ptr<Entity> ReadEntity(tinyxml2::XMLElement* node) {
         auto e = std::make_shared<Entity>();
         e->rootPath = rootPath;
-        e->Name = getChildByName(node, "name")->GetText();
+        e->setName(getChildByName(node, "name")->GetText());
         if (hasChildByName(node, "label"))
             e->Description = getChildByName(node, "label")->GetText();
-        e->IndexFilename = getChildByName(node, "indexFile")->GetText();
+        e->setIndexFilename(getChildByName(node, "indexFile")->GetText());
         e->RelationChild = getChildByName(node, "relationChild")->GetText();
         e->RelationParent = getChildByName(node, "relationParent")->GetText();
         e->CodesVariable = getChildByName(node, "refCode")->GetText();

@@ -8,6 +8,8 @@
 #include <filesystem>
 #include <stdexcept>
 
+namespace RedatamLib {
+
 class CSVDoc
 {
 public:
@@ -114,7 +116,7 @@ private:
 
         for (size_t i = 0; i < Columns.size(); ++i)
         {
-            labels.WriteLine({Columns[i], Labels[i]});
+            labels.WriteLine(std::vector<std::string>{Columns[i], Labels[i]});
         }
     }
 
@@ -129,5 +131,7 @@ private:
         return str;
     }
 };
+
+}
 
 #endif // CSV_DOC_HPP

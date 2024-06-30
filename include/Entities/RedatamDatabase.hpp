@@ -6,11 +6,11 @@
 #include <string>
 #include "Entity.hpp"
 
+namespace RedatamLib {
+    
 // Forward declarations to avoid circular dependency
 class FuzzyEntityParser;
 class XmlEntityParser;
-
-namespace RedatamLib {
 
 class RedatamDatabase {
 public:

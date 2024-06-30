@@ -12,10 +12,10 @@
 #include "CursorReader.hpp"
 #include "NullCursorReader.hpp"
 
+namespace RedatamLib {
+
 // Forward declaration
 class Entity;
-
-namespace RedatamLib {
 
 class Variable {
 private:

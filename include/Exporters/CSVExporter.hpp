@@ -10,6 +10,8 @@
 #include "Variable.hpp"
 #include "CSVDoc.hpp"
 
+namespace RedatamLib {
+
 class CSVExporter
 {
 private:
@@ -38,9 +40,8 @@ private:
         CSVDoc labels(file);
         labels.Columns = {v->Name, "label"};
         labels.CommitDictionary();
-        for (const auto& item : v->ValueLabels)
-        {
-            labels.WriteLine({item.first, item.second});
+        for (const auto &item : v->ValueLabels) {
+          labels.WriteLine({item.first, item.second});
         }
         labels.Close();
     }
@@ -74,5 +75,7 @@ public:
         }
     }
 };
+
+}
 
 #endif // CSV_EXPORTER_HPP
