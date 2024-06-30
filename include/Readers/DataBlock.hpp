@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <cstring>
 #include <cctype>
+#include <sstream>
 
 namespace RedatamLib {
 
@@ -45,125 +46,171 @@ public:
 
   std::string toString() const { return std::string(data.begin(), data.end()); }
 
-  std::string toLower() const {
-    std::string result = toString();
-    std::transform(result.begin(), result.end(), result.begin(), ::tolower);
+  std::vector<uint8_t> makeStringBlock(const std::string &str) {
+    std::vector<uint8_t> block;
+    auto intSize = calcSize16(str);
+    auto text = makeString(str);
+    block.insert(block.end(), intSize.begin(), intSize.end());
+    block.insert(block.end(), text.begin(), text.end());
+    return block;
+  }
+
+  bool moveTo(const std::vector<uint8_t> &pattern) {
+    auto it = std::search(data.begin() + n, data.end(), pattern.begin(),
+                          pattern.end());
+    if (it == data.end())
+      return false;
+    n = std::distance(data.begin(), it);
+    return true;
+  }
+
+  std::string eatShortString() {
+    int length = eat16int();
+    if (length == 0xFFFF) {
+      return eatString();
+    }
+    return eatChars(length);
+  }
+
+  int eat16int() {
+    int result = data[n] | (data[n + 1] << 8);
+    n += 2;
     return result;
   }
 
-  std::string toUpper() const {
-    std::string result = toString();
-    std::transform(result.begin(), result.end(), result.begin(), ::toupper);
+  int eat32int() {
+    int result = data[n] | (data[n + 1] << 8) | (data[n + 2] << 16) |
+                 (data[n + 3] << 24);
+    n += 4;
     return result;
   }
 
-  bool startsWith(const std::string &prefix) const {
-    if (prefix.size() > data.size()) {
+  uint8_t eatByte() { return data[n++]; }
+
+  std::vector<uint8_t> addArrays(const std::vector<uint8_t> &a,
+                                 const std::vector<uint8_t> &b,
+                                 const std::vector<uint8_t> &c) {
+    std::vector<uint8_t> result = a;
+    result.insert(result.end(), b.begin(), b.end());
+    result.insert(result.end(), c.begin(), c.end());
+    return result;
+  }
+
+  std::vector<uint8_t> addArrays(const std::vector<uint8_t> &a,
+                                 const std::vector<uint8_t> &b) {
+    std::vector<uint8_t> result = a;
+    result.insert(result.end(), b.begin(), b.end());
+    return result;
+  }
+
+  void move(int i) { n += i; }
+
+  int moveBackString(int maxLenght = 65536) {
+    move(-2);
+    int offset = 0;
+    while (offset < n) {
+      auto bytes = calcSize16(offset);
+      if (matches(data, bytes, n - offset)) {
+        n -= offset;
+        return offset;
+      }
+      offset++;
+      if (offset > maxLenght)
+        break;
+    }
+    return -1;
+  }
+
+  bool moveTo(const std::string &item) { return moveTo(makeString(item)); }
+
+  std::vector<int> GetAllMatches(const std::vector<uint8_t> &block) {
+    std::vector<int> ret;
+    int keepN = n;
+    while (moveTo(block)) {
+      ret.push_back(n);
+      n++;
+    }
+    n = keepN;
+    return ret;
+  }
+
+  bool PlausibleString(std::string &cad, bool filterByContent = true) {
+    int keepN = n;
+    cad = "";
+    if (n + 2 >= static_cast<int>(data.size())) // Fix here
+      return false;
+    int length = eat16int();
+    if (length < 0 || length > 128 ||
+        n + length > static_cast<int>(data.size())) { // Fix here
+      n = keepN;
       return false;
     }
-    return std::equal(prefix.begin(), prefix.end(), data.begin());
-  }
+    move(-2);
+    cad = eatShortString();
+    n = keepN;
 
-  bool endsWith(const std::string &suffix) const {
-    if (suffix.size() > data.size()) {
+    if (filterByContent && !IsText(cad))
       return false;
+    return true;
+  }
+
+  bool eatPlausibleString(std::string &cad, bool filterByContent = true) {
+    if (!PlausibleString(cad, filterByContent))
+      return false;
+
+    cad = eatShortString();
+    return true;
+  }
+
+  std::string eatChars(int length) { // Move to public section
+    std::string cad(data.begin() + n, data.begin() + n + length);
+    n += length;
+    return cad;
+  }
+
+private:
+  std::vector<uint8_t> calcSize16(int n) {
+    uint8_t n1 = static_cast<uint8_t>(n % 256);
+    uint8_t n2 = static_cast<uint8_t>(n / 256);
+    return {n1, n2};
+  }
+
+  std::vector<uint8_t> calcSize16(const std::string &cad) {
+    return calcSize16(cad.size());
+  }
+
+  std::vector<uint8_t> calcSize(const std::string &cad) {
+    int i = cad.size();
+    return addArrays(calcSize16(i / 65536), calcSize16(i % 65536));
+  }
+
+  std::vector<uint8_t> makeString(const std::string &entity) {
+    return std::vector<uint8_t>(entity.begin(), entity.end());
+  }
+
+  std::string eatString() {
+    int length = eat32intInv();
+    return eatChars(length);
+  }
+
+  int eat32intInv() { return eat16int() + 0x10000 * eat16int(); }
+
+  bool IsText(const std::string &cad) {
+    for (char c : cad) {
+      if ((c < 'a' || c > 'z') && c != ' ' && c != '-' && c != '_' &&
+          (c < '0' || c > '9'))
+        return false;
     }
-    return std::equal(suffix.rbegin(), suffix.rend(), data.rbegin());
+    return true;
   }
 
-  bool contains(const std::string &str) const {
-    return std::search(data.begin(), data.end(), str.begin(), str.end()) !=
-           data.end();
-  }
-
-  size_t indexOf(const std::string &str) const {
-    auto it = std::search(data.begin(), data.end(), str.begin(), str.end());
-    if (it != data.end()) {
-      return std::distance(data.begin(), it);
+  bool matches(const std::vector<uint8_t> &haystack,
+               const std::vector<uint8_t> &needle, int offset) {
+    for (size_t i = 0; i < needle.size(); ++i) {
+      if (needle[i] != haystack[offset + i])
+        return false;
     }
-    return std::string::npos;
-  }
-
-  std::string substring(size_t start, size_t length) const {
-    if (start >= data.size()) {
-      throw std::out_of_range("Invalid start position for substring");
-    }
-    return std::string(data.begin() + start, data.begin() + start + length);
-  }
-
-  std::vector<std::string> split(char delimiter) const {
-    std::vector<std::string> tokens;
-    std::string token;
-    for (auto ch : data) {
-      if (ch == delimiter) {
-        tokens.push_back(token);
-        token.clear();
-      } else {
-        token.push_back(ch);
-      }
-    }
-    if (!token.empty()) {
-      tokens.push_back(token);
-    }
-    return tokens;
-  }
-
-  std::string trim() const {
-    auto start = std::find_if_not(data.begin(), data.end(), ::isspace);
-    auto end = std::find_if_not(data.rbegin(), data.rend(), ::isspace).base();
-    return (start < end) ? std::string(start, end) : std::string();
-  }
-
-  std::string replace(char oldChar, char newChar) const {
-    std::string result = toString();
-    std::replace(result.begin(), result.end(), oldChar, newChar);
-    return result;
-  }
-
-  bool isEmpty() const { return data.empty(); }
-
-  size_t size() const { return data.size(); }
-
-  std::vector<std::string> plausibleStrings() const {
-    std::vector<std::string> strings;
-    std::string currentString;
-    for (auto ch : data) {
-      if (std::isprint(ch) || std::isspace(ch)) {
-        currentString.push_back(ch);
-      } else if (!currentString.empty()) {
-        strings.push_back(currentString);
-        currentString.clear();
-      }
-    }
-    if (!currentString.empty()) {
-      strings.push_back(currentString);
-    }
-    return strings;
-  }
-
-  void toFile(const std::string &path) const {
-    std::ofstream file(path, std::ios::binary);
-    if (!file) {
-      throw std::runtime_error("Cannot open file: " + path);
-    }
-    file.write(reinterpret_cast<const char *>(data.data()), data.size());
-  }
-
-  static DataBlock fromFile(const std::string &path) { return DataBlock(path); }
-
-  static DataBlock fromString(const std::string &str) {
-    return DataBlock(std::vector<uint8_t>(str.begin(), str.end()));
-  }
-
-  static DataBlock fromHexString(const std::string &hexStr) {
-    std::vector<uint8_t> bytes;
-    for (size_t i = 0; i < hexStr.size(); i += 2) {
-      std::string byteString = hexStr.substr(i, 2);
-      uint8_t byte =
-          static_cast<uint8_t>(strtol(byteString.c_str(), nullptr, 16));
-      bytes.push_back(byte);
-    }
-    return DataBlock(bytes);
+    return true;
   }
 };
 
