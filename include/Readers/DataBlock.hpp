@@ -36,6 +36,8 @@ public:
 
   DataBlock(const std::vector<uint8_t> &bytes) : data(bytes) {}
 
+  DataBlock() = default;
+
   DataBlock getPart(int prevStart, int iStart) const {
     if (prevStart < 0 || static_cast<size_t>(iStart) > data.size() ||
         prevStart >= iStart) {

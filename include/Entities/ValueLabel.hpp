@@ -5,18 +5,13 @@
 
 namespace RedatamLib {
 
-class ValueLabel
-{
+class ValueLabel {
 public:
-    std::string Key;
-    std::string Value;
+  std::string Key;
+  std::string Value;
 
-    ValueLabel(const std::string& key, const std::string& value)
-        : Key(key), Value(value)
-    {
-    }
-    
-    ~ValueLabel() = default;
+  ValueLabel(const std::string &key, const std::string &value)
+      : Key(key), Value(value) {}
 };
 
 } // namespace RedatamLib

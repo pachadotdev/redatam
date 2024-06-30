@@ -1,38 +1,19 @@
 g++ -std=c++17 -Wall -Iinclude/Entities -Iinclude/Readers -Iinclude/Exporters -Ivendor -c -o obj/main.o src/main.cpp
-In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
-                 from /usr/include/c++/11/bits/locale_conv.h:41,
-                 from /usr/include/c++/11/locale:43,
-                 from /usr/include/c++/11/bits/fs_path.h:37,
-                 from /usr/include/c++/11/filesystem:45,
-                 from src/main.cpp:2:
-/usr/include/c++/11/tuple: In instantiation of ‘std::pair<_T1, _T2>::pair(std::tuple<_Args1 ...>&, std::tuple<_Args2 ...>&, std::_Index_tuple<_Indexes1 ...>, std::_Index_tuple<_Indexes2 ...>) [with _Args1 = {std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&}; long unsigned int ..._Indexes1 = {0}; _Args2 = {}; long unsigned int ..._Indexes2 = {}; _T1 = const std::__cxx11::basic_string<char>; _T2 = RedatamLib::DataBlock]’:
-/usr/include/c++/11/tuple:1809:63:   required from ‘std::pair<_T1, _T2>::pair(std::piecewise_construct_t, std::tuple<_Args1 ...>, std::tuple<_Args2 ...>) [with _Args1 = {std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&}; _Args2 = {}; _T1 = const std::__cxx11::basic_string<char>; _T2 = RedatamLib::DataBlock]’
-/usr/include/c++/11/ext/new_allocator.h:162:4:   required from ‘void __gnu_cxx::new_allocator<_Tp>::construct(_Up*, _Args&& ...) [with _Up = std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>; _Args = {const std::piecewise_construct_t&, std::tuple<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&>, std::tuple<>}; _Tp = std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, true>]’
-/usr/include/c++/11/bits/alloc_traits.h:516:17:   required from ‘static void std::allocator_traits<std::allocator<_CharT> >::construct(std::allocator_traits<std::allocator<_CharT> >::allocator_type&, _Up*, _Args&& ...) [with _Up = std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>; _Args = {const std::piecewise_construct_t&, std::tuple<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&>, std::tuple<>}; _Tp = std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, true>; std::allocator_traits<std::allocator<_CharT> >::allocator_type = std::allocator<std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, true> >]’
-/usr/include/c++/11/bits/hashtable_policy.h:1878:36:   required from ‘std::__detail::_Hashtable_alloc<_NodeAlloc>::__node_type* std::__detail::_Hashtable_alloc<_NodeAlloc>::_M_allocate_node(_Args&& ...) [with _Args = {const std::piecewise_construct_t&, std::tuple<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&>, std::tuple<>}; _NodeAlloc = std::allocator<std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, true> >; std::__detail::_Hashtable_alloc<_NodeAlloc>::__node_ptr = std::allocator<std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, true> >::value_type*]’
-/usr/include/c++/11/bits/hashtable.h:304:35:   required from ‘std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::_Scoped_node::_Scoped_node(std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::__hashtable_alloc*, _Args&& ...) [with _Args = {const std::piecewise_construct_t&, std::tuple<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&>, std::tuple<>}; _Key = std::__cxx11::basic_string<char>; _Value = std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock> >; _ExtractKey = std::__detail::_Select1st; _Equal = std::equal_to<std::__cxx11::basic_string<char> >; _Hash = std::hash<std::__cxx11::basic_string<char> >; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, false, true>; std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::__hashtable_alloc = std::_Hashtable<std::__cxx11::basic_string<char>, std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, std::allocator<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock> >, std::__detail::_Select1st, std::equal_to<std::__cxx11::basic_string<char> >, std::hash<std::__cxx11::basic_string<char> >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::__hashtable_alloc]’
-/usr/include/c++/11/bits/hashtable_policy.h:734:42:   required from ‘std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::mapped_type& std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::operator[](std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::key_type&&) [with _Key = std::__cxx11::basic_string<char>; _Pair = std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock> >; _Equal = std::equal_to<std::__cxx11::basic_string<char> >; _Hash = std::hash<std::__cxx11::basic_string<char> >; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, false, true>; std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::mapped_type = RedatamLib::DataBlock; std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::key_type = std::__cxx11::basic_string<char>]’
-/usr/include/c++/11/bits/unordered_map.h:984:20:   required from ‘std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type&&) [with _Key = std::__cxx11::basic_string<char>; _Tp = RedatamLib::DataBlock; _Hash = std::hash<std::__cxx11::basic_string<char> >; _Pred = std::equal_to<std::__cxx11::basic_string<char> >; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = RedatamLib::DataBlock; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = std::__cxx11::basic_string<char>]’
-include/Readers/EntityParser.hpp:29:71:   required from here
-/usr/include/c++/11/tuple:1820:9: error: no matching function for call to ‘RedatamLib::DataBlock::DataBlock()’
- 1820 |         second(std::forward<_Args2>(std::get<_Indexes2>(__tuple2))...)
-      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from include/Readers/EntityParser.hpp:9,
-                 from src/main.cpp:5:
-include/Readers/DataBlock.hpp:33:5: note: candidate: ‘RedatamLib::DataBlock::DataBlock(const std::vector<unsigned char>&)’
-   33 |     DataBlock(const std::vector<uint8_t>& bytes) : data(bytes) {}
-      |     ^~~~~~~~~
-include/Readers/DataBlock.hpp:33:5: note:   candidate expects 1 argument, 0 provided
-include/Readers/DataBlock.hpp:19:5: note: candidate: ‘RedatamLib::DataBlock::DataBlock(const string&)’
-   19 |     DataBlock(const std::string& path) {
-      |     ^~~~~~~~~
-include/Readers/DataBlock.hpp:19:5: note:   candidate expects 1 argument, 0 provided
-include/Readers/DataBlock.hpp:14:7: note: candidate: ‘RedatamLib::DataBlock::DataBlock(const RedatamLib::DataBlock&)’
-   14 | class DataBlock {
-      |       ^~~~~~~~~
-include/Readers/DataBlock.hpp:14:7: note:   candidate expects 1 argument, 0 provided
-include/Readers/DataBlock.hpp:14:7: note: candidate: ‘RedatamLib::DataBlock::DataBlock(RedatamLib::DataBlock&&)’
-include/Readers/DataBlock.hpp:14:7: note:   candidate expects 1 argument, 0 provided
+In file included from include/Entities/RedatamDatabase.hpp:8,
+                 from src/main.cpp:3:
+include/Readers/FuzzyEntityParser.hpp:16:5: error: ‘RedatamDatabase’ does not name a type
+   16 |     RedatamDatabase* db;
+      |     ^~~~~~~~~~~~~~~
+In file included from include/Entities/RedatamDatabase.hpp:8,
+                 from src/main.cpp:3:
+include/Readers/FuzzyEntityParser.hpp:100:38: error: expected ‘)’ before ‘*’ token
+  100 |     FuzzyEntityParser(RedatamDatabase* db) : db(db) {}
+      |                      ~               ^
+      |                                      )
+include/Readers/FuzzyEntityParser.hpp: In member function ‘void RedatamLib::FuzzyEntityParser::ParseEntities(const string&)’:
+include/Readers/FuzzyEntityParser.hpp:114:9: error: ‘db’ was not declared in this scope
+  114 |         db->entityNames = GetBest(candidates);
+      |         ^~
 In file included from /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h:33,
                  from /usr/include/c++/11/bits/allocator.h:46,
                  from /usr/include/c++/11/string:41,
@@ -50,68 +31,20 @@ In file included from /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h:3
 /usr/include/c++/11/bits/shared_ptr.h:409:59:   required from ‘std::shared_ptr<_Tp>::shared_ptr(std::_Sp_alloc_shared_tag<_Tp>, _Args&& ...) [with _Alloc = std::allocator<RedatamLib::Variable>; _Args = {std::shared_ptr<RedatamLib::Entity>&}; _Tp = RedatamLib::Variable]’
 /usr/include/c++/11/bits/shared_ptr.h:862:14:   required from ‘std::shared_ptr<_Tp> std::allocate_shared(const _Alloc&, _Args&& ...) [with _Tp = RedatamLib::Variable; _Alloc = std::allocator<RedatamLib::Variable>; _Args = {std::shared_ptr<RedatamLib::Entity>&}]’
 /usr/include/c++/11/bits/shared_ptr.h:878:39:   required from ‘std::shared_ptr<_Tp> std::make_shared(_Args&& ...) [with _Tp = RedatamLib::Variable; _Args = {std::shared_ptr<RedatamLib::Entity>&}]’
-include/Readers/EntityParser.hpp:86:56:   required from here
+include/Readers/XmlEntityParser.hpp:100:42:   required from here
 /usr/include/c++/11/ext/new_allocator.h:162:11: error: call of overloaded ‘Variable(std::shared_ptr<RedatamLib::Entity>&)’ is ambiguous
   162 |         { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In file included from include/Entities/Entity.hpp:7,
                  from include/Entities/RedatamDatabase.hpp:7,
                  from src/main.cpp:3:
-include/Entities/Variable.hpp:97:5: note: candidate: ‘RedatamLib::Variable::Variable(std::shared_ptr<RedatamLib::Entity>)’
-   97 |     Variable(std::shared_ptr<Entity> parent) : parentEntity(parent) {}
+include/Entities/Variable.hpp:99:5: note: candidate: ‘RedatamLib::Variable::Variable(std::shared_ptr<RedatamLib::Entity>)’
+   99 |     Variable(std::shared_ptr<Entity> parent) : parentEntity(parent) {}
       |     ^~~~~~~~
-include/Entities/Variable.hpp:47:5: note: candidate: ‘RedatamLib::Variable::Variable(const std::shared_ptr<RedatamLib::Entity>&)’
-   47 |     Variable(const std::shared_ptr<Entity>& entity)
-      |     ^~~~~~~~
+include/Entities/Variable.hpp:47:14: note: candidate: ‘RedatamLib::Variable::Variable(const std::shared_ptr<RedatamLib::Entity>&)’
+   47 |     explicit Variable(const std::shared_ptr<Entity>& entity)
+      |              ^~~~~~~~
 include/Entities/Variable.hpp:20:7: note: candidate: ‘RedatamLib::Variable::Variable(const RedatamLib::Variable&)’ (deleted)
    20 | class Variable {
       |       ^~~~~~~~
-In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
-                 from /usr/include/c++/11/bits/locale_conv.h:41,
-                 from /usr/include/c++/11/locale:43,
-                 from /usr/include/c++/11/bits/fs_path.h:37,
-                 from /usr/include/c++/11/filesystem:45,
-                 from src/main.cpp:2:
-/usr/include/c++/11/tuple: In instantiation of ‘std::pair<_T1, _T2>::pair(std::tuple<_Args1 ...>&, std::tuple<_Args2 ...>&, std::_Index_tuple<_Indexes1 ...>, std::_Index_tuple<_Indexes2 ...>) [with _Args1 = {const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&}; long unsigned int ..._Indexes1 = {0}; _Args2 = {}; long unsigned int ..._Indexes2 = {}; _T1 = const std::__cxx11::basic_string<char>; _T2 = RedatamLib::DataBlock]’:
-/usr/include/c++/11/tuple:1809:63:   required from ‘std::pair<_T1, _T2>::pair(std::piecewise_construct_t, std::tuple<_Args1 ...>, std::tuple<_Args2 ...>) [with _Args1 = {const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&}; _Args2 = {}; _T1 = const std::__cxx11::basic_string<char>; _T2 = RedatamLib::DataBlock]’
-/usr/include/c++/11/ext/new_allocator.h:162:4:   required from ‘void __gnu_cxx::new_allocator<_Tp>::construct(_Up*, _Args&& ...) [with _Up = std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>; _Args = {const std::piecewise_construct_t&, std::tuple<const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>, std::tuple<>}; _Tp = std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, true>]’
-/usr/include/c++/11/bits/alloc_traits.h:516:17:   required from ‘static void std::allocator_traits<std::allocator<_CharT> >::construct(std::allocator_traits<std::allocator<_CharT> >::allocator_type&, _Up*, _Args&& ...) [with _Up = std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>; _Args = {const std::piecewise_construct_t&, std::tuple<const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>, std::tuple<>}; _Tp = std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, true>; std::allocator_traits<std::allocator<_CharT> >::allocator_type = std::allocator<std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, true> >]’
-/usr/include/c++/11/bits/hashtable_policy.h:1878:36:   required from ‘std::__detail::_Hashtable_alloc<_NodeAlloc>::__node_type* std::__detail::_Hashtable_alloc<_NodeAlloc>::_M_allocate_node(_Args&& ...) [with _Args = {const std::piecewise_construct_t&, std::tuple<const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>, std::tuple<>}; _NodeAlloc = std::allocator<std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, true> >; std::__detail::_Hashtable_alloc<_NodeAlloc>::__node_ptr = std::allocator<std::__detail::_Hash_node<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, true> >::value_type*]’
-/usr/include/c++/11/bits/hashtable.h:304:35:   required from ‘std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::_Scoped_node::_Scoped_node(std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::__hashtable_alloc*, _Args&& ...) [with _Args = {const std::piecewise_construct_t&, std::tuple<const std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>, std::tuple<>}; _Key = std::__cxx11::basic_string<char>; _Value = std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock> >; _ExtractKey = std::__detail::_Select1st; _Equal = std::equal_to<std::__cxx11::basic_string<char> >; _Hash = std::hash<std::__cxx11::basic_string<char> >; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, false, true>; std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::__hashtable_alloc = std::_Hashtable<std::__cxx11::basic_string<char>, std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>, std::allocator<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock> >, std::__detail::_Select1st, std::equal_to<std::__cxx11::basic_string<char> >, std::hash<std::__cxx11::basic_string<char> >, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::__hashtable_alloc]’
-/usr/include/c++/11/bits/hashtable_policy.h:707:42:   required from ‘std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::mapped_type& std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::operator[](const key_type&) [with _Key = std::__cxx11::basic_string<char>; _Pair = std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock>; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock> >; _Equal = std::equal_to<std::__cxx11::basic_string<char> >; _Hash = std::hash<std::__cxx11::basic_string<char> >; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, false, true>; std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::mapped_type = RedatamLib::DataBlock; std::__detail::_Map_base<_Key, _Pair, _Alloc, std::__detail::_Select1st, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits, true>::key_type = std::__cxx11::basic_string<char>]’
-/usr/include/c++/11/bits/unordered_map.h:980:20:   required from ‘std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type& std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::operator[](const key_type&) [with _Key = std::__cxx11::basic_string<char>; _Tp = RedatamLib::DataBlock; _Hash = std::hash<std::__cxx11::basic_string<char> >; _Pred = std::equal_to<std::__cxx11::basic_string<char> >; _Alloc = std::allocator<std::pair<const std::__cxx11::basic_string<char>, RedatamLib::DataBlock> >; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::mapped_type = RedatamLib::DataBlock; std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::key_type = std::__cxx11::basic_string<char>]’
-include/Readers/EntityParser.hpp:142:64:   required from here
-/usr/include/c++/11/tuple:1820:9: error: no matching function for call to ‘RedatamLib::DataBlock::DataBlock()’
- 1820 |         second(std::forward<_Args2>(std::get<_Indexes2>(__tuple2))...)
-      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from include/Readers/EntityParser.hpp:9,
-                 from src/main.cpp:5:
-include/Readers/DataBlock.hpp:33:5: note: candidate: ‘RedatamLib::DataBlock::DataBlock(const std::vector<unsigned char>&)’
-   33 |     DataBlock(const std::vector<uint8_t>& bytes) : data(bytes) {}
-      |     ^~~~~~~~~
-include/Readers/DataBlock.hpp:33:5: note:   candidate expects 1 argument, 0 provided
-include/Readers/DataBlock.hpp:19:5: note: candidate: ‘RedatamLib::DataBlock::DataBlock(const string&)’
-   19 |     DataBlock(const std::string& path) {
-      |     ^~~~~~~~~
-include/Readers/DataBlock.hpp:19:5: note:   candidate expects 1 argument, 0 provided
-include/Readers/DataBlock.hpp:14:7: note: candidate: ‘RedatamLib::DataBlock::DataBlock(const RedatamLib::DataBlock&)’
-   14 | class DataBlock {
-      |       ^~~~~~~~~
-include/Readers/DataBlock.hpp:14:7: note:   candidate expects 1 argument, 0 provided
-include/Readers/DataBlock.hpp:14:7: note: candidate: ‘RedatamLib::DataBlock::DataBlock(RedatamLib::DataBlock&&)’
-include/Readers/DataBlock.hpp:14:7: note:   candidate expects 1 argument, 0 provided
-In file included from /usr/include/c++/11/bits/locale_conv.h:41,
-                 from /usr/include/c++/11/locale:43,
-                 from /usr/include/c++/11/bits/fs_path.h:37,
-                 from /usr/include/c++/11/filesystem:45,
-                 from src/main.cpp:2:
-/usr/include/c++/11/bits/unique_ptr.h: In instantiation of ‘void std::default_delete<_Tp>::operator()(_Tp*) const [with _Tp = RedatamLib::FuzzyEntityParser]’:
-/usr/include/c++/11/bits/unique_ptr.h:361:17:   required from ‘std::unique_ptr<_Tp, _Dp>::~unique_ptr() [with _Tp = RedatamLib::FuzzyEntityParser; _Dp = std::default_delete<RedatamLib::FuzzyEntityParser>]’
-include/Entities/RedatamDatabase.hpp:15:7:   required from ‘void __gnu_cxx::new_allocator<_Tp>::destroy(_Up*) [with _Up = RedatamLib::RedatamDatabase; _Tp = RedatamLib::RedatamDatabase]’
-/usr/include/c++/11/bits/alloc_traits.h:535:15:   required from ‘static void std::allocator_traits<std::allocator<_CharT> >::destroy(std::allocator_traits<std::allocator<_CharT> >::allocator_type&, _Up*) [with _Up = RedatamLib::RedatamDatabase; _Tp = RedatamLib::RedatamDatabase; std::allocator_traits<std::allocator<_CharT> >::allocator_type = std::allocator<RedatamLib::RedatamDatabase>]’
-/usr/include/c++/11/bits/shared_ptr_base.h:528:35:   required from ‘void std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::_M_dispose() [with _Tp = RedatamLib::RedatamDatabase; _Alloc = std::allocator<RedatamLib::RedatamDatabase>; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_atomic]’
-/usr/include/c++/11/bits/shared_ptr_base.h:526:7:   required from here
-/usr/include/c++/11/bits/unique_ptr.h:83:23: error: invalid application of ‘sizeof’ to incomplete type ‘RedatamLib::FuzzyEntityParser’
-   83 |         static_assert(sizeof(_Tp)>0,
-      |                       ^~~~~~~~~~~
 make: *** [Makefile:16: obj/main.o] Error 1

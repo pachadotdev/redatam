@@ -12,6 +12,9 @@ namespace RedatamLib {
 
 class CSVExporter {
 public:
+  CSVExporter(const std::shared_ptr<RedatamDatabase> &db)
+      : db(db) {}
+
   void WriteVariableValueLabels(CSVDoc &labels,
                                 const std::shared_ptr<Variable> &variable) {
     for (const auto &item : variable->ValueLabels) {
@@ -38,6 +41,7 @@ public:
   }
 
 private:
+  std::shared_ptr<RedatamDatabase> db;
   std::vector<std::shared_ptr<Entity>> entities;
 
   std::string CreateFilename(const std::string &folder, const std::string &name,
