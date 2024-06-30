@@ -4,12 +4,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <filesystem>
 #include "Variable.hpp"
-
-// Forward declarations to avoid circular dependencies
-class CursorReader;
-class NullCursorReader;
 
 class Entity {
 private:
@@ -21,6 +16,17 @@ private:
     std::vector<std::shared_ptr<Entity>> Children;
 
 public:
+    std::string RelationChild;
+    std::string RelationParent;
+    std::string Description;
+    std::string CodesVariable;
+    std::string LabelVariable;
+    int Level;
+    uint8_t b1;
+    int s1; // Add s1 as an integer member
+    int VariableCount;
+    std::string rootPath;
+
     std::string ToString() const;
     std::vector<std::shared_ptr<Variable>> SelectedVariables() const;
     void OpenPointer();
@@ -34,26 +40,37 @@ public:
 
     std::vector<std::shared_ptr<Entity>> SubEntities;
     std::shared_ptr<Entity> Parent;
-    std::string rootPath;  // Declared only once
 
-    // Public setter for Name
     void setName(const std::string& name) {
         Name = name;
     }
 
-    // Public getter for Name
     std::string getName() const {
         return Name;
     }
 
-    // Public getter for Children
+    void setIndexFilename(const std::string& indexFilename) {
+        IndexFilename = indexFilename;
+    }
+
+    std::string getIndexFilename() const {
+        return IndexFilename;
+    }
+
     std::vector<std::shared_ptr<Entity>>& getChildren() {
         return Children;
     }
 
-    // Public setter for Children
     void setChildren(const std::vector<std::shared_ptr<Entity>>& children) {
         Children = children;
+    }
+
+    std::vector<std::shared_ptr<Variable>>& getVariables() {
+        return Variables;
+    }
+
+    void setVariables(const std::vector<std::shared_ptr<Variable>>& variables) {
+        Variables = variables;
     }
 };
 

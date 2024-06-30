@@ -50,7 +50,7 @@ private:
     {
         for (auto& entity : entities)
         {
-            for (auto& variable : entity->Variables)
+            for (auto& variable : entity->getVariables())
             {
                 Process(variable->Label);
                 for (auto& value : variable->ValueLabels)
@@ -58,7 +58,7 @@ private:
                     Process(value.Value);
                 }
             }
-            if (ProcessEntities(entity->Children))
+            if (ProcessEntities(entity->getChildren()))
             {
                 if (testing)
                     return true;

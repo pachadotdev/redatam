@@ -13,6 +13,11 @@ class FuzzyEntityParser {
 private:
     RedatamDatabase* db;
 
+    bool ends_with(const std::string& str, const std::string& suffix) {
+        return str.size() >= suffix.size() && 
+               str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
+    }
+
     void TryEntities(DataBlock& dataBlock, const std::string& entityNameString, std::vector<std::shared_ptr<Entity>>& entitiesNames) {
         std::string entityName;
         if (!dataBlock.PlausibleString(entityName) || entityName.empty())
@@ -28,7 +33,7 @@ private:
     }
 
     bool checkEntityStart(DataBlock& dataBlock) {
-        if (dataBlock.n + 10 >= dataBlock.data.size())
+        if (static_cast<size_t>(dataBlock.n) + 10 >= dataBlock.data.size())
             return false;
         std::string relationChild = dataBlock.eatShortString();
         if (!dataBlock.PlausibleString(relationChild))
@@ -43,9 +48,9 @@ private:
             return false;
         if (!dataBlock.eatPlausibleString(indexfilename, false))
             return false;
-        return description.ends_with(".ptr") ||
-               indexfilename.ends_with(".ptr") || description.ends_with(".PTR") ||
-               indexfilename.ends_with(".PTR");
+        return ends_with(description, ".ptr") ||
+               ends_with(indexfilename, ".ptr") || ends_with(description, ".PTR") ||
+               ends_with(indexfilename, ".PTR");
     }
 
     void ProcessOcurrence(DataBlock& dataBlock, std::vector<std::shared_ptr<Entity>>& leaves, std::vector<std::shared_ptr<Entity>>& entitiesNames) {
@@ -69,8 +74,8 @@ private:
     std::vector<std::shared_ptr<Entity>> GetBest(const std::vector<std::vector<std::shared_ptr<Entity>>>& leaves) {
         if (leaves.empty()) return std::vector<std::shared_ptr<Entity>>();
         int max = 0;
-        int nMax = 0;
-        for (int n = 0; n < leaves.size(); n++) {
+        size_t nMax = 0;
+        for (size_t n = 0; n < leaves.size(); n++) {
             int current = CalculateTreeSize(leaves[n]);
             if (current > max) {
                 max = current;
@@ -97,7 +102,7 @@ public:
 
         DataBlock dataBlock(path);
         
-        for (int i = 0; i < dataBlock.data.size(); i++) {
+        for (size_t i = 0; i < dataBlock.data.size(); i++) {
             dataBlock.n = i;
             std::vector<std::shared_ptr<Entity>> entitiesNames;
             TryEntities(dataBlock, "", entitiesNames);

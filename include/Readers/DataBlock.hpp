@@ -4,9 +4,10 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <stdexcept>
 #include <algorithm>
 #include <cstring>
-#include <stdexcept>
+#include <cctype>
 
 class DataBlock {
 public:
@@ -15,8 +16,9 @@ public:
 
     DataBlock(const std::string& path) {
         std::ifstream file(path, std::ios::binary);
-        if (!file)
+        if (!file) {
             throw std::runtime_error("Cannot open file: " + path);
+        }
 
         file.seekg(0, std::ios::end);
         size_t size = file.tellg();
@@ -34,8 +36,9 @@ public:
     }
 
     bool eatPlausibleString(std::string& cad, bool filterByContent = true) {
-        if (!PlausibleString(cad, filterByContent))
+        if (!PlausibleString(cad, filterByContent)) {
             return false;
+        }
 
         cad = eatShortString();
         return true;
@@ -56,8 +59,9 @@ public:
         cad = eatShortString();
         n = keepN;
 
-        if (filterByContent && !IsText(cad))
+        if (filterByContent && !IsText(cad)) {
             return false;
+        }
         return true;
     }
 
@@ -73,24 +77,67 @@ public:
     }
 
     bool IsText(const std::string& cad) {
-        return std::all_of(cad.begin(), cad.end(), [](char c) { return std::isprint(c); });
+        for (char c : cad) {
+            if (!std::isalnum(c) && c != ' ' && c != '-' && c != '_') {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    int moveBackString(int maxLength = 65536) {
+        move(-2);
+        int offset = 0;
+        while (offset < n) {
+            auto bytes = calcSize16(offset);
+            if (matches(data.data(), bytes.data(), n - offset, bytes.size())) {
+                n -= offset;
+                return offset;
+            }
+            offset++;
+            if (offset > maxLength) {
+                break;
+            }
+        }
+        return -1;
+    }
+
+    std::vector<uint8_t> makeStringBlock(const std::string& entity) {
+        auto intSize = calcSize16(entity.size());
+        auto text = makeString(entity);
+        auto block = addArrays(intSize, text);
+        return block;
+    }
+
+    static std::vector<uint8_t> makeString(const std::string& entity) {
+        return std::vector<uint8_t>(entity.begin(), entity.end());
+    }
+
+    std::vector<uint8_t> calcSize(const std::string& cad) {
+        int i = cad.size();
+        return addArrays(calcSize16(i / 65536), calcSize16(i % 65536));
+    }
+
+    std::vector<uint8_t> calcSize16(int n) {
+        return { static_cast<uint8_t>(n % 256), static_cast<uint8_t>(n / 256) };
+    }
+
+    std::string eatString() {
+        int length = eat32intInv();
+        return eatChars(length);
     }
 
     std::string eatShortString() {
         int length = eat16int();
-        return eatChars(length);
+        if (length == 0xFFFF) {
+            return eatString();
+        } else {
+            return eatChars(length);
+        }
     }
 
-    std::string makeString(const std::string& str) {
-        std::string block;
-        block.push_back(static_cast<char>(str.size() % 256));
-        block.push_back(static_cast<char>(str.size() / 256));
-        block.append(str);
-        return block;
-    }
-
-    int eatInteger() {
-        return 10000 * eat16int();
+    int eat32intInv() {
+        return eat16int() + 0x10000 * eat16int();
     }
 
     int eat32int() {
@@ -122,18 +169,15 @@ public:
         return ret;
     }
 
-    std::vector<uint8_t> calcSize16(int n) {
-        return { static_cast<uint8_t>(n % 256), static_cast<uint8_t>(n / 256) };
-    }
-
     bool moveTo(const std::string& item) {
         return moveTo(makeString(item));
     }
 
     bool moveTo(const std::vector<uint8_t>& item) {
         int ret = SearchBytes(data.data(), item.data(), data.size(), item.size(), n);
-        if (ret == -1)
+        if (ret == -1) {
             return false;
+        }
         n = ret;
         return true;
     }
@@ -144,8 +188,9 @@ public:
 
     int SearchBytes(const uint8_t* haystack, const uint8_t* needle, size_t haystack_len, size_t needle_len, int start = 0) {
         for (size_t i = start; i <= haystack_len - needle_len; ++i) {
-            if (matches(haystack, needle, i, needle_len))
+            if (matches(haystack, needle, i, needle_len)) {
                 return i;
+            }
         }
         return -1;
     }
