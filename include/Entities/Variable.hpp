@@ -95,6 +95,10 @@ public:
     }
 
     Variable(std::shared_ptr<Entity> parent) : parentEntity(parent) {}
+
+    void setName(const std::string &name) { Name = name; }
+
+    std::string getName() const { return Name; }
 };
 
 } // namespace RedatamLib

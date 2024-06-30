@@ -31,9 +31,10 @@ public:
 
     auto dataParts = SplitDataBlocks(dataBlock, db->entityNames);
 
-    auto entities = ParseEntities(nullptr, db->entityNames, dataParts);
-
-    db->Entities.insert(db->Entities.end(), entities.begin(), entities.end());
+    db->Entities.insert(
+        db->Entities.end(),
+        ParseEntities(nullptr, db->entityNames, dataParts).begin(),
+        ParseEntities(nullptr, db->entityNames, dataParts).end());
 
     MsDOSEncoder enc(db, false); // Pass the second argument as false
     if (enc.RequiresProcessing()) {
@@ -44,7 +45,7 @@ public:
   std::vector<std::shared_ptr<Entity>>
   ParseEntities(std::shared_ptr<Entity> parent,
                 const std::vector<std::shared_ptr<Entity>> &entitiesNames,
-                const std::unordered_map<std::string, DataBlock> &dataParts) {
+                std::unordered_map<std::string, DataBlock> &dataParts) {
     std::vector<std::shared_ptr<Entity>> ret;
     for (const auto &entityName : entitiesNames) {
       std::string parentName = parent ? parent->getName() : "";
@@ -52,7 +53,7 @@ public:
                                 entityName->getName(), parentName);
       ret.push_back(entity);
       auto children =
-          ParseEntities(entityName, entityName->getChildren(), dataParts);
+          ParseEntities(entity, entityName->getChildren(), dataParts);
       if (!children.empty()) {
         entity->setChildren(children);
       }
@@ -78,46 +79,50 @@ public:
     }
 
     auto e = std::make_shared<Entity>();
+    e->rootPath = rootPath;
     e->setName(dataBlock.eatShortString());
-    e->setRelationChild(dataBlock.eatShortString());
-    if (!e->getRelationChild().empty()) {
-      e->setRelationParent(dataBlock.eatShortString());
+
+    e->RelationChild = dataBlock.eatShortString();
+    if (!e->RelationChild.empty()) {
+      e->RelationParent = dataBlock.eatShortString();
     }
-    e->setDescription(dataBlock.eatShortString());
+    e->Description = dataBlock.eatShortString();
     e->setIndexFilename(dataBlock.eatShortString());
-    e->setS1(dataBlock.eat16int());
+    e->s1 = dataBlock.eat16int();
     if (!e->getIndexFilename().empty()) {
-      e->setCodesVariable(dataBlock.eatShortString());
-      e->setLabelVariable(dataBlock.eatShortString());
-      e->setLevel(dataBlock.eat32int());
-      e->setB1(dataBlock.eatByte());
+      e->CodesVariable = dataBlock.eatShortString();
+      e->LabelVariable = dataBlock.eatShortString();
+      e->Level = dataBlock.eat32int();
+      e->b1 = dataBlock.eatByte();
+
       while (true) {
-        auto v = ParseVariable(dataBlock, e);
-        if (v) {
-          e->getVariables().push_back(v);
+        auto variable = ParseVariable(dataBlock, e);
+        if (variable) {
+          e->addVariable(variable);
         } else {
           break;
         }
       }
     }
-    e->setVariableCount(e->getVariables().size());
+    e->VariableCount = e->getVariables().size();
     return e;
   }
 
-  std::shared_ptr<Variable> ParseVariable(const DataBlock &dataBlock,
-                                          std::shared_ptr<Entity> e) {
+  std::shared_ptr<Variable> ParseVariable(DataBlock &dataBlock,
+                                          std::shared_ptr<Entity> entity) {
     if (!JumptToDataSet(dataBlock)) {
       return nullptr;
     }
-    auto v = std::make_shared<Variable>(e);
+
+    auto v = std::make_shared<Variable>(entity);
     v->setName(dataBlock.eatShortString());
-    v->setDeclaration(dataBlock.eatShortString());
-    v->setFilter(dataBlock.eatShortString());
-    v->setRange(dataBlock.eatShortString());
-    v->setType(dataBlock.eatShortString());
-    v->setValuesLabelsRaw(dataBlock.eatShortString());
-    v->setLabel(dataBlock.eatShortString());
-    v->setGroup(dataBlock.eatShortString());
+    v->Declaration = dataBlock.eatShortString();
+    v->Filter = dataBlock.eatShortString();
+    v->Range = dataBlock.eatShortString();
+    v->Type = dataBlock.eatShortString();
+    v->ValuesLabelsRaw = dataBlock.eatShortString();
+    v->Label = dataBlock.eatShortString();
+    v->Group = dataBlock.eatShortString();
 
     VariableParser parser(v);
     parser.ParseDeclaration();
@@ -126,27 +131,30 @@ public:
     return v;
   }
 
-  bool JumptToDataSet(const DataBlock &dataBlock) {
+  bool JumptToDataSet(DataBlock &dataBlock) {
     if (!dataBlock.moveTo("DATASET")) {
       return false;
     }
+
     if (!checkDataType(dataBlock)) {
       return false;
     }
+
     dataBlock.move(-2);
     if (dataBlock.moveBackString(32) < 1) {
       dataBlock.move(6);
       return JumptToDataSet(dataBlock);
+    } else {
+      return true;
     }
-    return true;
   }
 
-  bool checkDataType(const DataBlock &dataBlock) {
-    dataBlock.move(8);
-    if (dataBlock.n + 3 > static_cast<int>(dataBlock.data.size())) {
+  bool checkDataType(DataBlock &dataBlock) {
+    dataBlock.move(8); // "DATASET "
+    if (dataBlock.n + 3 > dataBlock.data.size()) {
       return false;
     }
-    std::string type = dataBlock.eatChars(3);
+    std::string type = dataBlock.eatChars(3); // "DBL", "LNG", etc
     if (std::find(validTypes.begin(), validTypes.end(), type) ==
         validTypes.end()) {
       return JumptToDataSet(dataBlock);

@@ -55,9 +55,11 @@ public:
         IndexFilename = indexFilename;
     }
 
-    std::string getIndexFilename() const {
-        return IndexFilename;
-    }
+    // std::string getIndexFilename() const {
+    //     return IndexFilename;
+    // }
+
+    const std::string &getIndexFilename() const { return IndexFilename; }
 
     std::vector<std::shared_ptr<Entity>>& getChildren() {
         return Children;
@@ -75,6 +77,10 @@ public:
 
     void setVariables(const std::vector<std::shared_ptr<Variable>>& variables) {
         Variables = variables;
+    }
+
+    void addVariable(const std::shared_ptr<Variable> &variable) {
+      Variables.push_back(variable);
     }
 };
 
