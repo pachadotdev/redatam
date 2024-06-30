@@ -5,7 +5,6 @@
 #include <vector>
 #include <memory>
 #include <sstream>
-#include <iostream>
 #include "ValueLabel.hpp"
 #include "Variable.hpp"
 
@@ -17,9 +16,9 @@ public:
     VariableParser(const std::shared_ptr<Variable>& var) : variable(var) {}
 
     void ParseValueLabels() {
-        std::vector<std::string> items = split(this->variable.ValuesLabelsRaw, '\t');
-        this->variable.ValueLabels.clear();
-        if (this->variable.ValuesLabelsRaw.empty()) return;
+        std::vector<std::string> items = split(variable->ValuesLabelsRaw, '\t');
+        variable->ValueLabels.clear();
+        if (variable->ValuesLabelsRaw.empty()) return;
 
         for (const std::string& item : items) {
             size_t i = item.find(' ');
@@ -28,9 +27,9 @@ public:
             std::string part2 = item.substr(i + 1);
             int x;
             if (!tryParse(part1, x)) {
-                this->variable.ValueLabels.emplace_back("0", item);
+                variable->ValueLabels.emplace_back("0", item);
             } else {
-                this->variable.ValueLabels.emplace_back(part1, part2);
+                variable->ValueLabels.emplace_back(part1, part2);
             }
         }
     }
@@ -39,7 +38,7 @@ public:
         if (extras.find("DECIMALS ") == 0) {
             std::string label = eatStringFromString(extras);
             std::string value = eatStringFromString(extras);
-            this->variable.Decimals = std::stoi(value);
+            variable->Decimals = std::stoi(value);
         }
     }
 
@@ -47,43 +46,32 @@ public:
         if (extras.find(tag) == 0) {
             std::string label = eatStringFromString(extras);
             std::string value = eatStringFromString(extras);
-            this->variable.ValueLabels.emplace_back(value, label);
+            variable->ValueLabels.emplace_back(value, label);
         }
         return extras;
     }
 
     void ParseDeclaration() {
-        std::string info = this->variable.Declaration;
+        std::string info = variable->Declaration;
         std::string dataset = eatStringFromString(info);
         std::string type = eatStringFromString(info);
         std::string fileRaw = eatStringFromString(info);
         std::string sizeLabel = eatStringFromString(info);
         std::string size = eatStringFromString(info);
 
-        if (this->variable.Type == "STRING" && type != "CHR")
-            throw std::runtime_error("Inconsistent type declaration");
-        if (this->variable.Type == "REAL" && type != "DBL")
-            throw std::runtime_error("Inconsistent type declaration");
-        if (type == "DBL") {
-            this->variable.Size = 64;
-        } else if (type == "LNG") {
-            this->variable.Size = 32;
-        } else if (type == "INT") {
-            this->variable.Size = 16;
-            this->variable.Type = "INT16";
-        } else if (type == "BIN") {
-            this->variable.Size = std::stoi(size);
-            this->variable.BinaryDataSet = true;
+        if (type == "BIN") {
+            variable->Size = std::stoi(size);
+            variable->BinaryDataSet = true;
         } else if (type == "PCK" || type == "CHR") {
-            this->variable.Size = std::stoi(size);
+            variable->Size = std::stoi(size);
         } else {
             throw std::runtime_error("Data type '" + type + "' is not supported. Contact idiscontinuos for support.");
         }
-        this->variable.Filename = fileRaw;
+        variable->Filename = fileRaw;
     }
 
     void ParseMissingAndPrecision() {
-        std::string extras = this->variable.Group;
+        std::string extras = variable->Group;
         extras = GetMissingLabel(extras, "MISSING");
         extras = GetMissingLabel(extras, "NOTAPPLICABLE");
         ParseDecimals(extras);

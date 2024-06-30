@@ -10,6 +10,8 @@
 class FuzzyEntityParser;
 class XmlEntityParser;
 
+namespace RedatamLib {
+
 class RedatamDatabase {
 public:
     std::vector<std::shared_ptr<Entity>> entityNames;
@@ -32,5 +34,7 @@ private:
 
     static std::string OptimisticCombine(const std::string& path, const std::string& file);
 };
+
+} // namespace RedatamLib
 
 #endif // REDATAMDATABASE_HPP

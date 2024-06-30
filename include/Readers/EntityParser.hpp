@@ -113,8 +113,7 @@ public:
     }
 
     bool checkDataType(DataBlock& dataBlock) {
-        dataBlock.move(8);
-        if (dataBlock.n + 3 > dataBlock.data.size()) {
+        if (dataBlock.n + 3 > static_cast<int>(dataBlock.data.size())) {  // Fixed warning: comparison of signed and unsigned types
             return false;
         }
         std::string type = dataBlock.eatChars(3);
@@ -132,7 +131,7 @@ public:
         int iStart = 0;
         Entity entityInstance;
         auto linealEntityParentNames = entityInstance.Linealize(nullptr, entitiesNames);
-        for (int i = 0; i < linealEntityParentNames.size(); ++i) {
+        for (size_t i = 0; i < linealEntityParentNames.size(); ++i) {  // Fixed warning: comparison of signed and unsigned types
             std::string entity = linealEntityParentNames[i].second;
             iStart = ParseBeginning(dataBlock, linealEntityParentNames[i].second, linealEntityParentNames[i].first);
             if (prevStart != -1) {

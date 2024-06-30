@@ -12,16 +12,18 @@
 #include "CursorReader.hpp"
 #include "NullCursorReader.hpp"
 
-// Forward declaration of Entity class
+// Forward declaration
 class Entity;
+
+namespace RedatamLib {
 
 class Variable {
 private:
     std::unique_ptr<ICursorReader> reader;
     std::shared_ptr<Entity> entity;
+    std::shared_ptr<Entity> parentEntity;
 
     std::string ResolveDataFilename();
-
     long CalculateCharSize();
     long CalculateBitsSize();
     long GetExpectedFileSize();
@@ -91,6 +93,10 @@ public:
     void CloseData() {
         reader->Close();
     }
+
+    Variable(std::shared_ptr<Entity> parent) : parentEntity(parent) {}
 };
+
+} // namespace RedatamLib
 
 #endif // VARIABLE_HPP

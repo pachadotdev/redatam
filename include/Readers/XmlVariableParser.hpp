@@ -1,121 +1,85 @@
 #ifndef XMLVARIABLEPARSER_HPP
 #define XMLVARIABLEPARSER_HPP
 
+#include <vector>
 #include <string>
+#include <memory>
+#include <stdexcept>
 #include "tinyxml2.h"
 #include "Variable.hpp"
-#include "ValueLabel.hpp"
-#include "XmlEntityParser.hpp"
 
-// forward declaration
-class Variable;
+namespace RedatamLib {
 
-class XmlVariableParser
-{
+class XmlVariableParser {
 private:
     std::shared_ptr<Variable> variable;
 
-    std::string eatStringFromString(std::string& extras)
-    {
-        if (extras.front() == '\'')
-        {
-            size_t nEnd = extras.find('\'', 1);
-            if (nEnd != std::string::npos)
-            {
-                std::string retQ = extras.substr(1, nEnd - 1);
-                extras = extras.substr(nEnd + 1);
-                extras.erase(0, extras.find_first_not_of(" "));
-                return retQ;
-            }
-        }
-
-        size_t n = extras.find(' ');
-        if (n == std::string::npos) n = extras.size();
-        std::string ret = extras.substr(0, n);
-        if (n < extras.size())
-            extras = extras.substr(n + 1);
-        else
-            extras.clear();
-        return ret;
-    }
-
-    std::string GetMissingLabel(std::string extras, const std::string& tag)
-    {
-        if (extras.find(tag) == 0)
-        {
-            std::string label = eatStringFromString(extras);
-            std::string value = eatStringFromString(extras);
-            this->variable->ValueLabels.emplace_back(value, label);
-        }
-        return extras;
-    }
-
-    void ParseDecimals(std::string extras)
-    {
-        if (extras.find("DECIMALS ") == 0)
-        {
-            std::string label = eatStringFromString(extras);
-            std::string value = eatStringFromString(extras);
-            this->variable->Decimals = std::stoi(value);
-        }
-    }
-
 public:
-    XmlVariableParser(std::shared_ptr<Variable> variable) : variable(variable) {}
+    XmlVariableParser(const std::shared_ptr<Variable>& variable) : variable(variable) {}
 
-    void ParseValueLabels(tinyxml2::XMLElement* variableNode)
-    {
-        this->variable->ValueLabels.clear();
-        if (XmlEntityParser::hasChildByName(variableNode, "valueLabels"))
-        {
-            auto* values = XmlEntityParser::getChildByName(variableNode, "valueLabels");
-            for (tinyxml2::XMLElement* ele = values->FirstChildElement(); ele != nullptr; ele = ele->NextSiblingElement())
-            {
-                auto* value = XmlEntityParser::getChildByName(ele, "value");
-                auto* label = XmlEntityParser::getChildByName(ele, "label");
-                this->variable->ValueLabels.emplace_back(value->GetText(), label->GetText());
+    void ParseValueLabels(tinyxml2::XMLElement* variableNode) {
+        variable->ValueLabels.clear();
+        if (XmlVariableParser::hasChildByName(variableNode, "valueLabels")) {
+            auto* values = XmlVariableParser::getChildByName(variableNode, "valueLabels");
+            for (auto* ele = values->FirstChildElement(); ele != nullptr; ele = ele->NextSiblingElement()) {
+                auto* value = XmlVariableParser::getChildByName(ele, "value");
+                auto* label = XmlVariableParser::getChildByName(ele, "label");
+                variable->ValueLabels.emplace_back(value->GetText(), label->GetText());
             }
         }
     }
 
-    void ParseDeclaration(tinyxml2::XMLElement* node)
-    {
-        auto* choice = XmlEntityParser::getChildByName(node, "varDicChoice");
-        auto* typeNode = XmlEntityParser::getChildByName(choice, "datasetType");
+    void ParseDeclaration(tinyxml2::XMLElement* node) {
+        auto* choice = XmlVariableParser::getChildByName(node, "varDicChoice");
+        auto* typeNode = XmlVariableParser::getChildByName(choice, "datasetType");
         std::string type = typeNode->GetText();
-        auto* sizeNode = XmlEntityParser::getChildByName(choice, "datasetSize");
+        auto* sizeNode = XmlVariableParser::getChildByName(choice, "datasetSize");
         std::string size = sizeNode->GetText();
 
-        if (this->variable->Type == "STRING" && type != "CHR")
+        if (variable->Type == "STRING" && type != "CHR")
             throw std::runtime_error("Inconsistent type declaration");
-        if (this->variable->Type == "REAL" && type != "DBL")
+        if (variable->Type == "REAL" && type != "DBL")
             throw std::runtime_error("Inconsistent type declaration");
-        if (type == "DBL")
-            this->variable->Size = 64;
-        else if (type == "LNG")
-            this->variable->Size = 32;
-        else if (type == "INT")
-        {
-            this->variable->Size = 16;
-            this->variable->Type = "INT16";
-        }
-        else if (type == "BIN" || type == "PCK" || type == "CHR")
-        {
-            this->variable->Size = std::stoi(size);
-            if (type == "BIN")
-                this->variable->BinaryDataSet = true;
-        }
-        else
-            throw std::runtime_error("Data type '" + type + "' is not supported. Contact idiscontinuos for support.");
 
-        auto* fileNode = XmlEntityParser::getChildByName(node, "filename");
-        this->variable->Filename = fileNode->GetText();
+        if (type == "DBL")
+            variable->Size = 64;
+        else if (type == "LNG")
+            variable->Size = 32;
+        else if (type == "INT") {
+            variable->Size = 16;
+            variable->Type = "INT16";
+        } else if (type == "BIN") {
+            variable->Size = std::stoi(size);
+            variable->BinaryDataSet = true;
+        } else if (type == "PCK" || type == "CHR") {
+            variable->Size = std::stoi(size);
+        } else {
+            throw std::runtime_error("Data type '" + type + "' is not supported. Contact idiscontinuos for support.");
+        }
+
+        auto* fileNode = XmlVariableParser::getChildByName(node, "filename");
+        variable->Filename = fileNode->GetText();
     }
 
-    std::string ToString() const
-    {
-        return this->variable->Name;
+    static tinyxml2::XMLElement* getChildByName(tinyxml2::XMLNode* node, const std::string& name) {
+        for (auto* child = node->FirstChildElement(); child != nullptr; child = child->NextSiblingElement()) {
+            if (std::string(child->Name()) == name) {
+                return child;
+            }
+        }
+        throw std::runtime_error("Node not found: " + name);
+    }
+
+    static bool hasChildByName(tinyxml2::XMLNode* node, const std::string& name) {
+        for (auto* child = node->FirstChildElement(); child != nullptr; child = child->NextSiblingElement()) {
+            if (std::string(child->Name()) == name) {
+                return true;
+            }
+        }
+        return false;
     }
 };
+
+} // namespace RedatamLib
 
 #endif // XMLVARIABLEPARSER_HPP

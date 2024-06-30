@@ -6,6 +6,8 @@
 #include <memory>
 #include "Variable.hpp"
 
+namespace RedatamLib {
+
 class Entity {
 private:
     std::string Name;
@@ -73,5 +75,7 @@ public:
         Variables = variables;
     }
 };
+
+} // namespace RedatamLib
 
 #endif // ENTITY_HPP

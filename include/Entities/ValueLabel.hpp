@@ -3,6 +3,8 @@
 
 #include <string>
 
+namespace RedatamLib {
+
 class ValueLabel
 {
 public:
@@ -16,5 +18,7 @@ public:
     
     ~ValueLabel() = default;
 };
+
+} // namespace RedatamLib
 
 #endif // VALUELABEL_HPP

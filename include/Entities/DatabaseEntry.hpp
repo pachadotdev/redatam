@@ -6,6 +6,8 @@
 #include <utility> // for std::pair
 #include <memory>
 
+namespace RedatamLib {
+
 class RedatamDatabase; // Forward declaration
 
 class DatabaseEntry
@@ -20,5 +22,7 @@ public:
     DatabaseEntry() = default;
     ~DatabaseEntry() = default;
 };
+
+} // namespace RedatamLib
 
 #endif // DATABASEENTRY_HPP
