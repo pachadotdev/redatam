@@ -7,11 +7,17 @@ namespace RedatamLib {
 
 class ValueLabel {
 public:
+  ValueLabel() = default;
+  ValueLabel(const std::string &key, const std::string &value);
+
+  std::string GetKey() const;
+  std::string GetValue() const;
+  void SetKey(const std::string &key);
+  void SetValue(const std::string &value);
+
+private:
   std::string Key;
   std::string Value;
-
-  ValueLabel(const std::string &key, const std::string &value)
-      : Key(key), Value(value) {}
 };
 
 } // namespace RedatamLib

@@ -8,49 +8,28 @@
 #include <filesystem>
 #include <memory>
 #include "CursorReader.hpp"
-#include "Entity.hpp"
 #include "NullCursorReader.hpp"
 #include "ValueLabel.hpp"
 
 namespace RedatamLib {
 
+class Entity; // Forward declaration
+
 class Variable {
 public:
-  Variable(RedatamLib::Entity *entity) : entity(entity), reader(nullptr) {}
-
+  Variable(Entity *entity);
   Variable(const std::string &name, const std::string &type,
-           const std::string &label)
-      : Name(name), Label(label), Type(type), reader(nullptr) {}
+           const std::string &label);
 
-  std::string GetData() const {
-    if (Type == "STRING") {
-      return reader->ReadString();
-    } else if (Type == "INTEGER") {
-      return std::to_string(reader->ReadNumber());
-    } else if (Type == "INT16") {
-      return std::to_string(reader->ReadInt16());
-    } else if (Type == "REAL") {
-      return std::to_string(reader->ReadDouble());
-    } else {
-      throw std::runtime_error("Unsupported data type: " + Type);
-    }
-  }
-
-  void OpenData() {
-    if (BinaryDataSet) {
-      reader =
-          std::make_unique<CursorReader>(ResolveDataFilename(), false, true, 0);
-    } else {
-      reader = std::make_unique<NullCursorReader>();
-    }
-  }
-
-  std::string ResolveDataFilename() const {
-    if (!std::filesystem::exists(Filename)) {
-      throw std::runtime_error("File not found: " + Filename);
-    }
-    return Filename;
-  }
+  std::string GetData() const;
+  void OpenData();
+  bool DataFileExists() const;
+  std::string ResolveDataFilename() const;
+  void CloseData();
+  long CalculateCharSize() const;
+  long CalculateBitsSize() const;
+  long GetExpectedFileSize() const;
+  bool FileSizeFails(long &expectedSize, long &actual) const;
 
   std::string Name;
   std::string Label;
@@ -68,15 +47,8 @@ public:
   bool Selected = true;
 
 private:
-  RedatamLib::Entity *entity;
-
+  Entity *entity;
   std::unique_ptr<ICursorReader> reader;
-
-  long CalculateCharSize() const {
-    long entityRows = entity->RowsCount;
-    long bytes = this->Size * entityRows;
-    return bytes;
-  }
 };
 
 } // namespace RedatamLib

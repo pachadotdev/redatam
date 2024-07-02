@@ -29,6 +29,8 @@ public:
 
   std::string ReadString() override { return "0"; }
 
+  uint32_t ReadByte() override { return 0; }
+
   int64_t Length() const override { return 0; }
 };
 

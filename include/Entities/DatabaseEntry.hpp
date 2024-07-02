@@ -10,17 +10,16 @@ namespace RedatamLib {
 
 class RedatamDatabase; // Forward declaration
 
-class DatabaseEntry
-{
+class DatabaseEntry {
 public:
-    std::string DictFolder;
-    std::string Caption;
-    std::string Inl;
-    std::shared_ptr<RedatamDatabase> Database;
-    std::vector<std::pair<std::string, std::string>> FilesQueue;
+  std::string DictFolder;
+  std::string Caption;
+  std::string Inl;
+  std::shared_ptr<RedatamDatabase> Database;
+  std::vector<std::pair<std::string, std::string>> FilesQueue;
 
-    DatabaseEntry() = default;
-    ~DatabaseEntry() = default;
+  DatabaseEntry();
+  ~DatabaseEntry();
 };
 
 } // namespace RedatamLib
