@@ -1,56 +1,40 @@
 #include "EntityParser.hpp"
+#include "RedatamDatabase.hpp"
+#include "Entity.hpp"
+#include "DataBlock.hpp"
+#include <unordered_map>
+#include <vector>
+#include <string>
 
 namespace RedatamLib {
 
-EntityParser::EntityParser(std::shared_ptr<RedatamDatabase> db) : db(db) {}
-
-void EntityParser::Parse(const std::string &fileName) {
-  DataBlock dataBlock(fileName);
-  auto dataParts = SplitDataBlocks(dataBlock, db->entityNames);
-  auto parsedEntities = ParseEntities(nullptr, db->entityNames, dataParts);
-  db->Entities.insert(db->Entities.end(), parsedEntities.begin(),
-                      parsedEntities.end());
-
-  MsDOSEncoder enc(db.get());
-}
-
-std::vector<std::shared_ptr<Entity>> EntityParser::ParseEntities(
-    std::shared_ptr<Entity> parent,
-    const std::vector<std::shared_ptr<Entity>> &entityNames,
-    std::unordered_map<std::string, DataBlock> &dataParts) {
-  std::vector<std::shared_ptr<Entity>> entities;
-  for (const auto &entityName : entityNames) {
-    std::string parentName = parent ? parent->Name : "";
-    auto entity = std::make_shared<Entity>(entityName->Name, parentName);
-    entities.push_back(entity);
-  }
-  return entities;
+void EntityParser::Parse(const std::string &dataBlock) {
+  auto dataParts = SplitDataBlocks(dataBlock, db->getEntityNames());
+  auto parsedEntities = ParseEntities(nullptr, db->getEntityNames(), dataParts);
+  db->addEntities(parsedEntities);
 }
 
 bool EntityParser::checkDataType(DataBlock &dataBlock) {
-  if (dataBlock.n + 3 > static_cast<int>(dataBlock.data.size())) {
+  if (dataBlock.getN() + 3 > static_cast<int>(dataBlock.getData().size())) {
     return false;
   }
-  return JumpToDataSet(dataBlock);
+  return true;
 }
 
 std::unordered_map<std::string, DataBlock> EntityParser::SplitDataBlocks(
     DataBlock &dataBlock,
     const std::vector<std::shared_ptr<Entity>> &entityNames) {
-  std::unordered_map<std::string, DataBlock> dataParts;
-  std::vector<std::pair<std::string, std::string>> linealEntityParentNames;
+  std::unordered_map<std::string, DataBlock> dataBlocks;
   int iStart = 0;
-  for (size_t i = 0; i < entityNames.size(); ++i) {
-    std::string entity = linealEntityParentNames[i].second;
-    iStart = ParseBeginning(dataBlock, linealEntityParentNames[i].second,
-                            linealEntityParentNames[i].first);
-    dataParts[linealEntityParentNames[i - 1].second] =
-        dataBlock.getPart(iStart, dataBlock.n);
+
+  for (const auto &entity : entityNames) {
+    dataBlocks[entity->Name] = dataBlock.getPart(iStart, dataBlock.getN());
+    iStart = static_cast<int>(dataBlock.getData().size());
   }
-  iStart = static_cast<int>(dataBlock.data.size());
-  dataParts[linealEntityParentNames.back().second] =
-      dataBlock.getPart(iStart, static_cast<int>(dataBlock.data.size()));
-  return dataParts;
+
+  dataBlocks[""] =
+      dataBlock.getPart(iStart, static_cast<int>(dataBlock.getData().size()));
+  return dataBlocks;
 }
 
 int EntityParser::ParseBeginning(DataBlock &dataBlock,
@@ -58,24 +42,32 @@ int EntityParser::ParseBeginning(DataBlock &dataBlock,
                                  const std::string &parent) {
   auto block = dataBlock.makeString(entity);
   auto blockParent = dataBlock.makeString(parent);
-  if (dataBlock.moveTo(block)) {
-    dataBlock.move(-block.size());
-  } else if (!parent.empty() && dataBlock.moveTo(blockParent)) {
-    dataBlock.move(-blockParent.size());
+
+  if (!dataBlock.getData().empty()) {
+    return dataBlock.getN();
   }
-  return dataBlock.n;
+  return 0;
 }
 
-bool EntityParser::JumpToDataSet(DataBlock &dataBlock) {
-  if (!dataBlock.moveTo("\x00\x00\x00\x80")) {
-    return false;
+std::vector<std::shared_ptr<Entity>> EntityParser::ParseEntities(
+    std::shared_ptr<Entity> parent,
+    const std::vector<std::shared_ptr<Entity>> &entityNames,
+    std::unordered_map<std::string, DataBlock> &dataParts) {
+  std::vector<std::shared_ptr<Entity>> parsedEntities;
+
+  for (const auto &entityName : entityNames) {
+    auto entity = std::make_shared<Entity>();
+    entity->Name = entityName->Name;
+    entity->Parent = parent;
+
+    if (dataParts.find(entity->Name) != dataParts.end()) {
+      entity->Data = dataParts[entity->Name];
+    }
+
+    parsedEntities.push_back(entity);
   }
-  dataBlock.move(-2);
-  if (!dataBlock.moveTo("\xFF\xFF\xFF\xFF")) {
-    return false;
-  }
-  dataBlock.move(6);
-  return true;
+
+  return parsedEntities;
 }
 
 } // namespace RedatamLib

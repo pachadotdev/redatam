@@ -11,6 +11,10 @@ public:
   DataBlock(const std::string &path);
   DataBlock(const std::vector<unsigned char> &bytes);
 
+  int getN() const;
+  const std::vector<unsigned char> &getData() const;
+  std::vector<unsigned char> makeString(const std::string &str);
+
   DataBlock getPart(int prevStart, int iStart);
   bool eatPlausibleString(std::string &cad, bool filterByContent = true);
   bool PlausibleString(std::string &cad, bool filterByContent = true);
@@ -19,7 +23,10 @@ public:
   int moveBackString(int maxLength = 65536);
   std::string eatShortString();
   std::string eatString();
-  int eat32intInv();
+  int eat32int getN() const;
+  const std::vector<unsigned char> &getData() const;
+  std::vector<unsigned char> makeString(const std::string &str);
+  intInv();
   int eat32int();
   int eat16int();
   unsigned char eatByte();
@@ -35,8 +42,8 @@ public:
   void move(int i);
 
 private:
-  std::vector<unsigned char> data;
   int n = 0;
+  std::vector<unsigned char> data;
 
   int SearchBytes(const std::vector<unsigned char> &haystack,
                   const std::vector<unsigned char> &needle, int start = 0);

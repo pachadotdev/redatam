@@ -1,45 +1,37 @@
-#ifndef REDATAMLIB_REDATAMDATABASE_HPP
-#define REDATAMLIB_REDATAMDATABASE_HPP
+#ifndef REDATAMDATABASE_HPP
+#define REDATAMDATABASE_HPP
 
 #include <vector>
 #include <memory>
 #include <string>
-#include <filesystem>
-#include "Entity.hpp"
-#include "FuzzyEntityParser.hpp"
-#include "XmlEntityParser.hpp"
 
 namespace RedatamLib {
+class Entity;
 
-class RedatamDatabase : public std::enable_shared_from_this<RedatamDatabase> {
+class RedatamDatabase {
 public:
-  RedatamDatabase();
+  RedatamDatabase(const std::string &path);
 
-  // Disable copy operations
-  RedatamDatabase(const RedatamDatabase &) = delete;
-  RedatamDatabase &operator=(const RedatamDatabase &) = delete;
+  std::vector<std::shared_ptr<Entity>> getEntityNames() const;
+  void addEntities(const std::vector<std::shared_ptr<Entity>> &entities);
 
-  const std::vector<std::shared_ptr<Entity>> &GetEntities() const;
-  long GetTotalDataItems();
+  void LoadDatabase(const std::string &path);
+  std::shared_ptr<Entity> FindEntity(const std::string &name) const;
+  std::shared_ptr<Entity> GetRootEntity() const;
+  std::vector<std::string>
+  OptimisticCombine(const std::string &rootPath,
+                    const std::vector<std::string> &paths) const;
   long GetEntitiesTotalDataItems(
       const std::vector<std::shared_ptr<Entity>> &entities,
-      std::shared_ptr<Entity> parent);
-  void OpenDictionary(const std::string &filename);
-  void Close();
-
-  static std::string OptimisticCombine(const std::string &path1,
-                                       const std::string &path2) {
-    return (std::filesystem::path(path1) / path2).string();
-  }
+      std::shared_ptr<Entity> rootEntity) const;
 
 private:
-  void CloseEntity(const std::shared_ptr<Entity> &entity);
-
+  std::vector<std::shared_ptr<Entity>> entityNames;
   std::vector<std::shared_ptr<Entity>> Entities;
-  std::unique_ptr<FuzzyEntityParser> fuzzyEntityParserInstance;
-  std::unique_ptr<XmlEntityParser> xmlEntityParserInstance;
-};
+  std::string databasePath;
 
+  void ParseDatabaseFile(const std::string &path);
+};
 } // namespace RedatamLib
 
-#endif // REDATAMLIB_REDATAMDATABASE_HPP
+#endif // REDATAMDATABASE_HPP

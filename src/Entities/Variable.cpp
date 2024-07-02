@@ -2,31 +2,31 @@
 #include "Entity.hpp"
 #include "CursorReader.hpp"
 #include "NullCursorReader.hpp"
-#include <fstream>
-#include <stdexcept>
 #include <filesystem>
-#include <memory>
+#include <fstream>
+#include <sstream>
+#include <any>
 
 namespace RedatamLib {
-
-Variable::Variable(Entity *entity) : entity(entity) {}
+Variable::Variable(Entity *entity) : Selected(true), entity(entity) {}
 
 Variable::Variable(const std::string &name, const std::string &type,
-                   const std::string &label)
-    : Name(name), Label(label), Type(type) {}
+                   const std::string &filename)
+    : Name(name), Type(type), Filename(filename), Selected(true) {}
 
-std::string Variable::GetData() const {
-  if (Type == "STRING") {
-    return reader->ReadString();
-  } else if (Type == "INTEGER") {
-    return std::to_string(reader->ReadNumber());
-  } else if (Type == "INT16") {
-    return std::to_string(reader->ReadInt16());
-  } else if (Type == "REAL") {
-    return std::to_string(reader->ReadDouble());
-  } else {
-    throw std::runtime_error("Unsupported data type: " + Type);
+std::string Variable::ResolveDataFilename() const {
+  std::string filename = Filename;
+  size_t pos = filename.find("'");
+  if (pos != std::string::npos) {
+    filename.replace(pos, 1, "");
   }
+  return std::filesystem::path(entity->rootPath) / filename;
+}
+
+bool Variable::FileSizeFails(long &expectedSize, long &actual) const {
+  expectedSize = GetExpectedFileSize();
+  actual = reader->Length();
+  return expectedSize > actual;
 }
 
 void Variable::OpenData() {
@@ -42,29 +42,17 @@ void Variable::OpenData() {
 
 bool Variable::DataFileExists() const {
   std::string file = ResolveDataFilename();
-  return std::filesystem::exists(file);
-}
-
-std::string Variable::ResolveDataFilename() const {
-  return std::filesystem::path(entity->GetRootPath()) /
-         Filename.substr(1, Filename.size() - 2);
+  std::ifstream infile(file);
+  return infile.good();
 }
 
 void Variable::CloseData() { reader->Close(); }
 
-long Variable::CalculateCharSize() const {
-  long entityRows = entity->RowsCount;
-  long bytes = Size * entityRows;
-  return bytes;
-}
+long Variable::CalculateCharSize() const { return Size * entity->RowsCount; }
 
 long Variable::CalculateBitsSize() const {
-  long entityRows = entity->RowsCount;
-  long bits = Size * entityRows;
-  long bytes = bits / 8;
-  if (bits % 8 > 0)
-    bytes++;
-  return bytes;
+  long bits = Size * entity->RowsCount;
+  return (bits / 8) + ((bits % 8) > 0 ? 1 : 0);
 }
 
 long Variable::GetExpectedFileSize() const {
@@ -77,10 +65,17 @@ long Variable::GetExpectedFileSize() const {
   }
 }
 
-bool Variable::FileSizeFails(long &expectedSize, long &actual) const {
-  expectedSize = GetExpectedFileSize();
-  actual = reader->Length();
-  return expectedSize > actual;
+std::any Variable::GetData() {
+  if (Type == "STRING") {
+    return reader->ReadString();
+  } else if (Type == "INTEGER") {
+    return reader->ReadNumber();
+  } else if (Type == "INT16") {
+    return reader->ReadInt16();
+  } else if (Type == "REAL") {
+    return reader->ReadDouble();
+  } else {
+    throw std::runtime_error("Unsupported data type: " + Type);
+  }
 }
-
 } // namespace RedatamLib

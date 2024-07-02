@@ -18,11 +18,22 @@ DataBlock::DataBlock(const std::string &path) {
 
 DataBlock::DataBlock(const std::vector<unsigned char> &bytes) : data(bytes) {}
 
+int DataBlock::getN() const { return n; }
+
+const std::vector<unsigned char> &DataBlock::getData() const { return data; }
+
+std::vector<unsigned char> DataBlock::makeString(const std::string &str) {
+  std::vector<unsigned char> result(str.begin(), str.end());
+  result.push_back('\0');
+  return result;
+}
+
 DataBlock DataBlock::getPart(int prevStart, int iStart) {
   std::vector<unsigned char> part(data.begin() + prevStart,
                                   data.begin() + iStart);
   return DataBlock(part);
 }
+
 
 bool DataBlock::eatPlausibleString(std::string &cad, bool filterByContent) {
   if (!PlausibleString(cad, filterByContent))

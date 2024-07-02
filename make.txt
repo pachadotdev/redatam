@@ -1,29 +1,13 @@
 g++ -std=c++17 -Wall -I include/Entities -Iinclude/Readers -Iinclude/Exporters -Isrc/Entities -Isrc/Exporters -Isrc/Readers -Ivendor -c -o obj/Entities/DatabaseEntry.o src/Entities/DatabaseEntry.cpp
 g++ -std=c++17 -Wall -I include/Entities -Iinclude/Readers -Iinclude/Exporters -Isrc/Entities -Isrc/Exporters -Isrc/Readers -Ivendor -c -o obj/Entities/Entity.o src/Entities/Entity.cpp
-In file included from /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h:33,
-                 from /usr/include/c++/11/bits/allocator.h:46,
-                 from /usr/include/c++/11/string:41,
-                 from include/Entities/Entity.hpp:4,
-                 from src/Entities/Entity.cpp:1:
-/usr/include/c++/11/ext/new_allocator.h: In instantiation of ‘void __gnu_cxx::new_allocator<_Tp>::construct(_Up*, _Args&& ...) [with _Up = RedatamLib::CursorReader; _Args = {std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, int}; _Tp = RedatamLib::CursorReader]’:
-/usr/include/c++/11/bits/alloc_traits.h:516:17:   required from ‘static void std::allocator_traits<std::allocator<_CharT> >::construct(std::allocator_traits<std::allocator<_CharT> >::allocator_type&, _Up*, _Args&& ...) [with _Up = RedatamLib::CursorReader; _Args = {std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, int}; _Tp = RedatamLib::CursorReader; std::allocator_traits<std::allocator<_CharT> >::allocator_type = std::allocator<RedatamLib::CursorReader>]’
-/usr/include/c++/11/bits/shared_ptr_base.h:519:39:   required from ‘std::_Sp_counted_ptr_inplace<_Tp, _Alloc, _Lp>::_Sp_counted_ptr_inplace(_Alloc, _Args&& ...) [with _Args = {std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, int}; _Tp = RedatamLib::CursorReader; _Alloc = std::allocator<RedatamLib::CursorReader>; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_atomic]’
-/usr/include/c++/11/bits/shared_ptr_base.h:650:16:   required from ‘std::__shared_count<_Lp>::__shared_count(_Tp*&, std::_Sp_alloc_shared_tag<_Alloc>, _Args&& ...) [with _Tp = RedatamLib::CursorReader; _Alloc = std::allocator<RedatamLib::CursorReader>; _Args = {std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, int}; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_atomic]’
-/usr/include/c++/11/bits/shared_ptr_base.h:1342:14:   required from ‘std::__shared_ptr<_Tp, _Lp>::__shared_ptr(std::_Sp_alloc_shared_tag<_Tp>, _Args&& ...) [with _Alloc = std::allocator<RedatamLib::CursorReader>; _Args = {std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, int}; _Tp = RedatamLib::CursorReader; __gnu_cxx::_Lock_policy _Lp = __gnu_cxx::_S_atomic]’
-/usr/include/c++/11/bits/shared_ptr.h:409:59:   required from ‘std::shared_ptr<_Tp>::shared_ptr(std::_Sp_alloc_shared_tag<_Tp>, _Args&& ...) [with _Alloc = std::allocator<RedatamLib::CursorReader>; _Args = {std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, int}; _Tp = RedatamLib::CursorReader]’
-/usr/include/c++/11/bits/shared_ptr.h:862:14:   required from ‘std::shared_ptr<_Tp> std::allocate_shared(const _Alloc&, _Args&& ...) [with _Tp = RedatamLib::CursorReader; _Alloc = std::allocator<RedatamLib::CursorReader>; _Args = {std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, int}]’
-/usr/include/c++/11/bits/shared_ptr.h:878:39:   required from ‘std::shared_ptr<_Tp> std::make_shared(_Args&& ...) [with _Tp = RedatamLib::CursorReader; _Args = {std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&, int}]’
-src/Entities/Entity.cpp:32:44:   required from here
-/usr/include/c++/11/ext/new_allocator.h:162:11: error: no matching function for call to ‘RedatamLib::CursorReader::CursorReader(std::__cxx11::basic_string<char>&, int)’
-  162 |         { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
-      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/Entities/Entity.cpp: In member function ‘std::string RedatamLib::Entity::ResolveDataFilename() const’:
+src/Entities/Entity.cpp:16:51: error: cannot convert ‘const string’ {aka ‘const std::__cxx11::basic_string<char>’} to ‘const std::vector<std::__cxx11::basic_string<char> >&’
+   16 |                                             this->IndexFilename);
+      |                                             ~~~~~~^~~~~~~~~~~~~
+      |                                                   |
+      |                                                   const string {aka const std::__cxx11::basic_string<char>}
 In file included from src/Entities/Entity.cpp:2:
-include/Readers/CursorReader.hpp:17:3: note: candidate: ‘RedatamLib::CursorReader::CursorReader(const string&, bool, bool, int)’
-   17 |   CursorReader(const std::string &file, bool isString, bool isBin, int size);
-      |   ^~~~~~~~~~~~
-include/Readers/CursorReader.hpp:17:3: note:   candidate expects 4 arguments, 2 provided
-include/Readers/CursorReader.hpp:15:7: note: candidate: ‘RedatamLib::CursorReader::CursorReader(RedatamLib::CursorReader&&)’
-   15 | class CursorReader : public ICursorReader {
-      |       ^~~~~~~~~~~~
-include/Readers/CursorReader.hpp:15:7: note:   candidate expects 1 argument, 2 provided
+include/Entities/RedatamDatabase.hpp:23:53: note:   initializing argument 2 of ‘std::vector<std::__cxx11::basic_string<char> > RedatamLib::RedatamDatabase::OptimisticCombine(const string&, const std::vector<std::__cxx11::basic_string<char> >&) const’
+   23 |                     const std::vector<std::string> &paths) const;
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
 make: *** [Makefile:16: obj/Entities/Entity.o] Error 1
