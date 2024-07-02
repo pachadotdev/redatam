@@ -20,6 +20,10 @@ public:
     xmlEntityParserInstance = std::make_unique<XmlEntityParser>(this);
   }
 
+  const std::vector<std::shared_ptr<Entity>> &GetEntities() const {
+    return Entities;
+  }
+  
   long GetTotalDataItems() {
     return GetEntitiesTotalDataItems(Entities, nullptr);
   }
@@ -33,7 +37,8 @@ public:
     if (ext == ".dic") {
       fuzzyEntityParserInstance->ParseEntities(file);
       try {
-        EntityParser parser(this);
+        EntityParser parser(
+            std::make_shared<RedatamLib::RedatamDatabase>(*this));
         parser.Parse(file);
       } catch (const std::exception &e) {
         throw std::runtime_error("An error occurred while parsing the "
@@ -64,7 +69,7 @@ private:
       std::shared_ptr<Entity> parent) {
     long ret = 0;
     for (auto &entity : entities) {
-      ret += (entity->SelectedVariables.size() + 2) * entity->RowsCount;
+      ret += (entity->SelectedVariables().size() + 2) * entity->RowsCount;
       ret += GetEntitiesTotalDataItems(entity->Children, entity);
     }
     return ret;

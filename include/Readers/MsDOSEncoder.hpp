@@ -14,7 +14,7 @@ namespace RedatamLib {
 class MsDOSEncoder {
 private:
   std::vector<int> oldChars = {160, 130, 162, 163, 164};
-  RedatamDatabase *db;
+  RedatamLib::RedatamDatabase *db;
   std::unordered_map<char, int> matches;
   int sumMatches = 0;
   bool testing = false;
@@ -70,7 +70,7 @@ private:
           Process(valueLabel.Value);
         }
       }
-      if (ProcessEntities(entity->getChildren()) && testing) {
+      if (ProcessEntities(db->GetEntities()) && testing) {
         return true;
       }
     }

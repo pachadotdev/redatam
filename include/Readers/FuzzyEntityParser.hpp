@@ -11,11 +11,9 @@
 
 namespace RedatamLib {
 
-class RedatamDatabase;
-
 class FuzzyEntityParser {
 public:
-  FuzzyEntityParser(RedatamDatabase *db) : db(db) {}
+  FuzzyEntityParser(RedatamLib::RedatamDatabase *db) : db(db) {}
 
   void ParseEntities(const std::string &path) {
     std::vector<std::vector<std::shared_ptr<Entity>>> candidates;
@@ -33,7 +31,7 @@ public:
   }
 
 private:
-  RedatamDatabase *db;
+  RedatamLib::RedatamDatabase *db;
 
   bool ends_with(const std::string &str, const std::string &suffix) {
     std::string lowerStr = str;
@@ -58,7 +56,7 @@ private:
       return;
 
     auto entity = std::make_shared<Entity>();
-    entity->setName(entityNameString);
+    entity->Name = entityNameString;
     entitiesNames.push_back(entity);
 
     auto block = dataBlock.makeStringBlock(entityNameString);
@@ -66,7 +64,7 @@ private:
 
     for (auto startN : allBlockOccurrences) {
       dataBlock.n = startN;
-      ProcessOcurrence(dataBlock, entitiesNames, entity->getChildren());
+      ProcessOcurrence(dataBlock, entitiesNames, entity->Children);
     }
   }
 
@@ -85,13 +83,13 @@ private:
   void ProcessOcurrence(DataBlock &dataBlock,
                         std::vector<std::shared_ptr<Entity>> &leaves,
                         std::vector<std::shared_ptr<Entity>> &entitiesNames) {
-    if (dataBlock.moveBackString() == -1)
+    if (dataBlock.moveBackString() == static_cast<size_t>(-1))
       return;
 
     int keepN = dataBlock.n;
     std::string child = dataBlock.eatShortString();
     dataBlock.n = keepN;
-    if (!entitiesNames.empty() && entitiesNames.back()->getName() == child)
+    if (!entitiesNames.empty() && entitiesNames.back()->Name == child)
       return;
     if (!dataBlock.IsText(child) || child.empty())
       return;
@@ -122,7 +120,7 @@ private:
     int ret = 0;
     for (const auto &entity : list) {
       ret++;
-      ret += CalculateTreeSize(entity->getChildren());
+      ret += CalculateTreeSize(entity->Children);
     }
     return ret;
   }

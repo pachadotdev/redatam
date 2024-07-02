@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <tinyxml2.h>
 #include "Entity.hpp"
+#include "EntityParser.hpp"
 #include "XmlVariableParser.hpp"
 
 namespace RedatamLib {
@@ -18,7 +19,7 @@ private:
   static const std::vector<std::string> validTypes;
 
 public:
-  XmlEntityParser(RedatamDatabase *db) : db(db) {}
+  XmlEntityParser(RedatamLib::RedatamDatabase *db) : db(db) {}
 
   void Parse(const std::string &path) {
     rootPath = path.substr(0, path.find_last_of('/'));

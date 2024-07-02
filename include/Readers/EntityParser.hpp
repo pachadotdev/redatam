@@ -14,7 +14,7 @@ namespace RedatamLib {
 
 class EntityParser {
 public:
-  EntityParser(std::shared_ptr<RedatamDatabase> db) : db(db) {}
+  EntityParser(std::shared_ptr<RedatamLib::RedatamDatabase> db) : db(db) {}
 
   void Parse(const std::string &path) {
     rootPath = std::filesystem::path(path).parent_path().string();
@@ -49,7 +49,7 @@ private:
                                 entityName->getName(), parentName);
       ret.push_back(entity);
       auto children =
-          ParseEntities(entity, entityName->getChildren(), dataParts);
+          ParseEntities(entity, entityName->Children, dataParts);
       if (!children.empty()) {
         entity->setChildren(children);
       }
