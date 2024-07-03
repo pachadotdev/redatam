@@ -15,9 +15,3 @@ Usage example:
 ```bash
 redatam dev/chile/BaseOrg16/CPV2017-16.dic dev/chile-csv
 ```
-
-Dependencies:
-
-```
-sudo apt-get install libxml2-dev
-```
